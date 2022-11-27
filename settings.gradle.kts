@@ -14,4 +14,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "DarajaKmp"
+
 include(":common")
+include(":testlib")
