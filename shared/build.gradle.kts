@@ -1,56 +1,58 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    kotlin(BuildPlugins.multiplatform)
+    id(BuildPlugins.androidLibrary)
+    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
 }
 
 kotlin {
     android()
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-        }
+
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
+        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+        else -> ::iosX64
     }
+    iosTarget("iOS") {}
+
+    jvm()
+
+    js()
 
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        sourceSets["commonMain"].dependencies {
+            implementation(Dependencies.kotlinxDateTime)
+            implementation(Dependencies.base64Encoding)
+            implementation(Dependencies.kotlinXSerialization)
+
+            implementation(Dependencies.ktorCore)
+            implementation(Dependencies.ktorSerialization)
+            implementation(Dependencies.ktorLogging)
         }
-        val androidMain by getting
-        val androidTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        sourceSets["commonTest"].dependencies {
+            implementation(kotlin("test"))
         }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
+
+        sourceSets["androidMain"].dependencies {}
+        sourceSets["androidTest"].dependencies {}
+
+        sourceSets["iOSMain"].dependencies {}
+        sourceSets["iOSTest"].dependencies {}
+
+        sourceSets["jvmMain"].dependencies {}
+        sourceSets["jvmTest"].dependencies {}
+
+        sourceSets["jsMain"].dependencies {}
+        sourceSets["jsTest"].dependencies {}
     }
 }
 
 android {
-    namespace = "com.vickikbt.darajakmp"
-    compileSdk = 32
+    namespace = AndroidSdk.namespace
+    compileSdk = AndroidSdk.compileSdkVersion
     defaultConfig {
-        minSdk = 21
-        targetSdk = 32
+        minSdk = AndroidSdk.minSdkVersion
+        targetSdk = AndroidSdk.targetSdkVersion
     }
 }
