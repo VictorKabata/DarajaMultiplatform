@@ -30,6 +30,9 @@ object Dependencies {
     const val ktorJvm = "io.ktor:ktor-client-java:${Versions.ktor}"
     const val ktorMock = "io.ktor:ktor-client-mock:${Versions.ktor}"
 
+    const val ktorCioEngine =
+        "io.ktor:ktor-client-cio:${Versions.ktor}" // ToDo: Replace with platform specific engines
+
     const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
 
     const val base64Encoding =

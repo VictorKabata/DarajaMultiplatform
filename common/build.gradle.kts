@@ -26,9 +26,11 @@ kotlin {
             implementation(Dependencies.ktorSerialization)
             implementation(Dependencies.ktorLogging)
 
+            implementation(Dependencies.ktorCioEngine)
+
             implementation(Dependencies.kotlinXSerialization)
 
-            implementation(Dependencies.napier)
+            api(Dependencies.napier)
 
             implementation(Dependencies.kotlinxDateTime)
 
