@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "DarajaKmp"
-include(":shared")
+include(":common")
