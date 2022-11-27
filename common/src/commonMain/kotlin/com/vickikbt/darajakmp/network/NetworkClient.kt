@@ -18,7 +18,7 @@ object NetworkClient {
 
             defaultRequest {
                 url {
-                    host = Constants.BASE_URL
+                    host = Constants.SANDBOX_BASE_URL // ToDo
                     url { protocol = URLProtocol.HTTPS }
                 }
             }
@@ -27,7 +27,7 @@ object NetworkClient {
                 level = LogLevel.ALL
                 logger = object : Logger {
                     override fun log(message: String) {
-                        // Napier.e(tag = "Http Client", message = message)
+                        // Napier.e(tag = "Http Client", message = message) ToDo
                         println("Http Client: $message")
                     }
                 }
