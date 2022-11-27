@@ -26,11 +26,13 @@ kotlin {
             implementation(Dependencies.ktorSerialization)
             implementation(Dependencies.ktorLogging)
 
+            implementation(Dependencies.kotlinXSerialization)
+
             implementation(Dependencies.napier)
 
             implementation(Dependencies.kotlinxDateTime)
+
             implementation(Dependencies.base64Encoding)
-            implementation(Dependencies.kotlinXSerialization)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
