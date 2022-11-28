@@ -38,7 +38,6 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
                 logger = object : Logger {
                     override fun log(message: String) {
                         Napier.i(tag = "Http Client", message = message)
-                        println("Http Client: $message")
                     }
                 }
             }
