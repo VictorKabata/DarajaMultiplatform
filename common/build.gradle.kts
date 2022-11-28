@@ -18,10 +18,10 @@ kotlin {
 
     jvm()
 
-    js()
-
     sourceSets {
         sourceSets["commonMain"].dependencies {
+            implementation(Dependencies.kotlinxCoroutines)
+
             implementation(Dependencies.ktorCore)
             implementation(Dependencies.ktorSerialization)
             implementation(Dependencies.ktorLogging)
@@ -30,7 +30,7 @@ kotlin {
 
             implementation(Dependencies.kotlinXSerialization)
 
-            api(Dependencies.napier)
+            api(Dependencies.napier) //ToDo: Change to implementation
 
             implementation(Dependencies.kotlinxDateTime)
 
@@ -48,9 +48,6 @@ kotlin {
 
         sourceSets["jvmMain"].dependencies {}
         sourceSets["jvmTest"].dependencies {}
-
-        sourceSets["jsMain"].dependencies {}
-        sourceSets["jsTest"].dependencies {}
     }
 }
 
