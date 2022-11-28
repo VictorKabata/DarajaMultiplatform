@@ -5,7 +5,7 @@ object BuildPlugins {
 }
 
 object Versions {
-    const val kotlinxCoroutines = "1.2.1"
+    const val kotlinxCoroutines = "1.6.4"
     const val ktor = "1.6.7"
     const val kotlinxDateTime = "0.3.2"
     const val base64Encoding = "1.1.3"
