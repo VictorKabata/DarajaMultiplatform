@@ -4,6 +4,7 @@ import com.vickikbt.darajakmp.network.DarajaApiService
 import com.vickikbt.darajakmp.network.DarajaHttpClient
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -13,6 +14,10 @@ class Daraja(
     private val consumerSecret: String,
     private val environment: DarajaEnvironment = DarajaEnvironment.SANDBOX_ENVIRONMENT
 ) {
+
+    init {
+        Napier.i("Created daraja instance...")
+    }
 
     private val darajaHttpClient: HttpClient =
         DarajaHttpClient(environment = environment).createDarajaHttpClient()
