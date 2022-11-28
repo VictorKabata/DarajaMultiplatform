@@ -9,6 +9,6 @@ java {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":daraja-common"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
