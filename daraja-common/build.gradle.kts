@@ -18,6 +18,8 @@ kotlin {
 
     jvm()
 
+    js()
+
     sourceSets {
         sourceSets["commonMain"].dependencies {
             implementation(Dependencies.kotlinxCoroutines)
@@ -48,6 +50,9 @@ kotlin {
 
         sourceSets["jvmMain"].dependencies {}
         sourceSets["jvmTest"].dependencies {}
+
+        sourceSets["jsMain"].dependencies {}
+        sourceSets["jsTest"].dependencies {}
     }
 }
 
