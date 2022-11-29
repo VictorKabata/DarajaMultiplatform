@@ -5,6 +5,7 @@ import com.vickikbt.darajakmp.network.DarajaHttpClient
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
+import com.vickikbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
 
 class Daraja(
@@ -42,7 +43,7 @@ class Daraja(
         val darajaPaymentRequest = DarajaPaymentRequest(
             businessShortCode = businessShortCode,
             password = password, // ToDo: Hash password
-            timestamp = "", // ToDo: Get daraja timestamp
+            timestamp = getDarajaTimestamp(),
             transactionDesc = transactionDesc,
             amount = amount,
             transactionType = transactionType, // ToDo: Create transaction type enums
