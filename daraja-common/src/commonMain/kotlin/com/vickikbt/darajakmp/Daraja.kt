@@ -5,6 +5,7 @@ import com.vickikbt.darajakmp.network.DarajaHttpClient
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
+import com.vickikbt.darajakmp.utils.getDarajaPassword
 import com.vickikbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
 
@@ -30,28 +31,34 @@ class Daraja(
 
     suspend fun initiateDarajaStk(
         businessShortCode: String,
-        password: String,
+        passkey: String,
         transactionDesc: String,
-        amount: String,
+        amount: Int,
         transactionType: String,
-        partyA: String,
-        partyB: String,
         phoneNumber: String,
         callbackUrl: String,
-        accountReference: String
+        accountReference: String? = null
     ) {
+        val timestamp = getDarajaTimestamp()
+
+        val darajaPassword = getDarajaPassword(
+            shortCode = businessShortCode,
+            passkey = passkey,
+            timestamp = timestamp
+        )
+
         val darajaPaymentRequest = DarajaPaymentRequest(
             businessShortCode = businessShortCode,
-            password = password, // ToDo: Hash password
-            timestamp = getDarajaTimestamp(),
+            password = darajaPassword,
+            timestamp = timestamp,
             transactionDesc = transactionDesc,
-            amount = amount,
+            amount = amount.toString(),
             transactionType = transactionType, // ToDo: Create transaction type enums
-            partyA = partyA,
-            partyB = partyB,
             phoneNumber = phoneNumber, // ToDo: Format phone number
             callBackUrl = callbackUrl, // ToDo: Figure out how callback urls work
-            accountReference = accountReference
+            accountReference = accountReference ?: businessShortCode,
+            partyA = phoneNumber,
+            partyB = businessShortCode
         )
         darajaApiService.requestMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
     }

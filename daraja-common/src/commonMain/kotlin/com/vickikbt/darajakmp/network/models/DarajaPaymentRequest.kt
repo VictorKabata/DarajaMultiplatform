@@ -12,6 +12,9 @@ data class DarajaPaymentRequest(
     @SerialName("Password")
     val password: String,
 
+    @SerialName("PhoneNumber")
+    val phoneNumber: String,
+
     @SerialName("Timestamp")
     val timestamp: String,
 
@@ -26,9 +29,6 @@ data class DarajaPaymentRequest(
 
     @SerialName("PartyB")
     val partyB: String,
-
-    @SerialName("PhoneNumber")
-    val phoneNumber: String,
 
     @SerialName("CallBackURL")
     val callBackUrl: String,
