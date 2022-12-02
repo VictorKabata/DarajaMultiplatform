@@ -9,22 +9,33 @@ import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.getDarajaPassword
 import com.vickikbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickikbt.darajakmp.utils.getDarajaTimestamp
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
-class Daraja private constructor(
-    val consumerKey: String?,
-    val consumerSecret: String?,
-    val passKey: String?,
-    val environment: DarajaEnvironment?
+class Daraja constructor(
+    private val consumerKey: String?,
+    private val consumerSecret: String?,
+    private val passKey: String?,
+    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
 ) {
 
+    init {
+        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) Napier.base(DebugAntilog())
+    }
+
     data class Builder(
-        var consumerKey: String? = null,
-        var consumerSecret: String? = null,
-        var passKey: String? = null,
-        var environment: DarajaEnvironment? = null
+        private var consumerKey: String? = null,
+        private var consumerSecret: String? = null,
+        private var passKey: String? = null,
+        private var environment: DarajaEnvironment? = null
     ) {
+
         fun setConsumerKey(consumerKey: String) = apply { this.consumerKey = consumerKey }
 
         fun setConsumerSecret(consumerSecret: String) =
@@ -56,13 +67,17 @@ class Daraja private constructor(
         consumerSecret = consumerSecret ?: ""
     )
 
+    private val defaultDispatcher = CoroutineScope(Dispatchers.Default).coroutineContext
+
     // ToDo: Set as internal
     // ToDo: Better way to return the result/response
-    suspend fun requestAuthToken(): DarajaToken {
-        return darajaApiService.getAuthToken()
+    fun requestAuthToken(): DarajaToken = runBlocking {
+        withContext(defaultDispatcher) {
+            return@withContext darajaApiService.getAuthToken()
+        }
     }
 
-    suspend fun initiateDarajaStk(
+    fun initiateDarajaStk(
         businessShortCode: String,
         amount: Int,
         phoneNumber: String,
@@ -70,7 +85,7 @@ class Daraja private constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ) {
+    ) = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
@@ -93,7 +108,9 @@ class Daraja private constructor(
             partyB = businessShortCode
         )
 
-        darajaApiService.requestMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+        withContext(defaultDispatcher) {
+            return@withContext darajaApiService.requestMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+        }
     }
 
 }
