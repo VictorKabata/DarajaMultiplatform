@@ -1,6 +1,6 @@
 package com.vickikbt.darajakmp.utils
 
-data class DarajaTransactionType(
-    val CustomerPayBillOnline: String = "CustomerPayBillOnline",
-    val CustomerBuyGoodsOnline: String = "CustomerBuyGoodsOnline"
-)
+enum class DarajaTransactionType(transactionType: String) {
+    CustomerPayBillOnline("CustomerPayBillOnline"),
+    CustomerBuyGoodsOnline("CustomerBuyGoodsOnline")
+}
