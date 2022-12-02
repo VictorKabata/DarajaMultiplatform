@@ -24,7 +24,7 @@ data class DarajaPaymentRequest(
     @SerialName("Amount")
     val amount: String,
 
-    @SerialName("PartyA") //🥳
+    @SerialName("PartyA") // 🥳
     val partyA: String,
 
     @SerialName("PartyB")

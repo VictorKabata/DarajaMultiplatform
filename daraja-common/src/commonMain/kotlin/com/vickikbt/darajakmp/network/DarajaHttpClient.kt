@@ -25,7 +25,6 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
     /*Initialize Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient(): HttpClient {
         val client: HttpClient = HttpClient(engineFactory = CIO) {
-
             defaultRequest {
                 url {
                     host = BASE_URL
@@ -54,5 +53,4 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
 
         return client
     }
-
 }

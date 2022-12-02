@@ -2,9 +2,15 @@ object BuildPlugins {
     const val androidLibrary = "com.android.library"
     const val multiplatform = "multiplatform"
     const val kotlinXSerialization = "plugin.serialization"
+
+    const val ktLint = "org.jlleitschuh.gradle.ktlint"
+    const val detekt = "io.gitlab.arturbosch.detekt"
 }
 
 object Versions {
+    const val ktLint = "10.3.0"
+    const val detekt = "1.19.0"
+
     const val kotlinxCoroutines = "1.6.0-native-mt"
     const val ktor = "1.6.7"
     const val kotlinxDateTime = "0.3.2"

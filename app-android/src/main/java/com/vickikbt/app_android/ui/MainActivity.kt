@@ -31,6 +31,4 @@ class MainActivity : AppCompatActivity() {
 
         Napier.i(tag = "UI", message = "Auth token: $token")
     }
-
-
 }

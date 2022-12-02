@@ -31,7 +31,6 @@ internal class DarajaApiService constructor(
                 append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
             }
         }
-
     }
 
     internal suspend fun requestMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaPaymentResponse {
@@ -44,5 +43,4 @@ internal class DarajaApiService constructor(
             body = darajaPaymentRequest
         }
     }
-
 }

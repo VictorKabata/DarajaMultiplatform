@@ -12,6 +12,4 @@ class DarajaAndroidApplication : Application() {
 
         if (BuildConfig.DEBUG) Napier.base(DebugAntilog(defaultTag = "App-Android"))
     }
-
-
 }
