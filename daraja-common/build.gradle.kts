@@ -18,7 +18,7 @@ kotlin {
 
     jvm()
 
-    js()
+    // js()
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -51,8 +51,8 @@ kotlin {
         sourceSets["jvmMain"].dependencies {}
         sourceSets["jvmTest"].dependencies {}
 
-        sourceSets["jsMain"].dependencies {}
-        sourceSets["jsTest"].dependencies {}
+        //sourceSets["jsMain"].dependencies {}
+        //sourceSets["jsTest"].dependencies {}
     }
 }
 
