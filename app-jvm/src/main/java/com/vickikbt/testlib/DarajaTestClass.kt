@@ -11,20 +11,20 @@ fun main() {
 
     Napier.i("Starting JVM app...")
 
-    val daraja = Daraja(
-        consumerKey = "NrF3UW9YCIUeTeLeamBC9HRjlaGkw6RZ",
-        consumerSecret = "lARzdAdZaRAtrXZ0"
-    )
+    val daraja = Daraja.Builder()
+        .setConsumerKey("NrF3UW9YCIUeTeLeamBC9HRjlaGkw6RZ")
+        .setConsumerSecret("lARzdAdZaRAtrXZ0")
+        .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
+        .build()
 
     val mpesaStkResponse = runBlocking {
         daraja.initiateDarajaStk(
             businessShortCode = "174379",
-            passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
             transactionDesc = "Mpesa payment",
             amount = 1,
-            transactionType = DarajaTransactionType().CustomerPayBillOnline,
+            transactionType = DarajaTransactionType.CustomerBuyGoodsOnline,
             callbackUrl = "https://mydomain.com/path",
-            phoneNumber = "254714091304"
+            phoneNumber = "0714091304"
         )
     }
 
