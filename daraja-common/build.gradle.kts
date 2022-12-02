@@ -32,7 +32,7 @@ kotlin {
 
             implementation(Dependencies.kotlinXSerialization)
 
-            api(Dependencies.napier) //ToDo: Change to implementation
+            api(Dependencies.napier) // ToDo: Change to implementation
 
             implementation(Dependencies.kotlinxDateTime)
 
@@ -51,8 +51,8 @@ kotlin {
         sourceSets["jvmMain"].dependencies {}
         sourceSets["jvmTest"].dependencies {}
 
-        //sourceSets["jsMain"].dependencies {}
-        //sourceSets["jsTest"].dependencies {}
+        // sourceSets["jsMain"].dependencies {}
+        // sourceSets["jsTest"].dependencies {}
     }
 }
 

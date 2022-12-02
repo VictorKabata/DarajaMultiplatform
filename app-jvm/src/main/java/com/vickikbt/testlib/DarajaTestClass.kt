@@ -2,11 +2,9 @@ package com.vickikbt.testlib
 
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
-import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 
 fun main() {
-
     Napier.i("Starting JVM app...")
 
     val daraja = Daraja.Builder()
@@ -25,5 +23,4 @@ fun main() {
     )
 
     Napier.i("Mpesa STK response: $mpesaStkResponse")
-
 }

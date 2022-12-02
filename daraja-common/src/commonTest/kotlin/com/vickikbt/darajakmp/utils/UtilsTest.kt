@@ -6,7 +6,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
-
 class UtilsTest {
 
     @Test
@@ -42,5 +41,4 @@ class UtilsTest {
 
         assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
     }
-
 }

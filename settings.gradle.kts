@@ -17,4 +17,3 @@ rootProject.name = "DarajaKmp"
 
 include(":daraja-common")
 include(":app-jvm")
-include(":app-android")
