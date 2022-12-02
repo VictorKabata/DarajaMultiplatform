@@ -5,7 +5,7 @@ object BuildPlugins {
 }
 
 object Versions {
-    const val kotlinxCoroutines = "1.2.1"
+    const val kotlinxCoroutines = "1.6.0-native-mt"
     const val ktor = "1.6.7"
     const val kotlinxDateTime = "0.3.2"
     const val base64Encoding = "1.1.3"
@@ -29,6 +29,9 @@ object Dependencies {
     const val ktoriOS = "io.ktor:ktor-client-ios:${Versions.ktor}"
     const val ktorJvm = "io.ktor:ktor-client-java:${Versions.ktor}"
     const val ktorMock = "io.ktor:ktor-client-mock:${Versions.ktor}"
+
+    const val ktorCioEngine =
+        "io.ktor:ktor-client-cio:${Versions.ktor}" // ToDo: Replace with platform specific engines
 
     const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
 

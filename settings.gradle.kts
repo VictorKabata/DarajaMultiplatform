@@ -14,4 +14,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "DarajaKmp"
-include(":shared")
+
+include(":daraja-common")
+include(":app-jvm")
+include(":app-android")
