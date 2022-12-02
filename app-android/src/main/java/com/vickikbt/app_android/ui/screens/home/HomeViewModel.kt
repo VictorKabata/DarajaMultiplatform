@@ -1,12 +1,10 @@
 package com.vickikbt.app_android.ui.screens.home
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -39,9 +37,8 @@ class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
             )
             _mpesaResponse.value = response
         } catch (e: Exception) {
-            println("Initiating mpesa payment error: ${e}")
+            println("Initiating mpesa payment error: $e")
             _mpesaResponse.value = null
         }
     }
-
 }

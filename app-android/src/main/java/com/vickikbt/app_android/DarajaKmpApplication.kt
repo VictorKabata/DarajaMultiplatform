@@ -19,5 +19,4 @@ class DarajaKmpApplication : Application() {
             modules(appModules)
         }
     }
-
 }

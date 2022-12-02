@@ -2,7 +2,6 @@ package com.vickikbt.app_android.di
 
 import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.darajakmp.Daraja
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 

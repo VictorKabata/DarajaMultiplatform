@@ -39,7 +39,6 @@ import org.koin.androidx.compose.get
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = get()) {
-
     var tillNumber by remember { mutableStateOf("174379") }
     var amount by remember { mutableStateOf(1) }
     var phoneNumber by remember { mutableStateOf("0714091304") }
@@ -53,7 +52,6 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
             .fillMaxSize()
             .padding(vertical = 16.dp, horizontal = 8.dp)
     ) {
-
         Text(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -64,7 +62,6 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
             textAlign = TextAlign.Center
         )
 
-
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -73,7 +70,6 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                 alignment = Alignment.CenterVertically
             )
         ) {
-
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(.8f),
                 value = tillNumber,
@@ -118,7 +114,6 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
             )
-
         }
 
         Button(
@@ -133,18 +128,16 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     callbackUrl = "https://mydomain.com/path",
                     accountReference = "Daraja KMP Android"
                 )
-            }) {
+            }
+        ) {
             Text(text = "Make Payment", fontSize = 20.sp)
         }
-
     }
 
     LaunchedEffect(key1 = viewModel) {
         Toast.makeText(context, "$mpesaResponse", Toast.LENGTH_SHORT).show()
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
