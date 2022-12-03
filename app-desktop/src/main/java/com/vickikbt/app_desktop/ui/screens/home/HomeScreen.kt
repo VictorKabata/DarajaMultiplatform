@@ -27,12 +27,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
+import com.vickikbt.darajakmp.Daraja
+import com.vickikbt.darajakmp.utils.DarajaTransactionType
 
 @Composable
 fun HomeScreen() {
     var tillNumber by remember { mutableStateOf("174379") }
     var amount by remember { mutableStateOf(1) }
     var phoneNumber by remember { mutableStateOf("0714091304") }
+
+    val daraja by remember {
+        mutableStateOf(
+            Daraja.Builder()
+                .setConsumerKey("NrF3UW9YCIUeTeLeamBC9HRjlaGkw6RZ")
+                .setConsumerSecret("lARzdAdZaRAtrXZ0")
+                .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
+                .build()
+        )
+    }
 
     Box(
         modifier = Modifier
@@ -106,8 +118,7 @@ fun HomeScreen() {
         Button(
             modifier = Modifier.align(Alignment.BottomCenter),
             onClick = {
-                // ToDo:
-                /*viewModel.initiateMpesaPayment(
+                daraja.initiateDarajaStk(
                     businessShortCode = tillNumber,
                     amount = amount,
                     phoneNumber = phoneNumber,
@@ -115,7 +126,7 @@ fun HomeScreen() {
                     transactionDesc = "Mpesa payment",
                     callbackUrl = "https://mydomain.com/path",
                     accountReference = "Daraja KMP Android"
-                )*/
+                )
             }
         ) {
             Text(text = "Make Payment", fontSize = 20.sp)
