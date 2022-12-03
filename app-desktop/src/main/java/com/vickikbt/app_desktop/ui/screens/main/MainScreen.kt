@@ -16,7 +16,6 @@ import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(applicationScope: ApplicationScope) {
-
     Window(
         onCloseRequest = { applicationScope.exitApplication() },
         title = "Notflix",
@@ -26,8 +25,7 @@ fun MainScreen(applicationScope: ApplicationScope) {
             height = Dp.Unspecified,
         )
     ) {
-
-        DarajaKmpTheme (darkTheme = true) {
+        DarajaKmpTheme(darkTheme = true) {
             Surface(color = MaterialTheme.colors.surface) {
                 HomeScreen()
             }

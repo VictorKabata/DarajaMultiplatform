@@ -121,7 +121,6 @@ fun HomeScreen() {
             Text(text = "Make Payment", fontSize = 20.sp)
         }
     }
-
 }
 
 @Preview
