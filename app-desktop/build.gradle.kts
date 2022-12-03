@@ -1,14 +1,21 @@
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm") version "1.7.20"
+    id("org.jetbrains.compose") version "1.2.1"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+repositories {
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    google()
 }
 
 dependencies {
     implementation(project(":daraja"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation(compose.desktop.currentOs)
+}
+
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+    }
 }
