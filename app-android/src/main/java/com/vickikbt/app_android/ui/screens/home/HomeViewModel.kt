@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
 
-    private val _mpesaResponse = MutableStateFlow<DarajaPaymentResponse?>(null)
+    private val _mpesaResponse = MutableStateFlow<Result<DarajaPaymentResponse>?>(null)
     val mpesaResponse get() = _mpesaResponse.asStateFlow()
 
     fun initiateMpesaPayment(
@@ -23,22 +23,16 @@ class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
         callbackUrl: String,
         accountReference: String
     ) = viewModelScope.launch {
-        try {
-            println("Initiating mpesa payment")
+        val response = daraja.initiateDarajaStk(
+            businessShortCode = businessShortCode,
+            amount = amount,
+            phoneNumber = phoneNumber,
+            transactionType = transactionType,
+            transactionDesc = transactionDesc,
+            callbackUrl = callbackUrl,
+            accountReference = accountReference
+        )
 
-            val response = daraja.initiateDarajaStk(
-                businessShortCode = businessShortCode,
-                amount = amount,
-                phoneNumber = phoneNumber,
-                transactionType = transactionType,
-                transactionDesc = transactionDesc,
-                callbackUrl = callbackUrl,
-                accountReference = accountReference
-            )
-            _mpesaResponse.value = response
-        } catch (e: Exception) {
-            println("Initiating mpesa payment error: $e")
-            _mpesaResponse.value = null
-        }
+        _mpesaResponse.value = response
     }
 }
