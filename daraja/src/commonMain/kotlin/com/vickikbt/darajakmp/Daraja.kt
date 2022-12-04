@@ -10,8 +10,6 @@ import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.getDarajaPassword
 import com.vickikbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickikbt.darajakmp.utils.getDarajaTimestamp
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,10 +23,6 @@ class Daraja constructor(
     private val passKey: String?,
     private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
 ) {
-
-    init {
-        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) Napier.base(DebugAntilog())
-    }
 
     data class Builder(
         private var consumerKey: String? = null,
