@@ -22,25 +22,29 @@ internal class DarajaApiService constructor(
     // ToDo: Error handling for network requests
 
     @OptIn(InternalAPI::class)
-    internal suspend fun getAuthToken(): DarajaToken {
+    internal suspend fun getAuthToken(): Result<DarajaToken> {
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
-        return httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credentials") {
-            headers {
-                append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
+        return darajaApiCall {
+            httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credentials") {
+                headers {
+                    append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
+                }
             }
         }
     }
 
-    internal suspend fun requestMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaPaymentResponse {
-        val accessToken = getAuthToken().accessToken
+    internal suspend fun requestMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): Result<DarajaPaymentResponse> {
+        val accessToken = getAuthToken().getOrThrow().accessToken
 
-        return httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
-            headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
+        return darajaApiCall {
+            httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
+                headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
 
-            contentType(ContentType.Application.Json)
-            body = darajaPaymentRequest
+                contentType(ContentType.Application.Json)
+                body = darajaPaymentRequest
+            }
         }
     }
 }

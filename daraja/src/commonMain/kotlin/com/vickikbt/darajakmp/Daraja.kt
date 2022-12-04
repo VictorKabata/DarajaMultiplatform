@@ -3,6 +3,7 @@ package com.vickikbt.darajakmp
 import com.vickikbt.darajakmp.network.DarajaApiService
 import com.vickikbt.darajakmp.network.DarajaHttpClient
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
+import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
@@ -71,7 +72,7 @@ class Daraja constructor(
 
     // ToDo: Set as internal
     // ToDo: Better way to return the result/response
-    fun requestAuthToken(): DarajaToken = runBlocking {
+    fun requestAuthToken(): Result<DarajaToken> = runBlocking {
         withContext(defaultDispatcher) {
             return@withContext darajaApiService.getAuthToken()
         }
@@ -85,7 +86,7 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ) = runBlocking {
+    ): Result<DarajaPaymentResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
