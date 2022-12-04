@@ -40,6 +40,9 @@ kotlin {
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
+            implementation(TestDependencies.kotlinxCoroutinesTest)
+            implementation(TestDependencies.mockk)
+            implementation(TestDependencies.ktorMock)
         }
 
         sourceSets["androidMain"].dependencies {}

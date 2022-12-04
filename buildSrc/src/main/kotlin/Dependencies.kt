@@ -36,7 +36,6 @@ object Dependencies {
     const val ktorAndroid = "io.ktor:ktor-client-android:${Versions.ktor}"
     const val ktoriOS = "io.ktor:ktor-client-ios:${Versions.ktor}"
     const val ktorJvm = "io.ktor:ktor-client-java:${Versions.ktor}"
-    const val ktorMock = "io.ktor:ktor-client-mock:${Versions.ktor}"
 
     const val ktorCioEngine =
         "io.ktor:ktor-client-cio:${Versions.ktor}" // ToDo: Replace with platform specific engines
@@ -55,10 +54,12 @@ object Dependencies {
 object TestDependencies {
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
 
-    const val kotlinxTestResources = "com.goncalossilva:resources:${Versions.kotlinxTestResources}"
+    const val ktorMock = "io.ktor:ktor-client-mock:${Versions.ktor}"
 
     const val kotlinxCoroutinesTest =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinxCoroutines}"
+
+    const val kotlinxTestResources = "com.goncalossilva:resources:${Versions.kotlinxTestResources}"
 }
 
 object AndroidSdk {
