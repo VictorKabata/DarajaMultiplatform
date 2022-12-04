@@ -42,10 +42,10 @@ class DarajaApiServiceTest {
         // given
         coEvery { darajaApiService.getAuthToken() } returns Result.success(authToken)
 
-        //when
+        // when
         val result = darajaApiService.getAuthToken()
 
-        //then
+        // then
         assertTrue(actual = result.isSuccess)
         assertEquals(expected = Result.success(authToken), actual = result)
     }
@@ -56,12 +56,11 @@ class DarajaApiServiceTest {
         val exception = Exception()
         coEvery { darajaApiService.getAuthToken() } throws exception
 
-        //when
+        // when
         val result = darajaApiService.getAuthToken()
 
-        //then
+        // then
         assertTrue(actual = result.isFailure)
         assertEquals(expected = Result.failure(exception), actual = result)
     }
-
 }

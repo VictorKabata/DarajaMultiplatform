@@ -41,8 +41,9 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
                     }
                 }
             }.also {
-                if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT)
+                if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
                     Napier.base(DebugAntilog())
+                }
             }
 
             install(JsonFeature) {
