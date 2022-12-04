@@ -2,6 +2,7 @@ package com.vickikbt.darajakmp.network
 
 import com.vickikbt.darajakmp.utils.DarajaConstants
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
+import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -24,7 +25,7 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
 
     /*Initialize Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient(): HttpClient {
-        val client: HttpClient = HttpClient(engineFactory = CIO) {
+        val client = HttpClient(engineFactory = CIO) {
             defaultRequest {
                 url {
                     host = BASE_URL
@@ -39,6 +40,9 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
                         Napier.i(tag = "Http Client", message = message)
                     }
                 }
+            }.also {
+                if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT)
+                    Napier.base(DebugAntilog())
             }
 
             install(JsonFeature) {
