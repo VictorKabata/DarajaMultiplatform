@@ -2,8 +2,8 @@ package com.vickikbt.darajakmp.network
 
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
 import io.mockk.coEvery
-import io.mockk.mockk
 import io.mockk.unmockkAll
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -22,7 +22,7 @@ class DarajaApiServiceTest {
 
     @BeforeTest
     fun setup() {
-        mockHttpClient = mockk(relaxed = true)
+        mockHttpClient = HttpClient(MockEngine.create())
 
         darajaApiService =
             DarajaApiService(
@@ -48,6 +48,20 @@ class DarajaApiServiceTest {
         //then
         assertTrue(actual = result.isSuccess)
         assertEquals(expected = Result.success(authToken), actual = result)
+    }
+
+    @Test
+    fun getAuthToken_returns_result_error_on_error() = runTest {
+        // given
+        val exception = Exception()
+        coEvery { darajaApiService.getAuthToken() } throws exception
+
+        //when
+        val result = darajaApiService.getAuthToken()
+
+        //then
+        assertTrue(actual = result.isFailure)
+        assertEquals(expected = Result.failure(exception), actual = result)
     }
 
 }

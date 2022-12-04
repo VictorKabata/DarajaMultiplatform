@@ -26,7 +26,7 @@ internal class DarajaApiService constructor(
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
-        return darajaApiCall {
+        return darajaSafeApiCall {
             httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credentials") {
                 headers {
                     append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
@@ -38,7 +38,7 @@ internal class DarajaApiService constructor(
     internal suspend fun requestMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): Result<DarajaPaymentResponse> {
         val accessToken = getAuthToken().getOrThrow().accessToken
 
-        return darajaApiCall {
+        return darajaSafeApiCall {
             httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
 
