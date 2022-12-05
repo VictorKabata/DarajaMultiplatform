@@ -1,6 +1,7 @@
 package com.vickikbt.app_android.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -42,6 +44,8 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
     var phoneNumber by remember { mutableStateOf("0714091304") }
 
     val mpesaResponse = viewModel.mpesaResponse.collectAsState().value
+
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -133,9 +137,11 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
     mpesaResponse
         ?.onSuccess {
             Log.i("SUCCESS", "$it")
+            Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
         }
         ?.onFailure {
-            Log.i("ERROR", "$it")
+            Log.i("ERROR", "${it.message}")
+            Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
         }
 }
 
