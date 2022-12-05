@@ -1,7 +1,7 @@
 package com.vickikbt.darajakmp
 
 import com.vickikbt.darajakmp.network.DarajaApiService
-import com.vickikbt.darajakmp.network.DarajaHttpClient
+import com.vickikbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
@@ -52,12 +52,12 @@ class Daraja constructor(
         )
     }
 
-    private val darajaHttpClient: HttpClient = DarajaHttpClient(
+    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
         environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
     ).createDarajaHttpClient()
 
     private val darajaApiService: DarajaApiService = DarajaApiService(
-        httpClient = darajaHttpClient,
+        httpClient = darajaHttpClientFactory,
         consumerKey = consumerKey ?: "",
         consumerSecret = consumerSecret ?: ""
     )
@@ -104,7 +104,7 @@ class Daraja constructor(
         )
 
         withContext(defaultDispatcher) {
-            return@withContext darajaApiService.requestMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+            return@withContext darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
         }
     }
 }

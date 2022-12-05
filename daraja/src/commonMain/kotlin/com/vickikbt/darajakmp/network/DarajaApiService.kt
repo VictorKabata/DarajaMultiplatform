@@ -29,7 +29,7 @@ internal class DarajaApiService constructor(
         }
     }
 
-    internal suspend fun requestMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): Result<DarajaPaymentResponse> =
+    internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): Result<DarajaPaymentResponse> =
         darajaSafeApiCall {
             val accessToken = getAuthToken().getOrThrow().accessToken
 
