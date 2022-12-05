@@ -7,9 +7,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
-import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.contentType
 import io.ktor.util.InternalAPI
 import io.ktor.util.encodeBase64
 
@@ -37,8 +35,6 @@ internal class DarajaApiService constructor(
 
             return@darajaSafeApiCall httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
-
-                contentType(ContentType.Application.Json)
                 body = darajaPaymentRequest
             }
         }

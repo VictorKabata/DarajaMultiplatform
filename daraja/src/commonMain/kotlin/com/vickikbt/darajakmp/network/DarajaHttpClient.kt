@@ -12,8 +12,9 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
-import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 
 internal class DarajaHttpClient constructor(private val environment: DarajaEnvironment) {
@@ -28,7 +29,7 @@ internal class DarajaHttpClient constructor(private val environment: DarajaEnvir
     internal fun createDarajaHttpClient(): HttpClient {
         val client = HttpClient(engineFactory = CIO) {
             defaultRequest {
-                headers.append(HttpHeaders.ContentType, "application/json")
+                contentType(ContentType.Application.Json)
 
                 url {
                     host = BASE_URL
