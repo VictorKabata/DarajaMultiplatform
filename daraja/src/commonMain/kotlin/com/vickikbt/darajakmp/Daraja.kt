@@ -40,8 +40,7 @@ class Daraja constructor(
 
         fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
-        fun isProduction(environment: DarajaEnvironment) =
-            apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
+        fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         fun build(): Daraja = Daraja(
             consumerKey = consumerKey,
