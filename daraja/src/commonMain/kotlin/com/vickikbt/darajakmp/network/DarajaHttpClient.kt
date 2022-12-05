@@ -12,7 +12,6 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
-import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import kotlinx.serialization.json.Json

@@ -26,7 +26,6 @@ suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Result<T> = t
     Result.failure(e)
 }
 
-
 fun getError(responseContent: ByteReadChannel): Exception {
     val response = Json.decodeFromString<DarajaErrorResponse>(string = responseContent.toString())
     return Exception(response.errorMessage)
