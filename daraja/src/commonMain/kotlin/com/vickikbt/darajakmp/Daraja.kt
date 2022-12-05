@@ -38,11 +38,10 @@ class Daraja constructor(
 
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
-        fun isSandbox(environment: DarajaEnvironment = DarajaEnvironment.SANDBOX_ENVIRONMENT) =
-            apply { this.environment = environment }
+        fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
-        fun isProduction(environment: DarajaEnvironment = DarajaEnvironment.PRODUCTION_ENVIRONMENT) =
-            apply { this.environment = environment }
+        fun isProduction(environment: DarajaEnvironment) =
+            apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         fun build(): Daraja = Daraja(
             consumerKey = consumerKey,
