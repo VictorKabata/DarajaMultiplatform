@@ -1,9 +1,9 @@
 package com.vickikbt.darajakmp.network
 
 import com.vickikbt.darajakmp.network.models.DarajaErrorResponse
-import io.ktor.client.features.ClientRequestException
-import io.ktor.client.features.RedirectResponseException
-import io.ktor.client.features.ServerResponseException
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.RedirectResponseException
+import io.ktor.client.plugins.ServerResponseException
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.errors.IOException
 import kotlinx.serialization.SerializationException

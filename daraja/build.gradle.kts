@@ -25,6 +25,8 @@ kotlin {
             implementation(Dependencies.kotlinxCoroutines)
 
             implementation(Dependencies.ktorCore)
+            implementation(Dependencies.ktorContentNegotiation)
+            implementation(Dependencies.ktorJson)
             implementation(Dependencies.ktorSerialization)
             implementation(Dependencies.ktorLogging)
 
