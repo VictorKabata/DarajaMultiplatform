@@ -5,7 +5,6 @@ import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.getOrThrow
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -34,9 +33,7 @@ internal class DarajaApiService constructor(
 
     internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaResult<DarajaPaymentResponse> =
         darajaSafeApiCall {
-            val accessToken = getAuthToken().getOrThrow()?.accessToken
-
-            Napier.e(tag = "Daraja Error", message = "Access token: $accessToken")
+            val accessToken = getAuthToken().getOrThrow().accessToken
 
             return@darajaSafeApiCall httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
