@@ -27,7 +27,6 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
 
     /*Initialize Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
-
         defaultRequest {
             contentType(ContentType.Application.Json)
 
@@ -38,10 +37,12 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
         }
 
         install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-            })
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                }
+            )
         }
 
         install(Logging) {
