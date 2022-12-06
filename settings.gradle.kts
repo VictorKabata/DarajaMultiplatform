@@ -3,6 +3,7 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 
@@ -15,5 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "DarajaKmp"
 
-include(":daraja-common")
-include(":app-jvm")
+include(":daraja")
+include(":app-desktop")
+include(":app-android")
