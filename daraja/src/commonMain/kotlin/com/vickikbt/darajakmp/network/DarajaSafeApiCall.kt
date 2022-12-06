@@ -1,6 +1,8 @@
 package com.vickikbt.darajakmp.network
 
 import com.vickikbt.darajakmp.network.models.DarajaErrorResponse
+import com.vickikbt.darajakmp.utils.DarajaResult
+import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
@@ -10,23 +12,49 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Result<T> = try {
-    Result.success(apiCall.invoke())
+internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
+    DarajaResult.Loading(isLoading = true) // ToDo: Emit as flow later
+
+    DarajaResult.Success(apiCall.invoke())
+
+//    Result.success(apiCall.invoke())
 } catch (e: RedirectResponseException) {
-    Result.failure(e)
+    val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+
+//    Result.failure(e)
 } catch (e: ClientRequestException) {
-    Result.failure(e)
+    val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+
+//    Result.failure(e)
 } catch (e: ServerResponseException) {
-    Result.failure(e)
+    val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+
+//    Result.failure(e)
 } catch (e: IOException) {
-    Result.failure(e)
+    val error = getError(exception = e)
+    DarajaResult.Failure(exception = error)
+
+//    Result.failure(e)
 } catch (e: SerializationException) {
-    Result.failure(e)
+    val error = getError(exception = e)
+    DarajaResult.Failure(exception = error)
+
+//    Result.failure(e)
 } catch (e: Exception) {
-    Result.failure(e)
+    val error = getError(exception = e)
+    DarajaResult.Failure(exception = error)
+
+//    Result.failure(e)
 }
 
-fun getError(responseContent: ByteReadChannel): Exception {
-    val response = Json.decodeFromString<DarajaErrorResponse>(string = responseContent.toString())
-    return Exception(response.errorMessage)
+fun getError(
+    responseContent: ByteReadChannel? = null,
+    exception: Exception? = null
+): DarajaErrorResponse {
+    return if (responseContent != null) Json.decodeFromString(string = responseContent.toString())
+    else DarajaErrorResponse(requestId = null, errorCode = null, errorMessage = exception?.message)
+
 }

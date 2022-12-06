@@ -21,11 +21,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DarajaErrorResponse(
     @SerialName("requestId")
-    var requestId: String,
+    var requestId: String?,
 
     @SerialName("errorCode")
-    var errorCode: String,
+    var errorCode: String?,
 
     @SerialName("errorMessage")
-    var errorMessage: String
+    var errorMessage: String?
 )

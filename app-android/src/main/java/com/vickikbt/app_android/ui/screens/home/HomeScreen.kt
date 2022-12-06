@@ -34,6 +34,9 @@ import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
+import com.vickikbt.darajakmp.utils.isLoading
+import com.vickikbt.darajakmp.utils.onFailure
+import com.vickikbt.darajakmp.utils.onSuccess
 import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,15 +137,21 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         }
     }
 
-    mpesaResponse
-        ?.onSuccess {
-            Log.i("SUCCESS", "$it")
-            Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
-        }
-        ?.onFailure {
-            Log.i("ERROR", "${it.message}")
-            Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
-        }
+    Log.i("Mpesa Response", "$mpesaResponse")
+
+    mpesaResponse?.isLoading {
+        Log.i("LOADING", "$mpesaResponse")
+        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+    }
+    mpesaResponse?.onSuccess {
+        Log.i("SUCCESS", "$it")
+        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+    }
+    mpesaResponse?.onFailure {
+        Log.i("ERROR", "$mpesaResponse")
+        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+    }
+
 }
 
 @Preview(showBackground = true)
