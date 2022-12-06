@@ -25,7 +25,6 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
         DarajaConstants.PROD_BASE_URL
     }
 
-    //private val darajaHttpEngine=
 
     /*Initialize Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
