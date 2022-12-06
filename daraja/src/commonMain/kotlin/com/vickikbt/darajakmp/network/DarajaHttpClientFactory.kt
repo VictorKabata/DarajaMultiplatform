@@ -25,6 +25,8 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
         DarajaConstants.PROD_BASE_URL
     }
 
+    //private val darajaHttpEngine=
+
     /*Initialize Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
         defaultRequest {
@@ -45,15 +47,15 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
             )
         }
 
-        install(Logging) {
-            level = LogLevel.BODY
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Napier.i(tag = "Http Client", message = message)
+        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+            install(Logging) {
+                level = LogLevel.BODY
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Napier.i(tag = "Http Client", message = message)
+                    }
                 }
-            }
-        }.also {
-            if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+            }.also {
                 Napier.base(DebugAntilog())
             }
         }
