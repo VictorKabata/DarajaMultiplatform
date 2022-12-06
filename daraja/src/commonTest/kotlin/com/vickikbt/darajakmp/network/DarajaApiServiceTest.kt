@@ -1,20 +1,8 @@
 package com.vickikbt.darajakmp.network
 
-import com.vickikbt.darajakmp.network.models.DarajaToken
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.mock.MockEngine
-import io.mockk.coEvery
-import io.mockk.unmockkAll
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
-
 class DarajaApiServiceTest {
 
-    private lateinit var mockHttpClient: HttpClient
+    /*private lateinit var mockHttpClient: HttpClient
     private lateinit var darajaApiService: DarajaApiService
 
     private val authToken: DarajaToken =
@@ -62,5 +50,5 @@ class DarajaApiServiceTest {
         // then
         assertTrue(actual = result.isFailure)
         assertEquals(expected = Result.failure(exception), actual = result)
-    }
+    }*/
 }
