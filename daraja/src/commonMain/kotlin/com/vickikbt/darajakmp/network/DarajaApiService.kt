@@ -25,7 +25,7 @@ internal class DarajaApiService constructor(
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
-        return@darajaSafeApiCall httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credential") {
+        return@darajaSafeApiCall httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credentials") {
             headers {
                 append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
             }
