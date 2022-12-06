@@ -140,16 +140,14 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
     Log.i("Mpesa Response", "$mpesaResponse")
 
     mpesaResponse?.isLoading {
-        Log.i("LOADING", "$mpesaResponse")
-        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
-    }
-    mpesaResponse?.onSuccess {
+        Log.i("LOADING", "$it")
+        Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
+    }?.onSuccess {
         Log.i("SUCCESS", "$it")
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-    }
-    mpesaResponse?.onFailure {
-        Log.i("ERROR", "$mpesaResponse")
-        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
+    }?.onFailure {
+        Log.i("ERROR", "Daraja Error: $it")
+        Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
     }
 
 }

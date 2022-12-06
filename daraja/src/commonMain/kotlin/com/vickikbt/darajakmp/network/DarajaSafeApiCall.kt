@@ -1,6 +1,6 @@
 package com.vickikbt.darajakmp.network
 
-import com.vickikbt.darajakmp.network.models.DarajaErrorResponse
+import com.vickikbt.darajakmp.network.models.DarajaException
 import com.vickikbt.darajakmp.utils.DarajaResult
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
@@ -16,45 +16,43 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
     DarajaResult.Loading(isLoading = true) // ToDo: Emit as flow later
 
     DarajaResult.Success(apiCall.invoke())
+} catch (t: Throwable) {
+    // ToDo: Collect analytics data on throwable caught
 
-//    Result.success(apiCall.invoke())
-} catch (e: RedirectResponseException) {
-    val error = getError(e.response.body())
-    DarajaResult.Failure(exception = error)
+    when (t) {
+        is RedirectResponseException -> {
+            val error = getError(t.response.body())
+            DarajaResult.Failure(exception = error)
+        }
+        is ClientRequestException -> {
+            val error = getError(t.response.body())
+            DarajaResult.Failure(exception = error)
+        }
+        is ServerResponseException -> {
+            val error = getError(t.response.body())
+            DarajaResult.Failure(exception = error)
+        }
+        is IOException -> {
+            val error = getError(exception = t)
+            DarajaResult.Failure(exception = error)
+        }
+        is SerializationException -> {
+            val error = getError(exception = t)
+            DarajaResult.Failure(exception = error)
+        }
+        else -> {
+            val error = getError(exception = Exception())
+            DarajaResult.Failure(exception = error)
+        }
+    }
 
-//    Result.failure(e)
-} catch (e: ClientRequestException) {
-    val error = getError(e.response.body())
-    DarajaResult.Failure(exception = error)
-
-//    Result.failure(e)
-} catch (e: ServerResponseException) {
-    val error = getError(e.response.body())
-    DarajaResult.Failure(exception = error)
-
-//    Result.failure(e)
-} catch (e: IOException) {
-    val error = getError(exception = e)
-    DarajaResult.Failure(exception = error)
-
-//    Result.failure(e)
-} catch (e: SerializationException) {
-    val error = getError(exception = e)
-    DarajaResult.Failure(exception = error)
-
-//    Result.failure(e)
-} catch (e: Exception) {
-    val error = getError(exception = e)
-    DarajaResult.Failure(exception = error)
-
-//    Result.failure(e)
 }
 
 fun getError(
     responseContent: ByteReadChannel? = null,
     exception: Exception? = null
-): DarajaErrorResponse {
+): DarajaException {
     return if (responseContent != null) Json.decodeFromString(string = responseContent.toString())
-    else DarajaErrorResponse(requestId = null, errorCode = null, errorMessage = exception?.message)
+    else DarajaException(requestId = null, errorCode = null, errorMessage = exception?.message)
 
 }

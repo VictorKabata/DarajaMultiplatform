@@ -4,7 +4,8 @@ import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaResult
-import com.vickikbt.darajakmp.utils.getOrNull
+import com.vickikbt.darajakmp.utils.getOrThrow
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -24,7 +25,7 @@ internal class DarajaApiService constructor(
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
-        return@darajaSafeApiCall httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credentials") {
+        return@darajaSafeApiCall httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credential") {
             headers {
                 append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
             }
@@ -33,7 +34,9 @@ internal class DarajaApiService constructor(
 
     internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaResult<DarajaPaymentResponse> =
         darajaSafeApiCall {
-            val accessToken = getAuthToken().getOrNull()?.accessToken
+            val accessToken = getAuthToken().getOrThrow()?.accessToken
+
+            Napier.e(tag = "Daraja Error", message = "Access token: $accessToken")
 
             return@darajaSafeApiCall httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
