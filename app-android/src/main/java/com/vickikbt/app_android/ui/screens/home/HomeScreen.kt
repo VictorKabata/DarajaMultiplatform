@@ -1,5 +1,6 @@
 package com.vickikbt.app_android.ui.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -134,9 +134,15 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         }
     }
 
-    LaunchedEffect(key1 = viewModel) {
-        Toast.makeText(context, "$mpesaResponse", Toast.LENGTH_SHORT).show()
-    }
+    mpesaResponse
+        ?.onSuccess {
+            Log.i("SUCCESS", "$it")
+            Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
+        }
+        ?.onFailure {
+            Log.i("ERROR", "${it.message}")
+            Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+        }
 }
 
 @Preview(showBackground = true)

@@ -25,7 +25,8 @@ kotlin {
             implementation(Dependencies.kotlinxCoroutines)
 
             implementation(Dependencies.ktorCore)
-            implementation(Dependencies.ktorSerialization)
+            implementation(Dependencies.ktorContentNegotiation)
+            implementation(Dependencies.ktorJson)
             implementation(Dependencies.ktorLogging)
 
             implementation(Dependencies.ktorCioEngine)
@@ -40,6 +41,10 @@ kotlin {
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
+            implementation(TestDependencies.kotlinxCoroutinesTest)
+            implementation(TestDependencies.mockk)
+            implementation(TestDependencies.ktorMock)
+            implementation(TestDependencies.kotlinxTestResources)
         }
 
         sourceSets["androidMain"].dependencies {}

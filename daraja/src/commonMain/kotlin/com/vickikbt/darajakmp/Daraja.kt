@@ -1,16 +1,15 @@
 package com.vickikbt.darajakmp
 
 import com.vickikbt.darajakmp.network.DarajaApiService
-import com.vickikbt.darajakmp.network.DarajaHttpClient
+import com.vickikbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
+import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.getDarajaPassword
 import com.vickikbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickikbt.darajakmp.utils.getDarajaTimestamp
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +23,6 @@ class Daraja constructor(
     private val passKey: String?,
     private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
 ) {
-
-    init {
-        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) Napier.base(DebugAntilog())
-    }
 
     data class Builder(
         private var consumerKey: String? = null,
@@ -43,11 +38,9 @@ class Daraja constructor(
 
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
-        fun isSandbox(environment: DarajaEnvironment = DarajaEnvironment.SANDBOX_ENVIRONMENT) =
-            apply { this.environment = environment }
+        fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
-        fun isProduction(environment: DarajaEnvironment = DarajaEnvironment.PRODUCTION_ENVIRONMENT) =
-            apply { this.environment = environment }
+        fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         fun build(): Daraja = Daraja(
             consumerKey = consumerKey,
@@ -57,12 +50,12 @@ class Daraja constructor(
         )
     }
 
-    private val darajaHttpClient: HttpClient = DarajaHttpClient(
+    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
         environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
     ).createDarajaHttpClient()
 
     private val darajaApiService: DarajaApiService = DarajaApiService(
-        httpClient = darajaHttpClient,
+        httpClient = darajaHttpClientFactory,
         consumerKey = consumerKey ?: "",
         consumerSecret = consumerSecret ?: ""
     )
@@ -71,7 +64,7 @@ class Daraja constructor(
 
     // ToDo: Set as internal
     // ToDo: Better way to return the result/response
-    fun requestAuthToken(): DarajaToken = runBlocking {
+    fun requestAuthToken(): Result<DarajaToken> = runBlocking {
         withContext(defaultDispatcher) {
             return@withContext darajaApiService.getAuthToken()
         }
@@ -85,7 +78,7 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ) = runBlocking {
+    ): Result<DarajaPaymentResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
@@ -109,7 +102,7 @@ class Daraja constructor(
         )
 
         withContext(defaultDispatcher) {
-            return@withContext darajaApiService.requestMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+            return@withContext darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
         }
     }
 }

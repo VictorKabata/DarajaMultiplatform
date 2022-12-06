@@ -1,6 +1,5 @@
 package ui.screens.main
 
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -13,12 +12,11 @@ import androidx.compose.ui.window.rememberWindowState
 import com.vickikbt.app_android.ui.screens.HomeScreen
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(applicationScope: ApplicationScope) {
     Window(
         onCloseRequest = { applicationScope.exitApplication() },
-        title = "Notflix",
+        title = "Daraja Multiplatform Desktop",
         state = rememberWindowState(
             position = WindowPosition.Aligned(Alignment.Center),
             width = Dp.Unspecified,

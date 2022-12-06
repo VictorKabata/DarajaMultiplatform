@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
+import io.github.aakira.napier.Napier
 
 @Composable
 fun HomeScreen() {
@@ -117,21 +118,29 @@ fun HomeScreen() {
 
         Button(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onClick = {
-                daraja.initiateDarajaStk(
-                    businessShortCode = tillNumber,
-                    amount = amount,
-                    phoneNumber = phoneNumber,
-                    transactionType = DarajaTransactionType.CustomerBuyGoodsOnline,
-                    transactionDesc = "Mpesa payment",
-                    callbackUrl = "https://mydomain.com/path",
-                    accountReference = "Daraja KMP Android"
-                )
-            }
+            onClick = { initiateMpesaStk(daraja, tillNumber, amount, phoneNumber) }
         ) {
             Text(text = "Make Payment", fontSize = 20.sp)
         }
     }
+}
+
+fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumber: String) {
+    daraja.initiateDarajaStk(
+        businessShortCode = tillNumber,
+        amount = amount,
+        phoneNumber = phoneNumber,
+        transactionType = DarajaTransactionType.CustomerBuyGoodsOnline,
+        transactionDesc = "Mpesa payment",
+        callbackUrl = "https://mydomain.com/path",
+        accountReference = "Daraja KMP Android"
+    )
+        .onSuccess {
+            Napier.i(message = "On success block called: $it")
+        }
+        .onFailure {
+            Napier.i(message = "On failure block called: $it")
+        }
 }
 
 @Preview
