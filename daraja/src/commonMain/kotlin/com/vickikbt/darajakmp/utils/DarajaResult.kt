@@ -23,17 +23,17 @@ internal inline fun <T : Any> DarajaResult<T>.getOrThrow(): T {
     else throw this.throwOnFailure()
 }
 
-inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: DarajaResult.Loading.(isLoading: Boolean) -> Unit): DarajaResult<T>? {
-    if (this is DarajaResult.Loading) action(true)
+inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: (isLoading: Boolean) -> Unit): DarajaResult<T> {
+    if (this is DarajaResult.Loading) action(true) else action(false)
     return this
 }
 
-inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: DarajaResult.Success<T>.() -> Unit): DarajaResult<T> {
-    if (this is DarajaResult.Success) action(this)
+inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: (T) -> Unit): DarajaResult<T> {
+    if (this is DarajaResult.Success) action(this.data)
     return this
 }
 
-inline fun <T : Any> DarajaResult<T>.onFailure(crossinline action: DarajaResult.Failure.(exception: DarajaException) -> Unit): DarajaResult<T>? {
+inline fun <T : Any> DarajaResult<T>.onFailure(crossinline action: (exception: DarajaException) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Failure) action(this.exception)
     return this
 }
