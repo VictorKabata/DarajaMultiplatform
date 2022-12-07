@@ -28,4 +28,4 @@ data class DarajaException(
 
     @SerialName("errorMessage")
     var errorMessage: String?
-) : Exception()
+) : Exception(errorMessage)
