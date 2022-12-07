@@ -138,11 +138,11 @@ fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumbe
         callbackUrl = "https://mydomain.com/path",
         accountReference = "Daraja KMP Android"
     ).isLoading {
-        Napier.i(message = "On success block called: ${it}")
+        Napier.i(message = "On success block called: $it")
     }.onSuccess {
-        Napier.i(message = "On success block called: ${it}")
+        Napier.i(message = "On success block called: $it")
     }.onFailure {
-        Napier.i(message = "On failure block called: ${it}")
+        Napier.i(message = "On failure block called: $it")
     }
 }
 
