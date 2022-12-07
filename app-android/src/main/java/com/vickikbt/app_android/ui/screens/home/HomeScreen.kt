@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,9 +32,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vickikbt.app_android.R
 import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
+import com.vickikbt.darajakmp.utils.isLoading
+import com.vickikbt.darajakmp.utils.onFailure
+import com.vickikbt.darajakmp.utils.onSuccess
 import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,10 +61,11 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(horizontal = 2.dp),
-            text = "Daraja KMP Android",
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 32.sp,
-            textAlign = TextAlign.Center
+            text = stringResource(id = R.string.app_name),
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary
         )
 
         Column(
@@ -134,15 +140,18 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         }
     }
 
-    mpesaResponse
-        ?.onSuccess {
-            Log.i("SUCCESS", "$it")
-            Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
-        }
-        ?.onFailure {
-            Log.i("ERROR", "${it.message}")
-            Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
-        }
+    Log.i("Mpesa Response", "$mpesaResponse")
+
+    mpesaResponse?.isLoading {
+        Log.i("LOADING", "${this.isLoading}")
+        Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
+    }?.onSuccess {
+        Log.i("SUCCESS", "${this.data}")
+        Toast.makeText(context, "Success: ${this.data}", Toast.LENGTH_SHORT).show()
+    }?.onFailure {
+        Log.i("ERROR", "Daraja Error: ${this.exception}")
+        Toast.makeText(context, "Error: ${this.exception}", Toast.LENGTH_SHORT).show()
+    }
 }
 
 @Preview(showBackground = true)

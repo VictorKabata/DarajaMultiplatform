@@ -6,6 +6,7 @@ import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
+import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.getDarajaPassword
 import com.vickikbt.darajakmp.utils.getDarajaPhoneNumber
@@ -62,9 +63,7 @@ class Daraja constructor(
 
     private val defaultDispatcher = CoroutineScope(Dispatchers.Default).coroutineContext
 
-    // ToDo: Set as internal
-    // ToDo: Better way to return the result/response
-    fun requestAuthToken(): Result<DarajaToken> = runBlocking {
+    fun requestAuthToken(): DarajaResult<DarajaToken> = runBlocking {
         withContext(defaultDispatcher) {
             return@withContext darajaApiService.getAuthToken()
         }
@@ -78,7 +77,7 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ): Result<DarajaPaymentResponse> = runBlocking {
+    ): DarajaResult<DarajaPaymentResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
