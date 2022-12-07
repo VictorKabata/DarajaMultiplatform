@@ -152,7 +152,6 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         Log.i("ERROR", "Daraja Error: ${this.exception}")
         Toast.makeText(context, "Error: ${this.exception}", Toast.LENGTH_SHORT).show()
     }
-
 }
 
 @Preview(showBackground = true)

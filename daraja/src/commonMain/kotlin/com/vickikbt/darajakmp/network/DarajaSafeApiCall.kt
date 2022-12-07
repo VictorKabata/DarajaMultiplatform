@@ -45,7 +45,6 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
             DarajaResult.Failure(exception = error)
         }
     }
-
 }
 
 fun getError(
@@ -54,5 +53,4 @@ fun getError(
 ): DarajaException {
     return if (responseContent != null) Json.decodeFromString(string = responseContent.toString())
     else DarajaException(requestId = null, errorCode = null, errorMessage = exception?.message)
-
 }
