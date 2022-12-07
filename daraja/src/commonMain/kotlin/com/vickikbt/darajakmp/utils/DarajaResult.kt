@@ -1,18 +1,39 @@
 package com.vickikbt.darajakmp.utils
 
-import com.vickikbt.darajakmp.network.models.DarajaErrorResponse
+import com.vickikbt.darajakmp.network.models.DarajaException
 
-sealed class DarajaResult<out T : Any> {
-    data class success<out T : Any>(val data: T) : DarajaResult<T>()
-    data class failure(val exception: DarajaErrorResponse) : DarajaResult<Nothing>()
-    object isLoading : DarajaResult<Nothing>()
+sealed class DarajaResult<out T> {
+    data class Success<out T : Any>(val data: T) : DarajaResult<T>()
+    data class Failure(val exception: DarajaException) : DarajaResult<Nothing>()
+    data class Loading(val isLoading: Boolean) : DarajaResult<Boolean>()
 }
 
-// ToDo: Add these extension functions
-fun <T : Any> DarajaResult<T>.onSuccess(action: (value: T) -> Unit): DarajaResult<T> {
+internal inline fun <T : Any> DarajaResult<T>.getOrNull(): T? {
+    return if (this is DarajaResult.Success) this.data
+    else null
+}
+
+internal inline fun <T : Any> DarajaResult<T>.throwOnFailure(): Exception {
+    return if (this is DarajaResult.Failure) this.exception
+    else throw Exception()
+}
+
+internal inline fun <T : Any> DarajaResult<T>.getOrThrow(): T {
+    return if (this is DarajaResult.Success) this.data
+    else throw this.throwOnFailure()
+}
+
+inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: DarajaResult.Loading.(isLoading: Boolean) -> Unit): DarajaResult<T>? {
+    if (this is DarajaResult.Loading) action(true)
     return this
 }
 
-fun <T : DarajaErrorResponse> DarajaResult<T>.onFailure(action: (error: DarajaErrorResponse) -> Unit): DarajaResult<T> {
+inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: DarajaResult.Success<T>.() -> Unit): DarajaResult<T> {
+    if (this is DarajaResult.Success) action(this)
+    return this
+}
+
+inline fun <T : Any> DarajaResult<T>.onFailure(crossinline action: DarajaResult.Failure.(exception: DarajaException) -> Unit): DarajaResult<T>? {
+    if (this is DarajaResult.Failure) action(this.exception)
     return this
 }

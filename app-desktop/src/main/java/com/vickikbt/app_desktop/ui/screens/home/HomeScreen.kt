@@ -29,6 +29,9 @@ import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
+import com.vickikbt.darajakmp.utils.isLoading
+import com.vickikbt.darajakmp.utils.onFailure
+import com.vickikbt.darajakmp.utils.onSuccess
 import io.github.aakira.napier.Napier
 
 @Composable
@@ -56,7 +59,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(horizontal = 2.dp),
-            text = "Daraja KMP Desktop",
+            text = "Daraja Multiplatform Desktop",
             fontWeight = FontWeight.ExtraBold,
             fontSize = 32.sp,
             textAlign = TextAlign.Center
@@ -134,13 +137,13 @@ fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumbe
         transactionDesc = "Mpesa payment",
         callbackUrl = "https://mydomain.com/path",
         accountReference = "Daraja KMP Android"
-    )
-        .onSuccess {
-            Napier.i(message = "On success block called: $it")
-        }
-        .onFailure {
-            Napier.i(message = "On failure block called: $it")
-        }
+    ).isLoading {
+        Napier.i(message = "On success block called: ${this.isLoading}")
+    }?.onSuccess {
+        Napier.i(message = "On success block called: ${this.data}")
+    }?.onFailure {
+        Napier.i(message = "On failure block called: ${this.exception}")
+    }
 }
 
 @Preview

@@ -19,7 +19,7 @@ import kotlinx.serialization.json.Json
 
 internal class DarajaHttpClientFactory constructor(private val environment: DarajaEnvironment) {
 
-    private val BASE_URL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+    internal val BASE_URL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
         DarajaConstants.SANDBOX_BASE_URL
     } else {
         DarajaConstants.PROD_BASE_URL

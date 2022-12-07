@@ -3,6 +3,8 @@ package com.vickikbt.darajakmp.network
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
+import com.vickikbt.darajakmp.utils.DarajaResult
+import com.vickikbt.darajakmp.utils.getOrThrow
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -18,7 +20,7 @@ internal class DarajaApiService constructor(
     private val consumerSecret: String
 ) {
 
-    internal suspend fun getAuthToken(): Result<DarajaToken> = darajaSafeApiCall {
+    internal suspend fun getAuthToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
@@ -29,7 +31,7 @@ internal class DarajaApiService constructor(
         }.body()
     }
 
-    internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): Result<DarajaPaymentResponse> =
+    internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaResult<DarajaPaymentResponse> =
         darajaSafeApiCall {
             val accessToken = getAuthToken().getOrThrow().accessToken
 

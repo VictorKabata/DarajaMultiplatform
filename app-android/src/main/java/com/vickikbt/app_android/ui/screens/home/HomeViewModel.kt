@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
 
-    private val _mpesaResponse = MutableStateFlow<Result<DarajaPaymentResponse>?>(null)
+    private val _mpesaResponse = MutableStateFlow<DarajaResult<DarajaPaymentResponse>?>(null)
     val mpesaResponse get() = _mpesaResponse.asStateFlow()
 
     fun initiateMpesaPayment(
