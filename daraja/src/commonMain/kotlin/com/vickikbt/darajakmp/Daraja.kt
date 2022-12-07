@@ -63,8 +63,6 @@ class Daraja constructor(
 
     private val defaultDispatcher = CoroutineScope(Dispatchers.Default).coroutineContext
 
-    // ToDo: Set as internal
-    // ToDo: Better way to return the result/response
     fun requestAuthToken(): DarajaResult<DarajaToken> = runBlocking {
         withContext(defaultDispatcher) {
             return@withContext darajaApiService.getAuthToken()

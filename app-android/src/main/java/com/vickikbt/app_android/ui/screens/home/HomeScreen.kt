@@ -35,8 +35,6 @@ import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.R
 import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
-import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
-import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.isLoading
 import com.vickikbt.darajakmp.utils.onFailure
@@ -142,19 +140,17 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         }
     }
 
-    val result: DarajaResult<DarajaPaymentResponse>? =mpesaResponse
-
-    Log.i("Mpesa Response", "$result")
+    Log.i("Mpesa Response", "$mpesaResponse")
 
     mpesaResponse?.isLoading {
-        Log.i("LOADING", "$it")
+        Log.i("LOADING", "${this.isLoading}")
         Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
     }?.onSuccess {
-        Log.i("SUCCESS", "$it")
-        Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
+        Log.i("SUCCESS", "${this.data}")
+        Toast.makeText(context, "Success: ${this.data}", Toast.LENGTH_SHORT).show()
     }?.onFailure {
-        Log.i("ERROR", "Daraja Error: $it")
-        Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
+        Log.i("ERROR", "Daraja Error: ${this.exception}")
+        Toast.makeText(context, "Error: ${this.exception}", Toast.LENGTH_SHORT).show()
     }
 
 }

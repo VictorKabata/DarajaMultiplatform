@@ -1,14 +1,11 @@
 package com.vickikbt.darajakmp.utils
 
 import com.vickikbt.darajakmp.network.models.DarajaException
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
-sealed class DarajaResult<out T> constructor(internal val value:Any?) {
-    internal data class Success<out T : Any>(val data: T) : DarajaResult<T>(data)
-    internal data class Failure(val exception: DarajaException) : DarajaResult<Nothing>(exception)
-    internal data class Loading(val isLoading: Boolean) : DarajaResult<Boolean>(isLoading)
+sealed class DarajaResult<out T> {
+    data class Success<out T : Any>(val data: T) : DarajaResult<T>()
+    data class Failure(val exception: DarajaException) : DarajaResult<Nothing>()
+    data class Loading(val isLoading: Boolean) : DarajaResult<Boolean>()
 }
 
 internal inline fun <T : Any> DarajaResult<T>.getOrNull(): T? {
@@ -26,24 +23,17 @@ internal inline fun <T : Any> DarajaResult<T>.getOrThrow(): T {
     else throw this.throwOnFailure()
 }
 
-fun <T : Any> DarajaResult<T>.isLoading(action: (isLoading: Boolean) -> Unit): DarajaResult<T>? {
-    return if (this is DarajaResult.Loading) this else null
+inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: DarajaResult.Loading.(isLoading: Boolean) -> Unit): DarajaResult<T>? {
+    if (this is DarajaResult.Loading) action(true)
+    return this
 }
 
-@OptIn(ExperimentalContracts::class)
-fun <T : Any> DarajaResult<T>.onSuccess(action: (value: T) -> Unit): DarajaResult<T>? {
-    contract {
-        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
-    }
-    action(value as T)
-    return if (this is DarajaResult.Success) this else null
+inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: DarajaResult.Success<T>.() -> Unit): DarajaResult<T> {
+    if (this is DarajaResult.Success) action(this)
+    return this
 }
 
-@OptIn(ExperimentalContracts::class)
-fun <T : Any> DarajaResult<T>.onFailure(action: (exception: DarajaException) -> Unit): DarajaResult<T>? {
-    contract {
-        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
-    }
-    action(value as DarajaException)
-    return if (this is DarajaResult.Failure) this else null
+inline fun <T : Any> DarajaResult<T>.onFailure(crossinline action: DarajaResult.Failure.(exception: DarajaException) -> Unit): DarajaResult<T>? {
+    if (this is DarajaResult.Failure) action(this.exception)
+    return this
 }
