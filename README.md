@@ -9,5 +9,5 @@
 <img  src="https://img.shields.io/badge/-MACOS-3AA335?logo=apple&logoColor=white&style=for-the-badge">
 </p>
 
-[Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API budded [_`Daraja API`_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
+[Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API budded [_Daraja API_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
 > M-PESA is a mobile money transfer service in Kenya that allows users to store and transfer money through their mobile phones.
