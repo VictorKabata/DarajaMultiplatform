@@ -1,6 +1,4 @@
-<p align="center">
-<span style="color:#3AA335;font-weight:800;font-size:50px">Daraja Multiplatform</span>
-</p>
+<p align="center"><img src="assets/logo.png" alt="Daraja Multiplatform logo"></p>
 
 <p align="center">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=android&logoColor=white&style=for-the-badge">
