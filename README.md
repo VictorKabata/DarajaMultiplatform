@@ -1,6 +1,4 @@
-<p align="center">
-<span style="color:#3AA335;font-weight:800;font-size:50px">Daraja Multiplatform</span>
-</p>
+<p align="center"><img src="assets/logo.png" alt="Daraja Multiplatform logo" height="100px"></p>
 
 <p align="center">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=android&logoColor=white&style=for-the-badge">
@@ -11,5 +9,5 @@
 <img  src="https://img.shields.io/badge/-MACOS-3AA335?logo=apple&logoColor=white&style=for-the-badge">
 </p>
 
-[Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API budded [_`Daraja API`_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
+[Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API budded [_Daraja API_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
 > M-PESA is a mobile money transfer service in Kenya that allows users to store and transfer money through their mobile phones.
