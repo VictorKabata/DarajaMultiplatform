@@ -5,6 +5,7 @@ object BuildPlugins {
 
     const val ktLint = "org.jlleitschuh.gradle.ktlint"
     const val detekt = "io.gitlab.arturbosch.detekt"
+    const val gradleVersionUpdates = "com.github.ben-manes.versions"
 }
 
 object Versions {
@@ -18,8 +19,9 @@ object Versions {
     const val kotlinSerialization = "1.6.10"
     const val kotlinXSerialization = "1.2.2"
     const val napier = "2.4.0"
+    const val gradleVersionUpdate = "0.42.0"
 
-    const val mockk = "1.12.3"
+    const val mockk = "1.13.3"
 
     const val kotlinxTestResources = "0.2.2"
 

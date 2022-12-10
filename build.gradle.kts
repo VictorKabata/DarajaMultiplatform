@@ -1,6 +1,4 @@
-buildscript {
-    val compose_version by extra("1.1.1")
-}
+
 plugins {
     id("com.android.library").version("7.3.1").apply(false)
     kotlin("multiplatform").version("1.7.10").apply(false)
@@ -10,7 +8,7 @@ plugins {
 
     id(BuildPlugins.ktLint) version Versions.ktLint
     id(BuildPlugins.detekt) version (Versions.detekt)
-    //id(BuildPlugins.gradleVersionUpdates) version(Versions.gradleVersionUpdate)
+    id(BuildPlugins.gradleVersionUpdates) version(Versions.gradleVersionUpdate)
 }
 
 subprojects {
