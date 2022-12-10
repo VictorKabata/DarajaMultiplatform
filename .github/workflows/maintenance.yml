@@ -1,4 +1,4 @@
-name: Check Dependencies Updates
+name: Maintenance
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  build:
+  dependency-update:
     name: 🔭 Check for dependencies update
     runs-on: ubuntu-latest
     steps:
