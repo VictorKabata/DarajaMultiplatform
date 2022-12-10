@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
     id("com.android.library").version("7.3.1").apply(false)
@@ -8,7 +9,7 @@ plugins {
 
     id(BuildPlugins.ktLint) version Versions.ktLint
     id(BuildPlugins.detekt) version (Versions.detekt)
-    id(BuildPlugins.gradleVersionUpdates) version(Versions.gradleVersionUpdate)
+    id(BuildPlugins.gradleVersionUpdates) version (Versions.gradleVersionUpdate)
 }
 
 subprojects {
@@ -32,13 +33,25 @@ subprojects {
         config = files("${project.rootDir}/config/detekt/detekt.yml")
     }
 
-    /*tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
+    tasks.withType<DependencyUpdatesTask> {
+        rejectVersionIf { isNonStable(candidate.version) }
+
         checkForGradleUpdate = true
-        outputDir = "build/dependencyUpdates"
-        reportfileName = "report"
-    }*/
+        gradleReleaseChannel = "current"
+
+        outputFormatter="html"
+        outputDir = "build/reports"
+        reportfileName = "dependencies_report"
+    }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }
