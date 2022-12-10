@@ -1,5 +1,6 @@
 object Library{
-    const val groupName="com.victorkabata.daraja"
+    const val groupId="com.victorkabata.daraja"
+    const val artifactId="daraja-multiplatform"
     const val version="1.0.0"
 }
 

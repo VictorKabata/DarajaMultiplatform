@@ -7,7 +7,7 @@ plugins {
     id(BuildPlugins.maven)
 }
 
-group = Library.groupName
+group = Library.groupId
 version = Library.version
 
 kotlin {
@@ -79,3 +79,15 @@ android {
         targetSdk = AndroidSdk.targetSdkVersion
     }
 }
+
+/*afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = Library.groupId
+                artifactId = Library.artifactId
+                version = Library.version
+            }
+        }
+    }
+}*/
