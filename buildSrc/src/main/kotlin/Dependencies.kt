@@ -6,11 +6,14 @@ object BuildPlugins {
     const val ktLint = "org.jlleitschuh.gradle.ktlint"
     const val detekt = "io.gitlab.arturbosch.detekt"
     const val gradleVersionUpdates = "com.github.ben-manes.versions"
+    const val spotless = "com.diffplug.spotless"
 }
 
 object Versions {
     const val ktLint = "10.3.0"
     const val detekt = "1.19.0"
+    const val gradleVersionUpdate = "0.42.0"
+    const val spotless = "6.2.2"
 
     const val kotlinxCoroutines = "1.6.0-native-mt"
     const val ktor = "2.1.3"
@@ -19,7 +22,6 @@ object Versions {
     const val kotlinSerialization = "1.6.10"
     const val kotlinXSerialization = "1.2.2"
     const val napier = "2.4.0"
-    const val gradleVersionUpdate = "0.42.0"
 
     const val mockk = "1.13.3"
 

@@ -8,8 +8,9 @@ plugins {
     id("com.android.application") version "7.3.1" apply false
 
     id(BuildPlugins.ktLint) version Versions.ktLint
-    id(BuildPlugins.detekt) version (Versions.detekt)
-    id(BuildPlugins.gradleVersionUpdates) version (Versions.gradleVersionUpdate)
+    id(BuildPlugins.detekt) version Versions.detekt
+    id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
+    id(BuildPlugins.spotless) version Versions.spotless
 }
 
 subprojects {
@@ -40,8 +41,19 @@ subprojects {
         gradleReleaseChannel = "current"
 
         outputFormatter = "html"
-        outputDir = "build/reports"
+        outputDir = "${project.rootDir}/build/reports"
         reportfileName = "dependencies_report"
+    }
+
+    apply(plugin = BuildPlugins.spotless)
+    spotless {
+        kotlin {
+            target("**/*.kt")
+            licenseHeaderFile(
+                rootProject.file("${project.rootDir}/spotless/copyright.kt"),
+                "^(package|object|import|interface)"
+            )
+        }
     }
 }
 
