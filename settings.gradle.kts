@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DarajaKmp"
+rootProject.name = "DarajaMultiplatform"
 
 include(":daraja")
 include(":app-desktop")
