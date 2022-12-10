@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Daraja Multiplatform
+ * Copyright $YEAR Daraja Multiplatform
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,3 @@
  * limitations under the License.
  */
 
-package com.vickikbt.darajakmp.network.models
-
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class DarajaException(
-    @SerialName("requestId")
-    var requestId: String?,
-
-    @SerialName("errorCode")
-    var errorCode: String?,
-
-    @SerialName("errorMessage")
-    var errorMessage: String?
-) : Exception(errorMessage)
