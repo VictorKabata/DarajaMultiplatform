@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
-import com.vickikbt.darajakmp.utils.isLoading
 import com.vickikbt.darajakmp.utils.onFailure
 import com.vickikbt.darajakmp.utils.onSuccess
 import io.github.aakira.napier.Napier
@@ -114,7 +113,7 @@ fun HomeScreen() {
                     fontSize = 20.sp,
                     color = MaterialTheme.colors.onBackground
                 ),
-                label = { Text(text = "Till Number") },
+                label = { Text(text = "Amount") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
@@ -153,9 +152,7 @@ fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumbe
         transactionDesc = "Mpesa payment",
         callbackUrl = "https://mydomain.com/path",
         accountReference = "Daraja KMP Android"
-    ).isLoading {
-        Napier.i(message = "On success block called: $it")
-    }.onSuccess {
+    ).onSuccess {
         Napier.i(message = "On success block called: $it")
     }.onFailure {
         Napier.i(message = "On failure block called: $it")
