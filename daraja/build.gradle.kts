@@ -64,6 +64,12 @@ kotlin {
 android {
     namespace = AndroidSdk.namespace
     compileSdk = AndroidSdk.compileSdkVersion
+    sourceSets{
+        getByName("main"){
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            java.srcDir("src/androidMain/kotlin")
+        }
+    }
     defaultConfig {
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
