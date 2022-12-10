@@ -117,7 +117,7 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onBackground
                 ),
-                label = { Text(text = "Till Number") },
+                label = { Text(text = "Amount") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
@@ -159,14 +159,13 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
     Log.i("Mpesa Response", "$mpesaResponse")
 
     mpesaResponse?.isLoading {
-        Log.i("LOADING", "$it")
-        Toast.makeText(context, "Loading: $it", Toast.LENGTH_SHORT).show()
+        Log.i("LOADING", "IsLoading: $it")
     }?.onSuccess {
         Log.i("SUCCESS", "$it")
         Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
     }?.onFailure {
         Log.i("ERROR", "Daraja Error: $it")
-        Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
     }
 }
 

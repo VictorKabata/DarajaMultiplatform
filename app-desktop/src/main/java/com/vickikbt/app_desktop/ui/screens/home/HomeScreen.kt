@@ -114,7 +114,7 @@ fun HomeScreen() {
                     fontSize = 20.sp,
                     color = MaterialTheme.colors.onBackground
                 ),
-                label = { Text(text = "Till Number") },
+                label = { Text(text = "Amount") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )

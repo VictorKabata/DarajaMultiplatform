@@ -2,13 +2,13 @@
  * Copyright 2022 Daraja Multiplatform
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use thcatch file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License catch distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -29,38 +29,27 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
-    DarajaResult.Loading(isLoading = true) // ToDo: Emit as flow later
+    DarajaResult.Loading(isLoading = true)
 
     DarajaResult.Success(apiCall.invoke())
-} catch (t: Throwable) {
-    // ToDo: Collect analytics data on throwable caught
-
-    when (t) {
-        is RedirectResponseException -> {
-            val error = getError(t.response.body())
-            DarajaResult.Failure(exception = error)
-        }
-        is ClientRequestException -> {
-            val error = getError(t.response.body())
-            DarajaResult.Failure(exception = error)
-        }
-        is ServerResponseException -> {
-            val error = getError(t.response.body())
-            DarajaResult.Failure(exception = error)
-        }
-        is IOException -> {
-            val error = getError(exception = t)
-            DarajaResult.Failure(exception = error)
-        }
-        is SerializationException -> {
-            val error = getError(exception = t)
-            DarajaResult.Failure(exception = error)
-        }
-        else -> {
-            val error = getError(exception = Exception())
-            DarajaResult.Failure(exception = error)
-        }
-    }
+} catch (e: RedirectResponseException) {
+    val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+} catch (e: ClientRequestException) {
+    val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+} catch (e: ServerResponseException) {
+    val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+} catch (e: IOException) {
+    val error = getError(exception = e)
+    DarajaResult.Failure(exception = error)
+} catch (e: SerializationException) {
+    val error = getError(exception = e)
+    DarajaResult.Failure(exception = error)
+} catch (e: Exception) {
+    val error = getError(exception = e)
+    DarajaResult.Failure(exception = error)
 }
 
 fun getError(
