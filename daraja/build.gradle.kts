@@ -4,7 +4,11 @@ plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
+    id(BuildPlugins.maven)
 }
+
+group = Library.groupName
+version = Library.version
 
 kotlin {
     android()

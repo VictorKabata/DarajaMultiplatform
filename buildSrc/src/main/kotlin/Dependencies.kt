@@ -1,7 +1,13 @@
+object Library{
+    const val groupName="com.victorkabata.daraja"
+    const val version="1.0.0"
+}
+
 object BuildPlugins {
     const val androidLibrary = "com.android.library"
     const val multiplatform = "multiplatform"
     const val kotlinXSerialization = "plugin.serialization"
+    const val maven="maven-publish"
 
     const val ktLint = "org.jlleitschuh.gradle.ktlint"
     const val detekt = "io.gitlab.arturbosch.detekt"
