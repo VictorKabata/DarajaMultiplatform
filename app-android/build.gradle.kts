@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    val compose_version="1.1.1"
+    val compose_version = "1.1.1"
 
     implementation(project(":daraja"))
 

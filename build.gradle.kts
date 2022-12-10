@@ -39,7 +39,7 @@ subprojects {
         checkForGradleUpdate = true
         gradleReleaseChannel = "current"
 
-        outputFormatter="html"
+        outputFormatter = "html"
         outputDir = "build/reports"
         reportfileName = "dependencies_report"
     }
