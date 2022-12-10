@@ -30,8 +30,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
-    DarajaResult.Loading(isLoading = true)
-
     DarajaResult.Success(apiCall.invoke())
 } catch (e: RedirectResponseException) {
     val error = getError(e.response.body())
