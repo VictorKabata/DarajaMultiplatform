@@ -1,8 +1,8 @@
-name: Build
+name: Build Develop Branch
 
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [ develop ]
 
 jobs:
 
@@ -53,8 +53,8 @@ jobs:
       - name: Execute unit tests
         run: ./gradlew allTests --stacktrace
 
-      - name: Generate test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: unit_tests_report.html
-          path: androidApp/build/reports/tests/testDebugUnitTest/
+#      - name: Generate test report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: unit_tests_report.html
+#          path: androidApp/build/reports/tests/testDebugUnitTest/
