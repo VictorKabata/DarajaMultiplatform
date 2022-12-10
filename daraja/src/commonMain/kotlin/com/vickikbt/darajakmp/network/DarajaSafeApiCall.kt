@@ -22,6 +22,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
+import io.ktor.util.network.UnresolvedAddressException
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.errors.IOException
 import kotlinx.serialization.SerializationException
@@ -40,6 +41,9 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
     DarajaResult.Failure(exception = error)
 } catch (e: ServerResponseException) {
     val error = getError(e.response.body())
+    DarajaResult.Failure(exception = error)
+} catch (e: UnresolvedAddressException) {
+    val error = getError(exception = e)
     DarajaResult.Failure(exception = error)
 } catch (e: IOException) {
     val error = getError(exception = e)
