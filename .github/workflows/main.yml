@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew build --stacktrace
 
   lint-check:
-    name: 🔍 Lint
+    name: 🔍 Lint Check
     runs-on: ubuntu-latest
     steps:
 

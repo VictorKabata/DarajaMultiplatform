@@ -21,7 +21,7 @@ import com.vickikbt.darajakmp.network.models.DarajaException
 sealed class DarajaResult<out T> {
     data class Success<out T : Any>(val data: T) : DarajaResult<T>()
     data class Failure(val exception: DarajaException) : DarajaResult<Nothing>()
-    data class Loading(val isLoading: Boolean) : DarajaResult<Boolean>()
+    // object Loading : DarajaResult<Nothing>() ToDo
 }
 
 internal inline fun <T : Any> DarajaResult<T>.getOrNull(): T? {
@@ -39,10 +39,11 @@ internal inline fun <T : Any> DarajaResult<T>.getOrThrow(): T {
     else throw this.throwOnFailure()
 }
 
+/* ToDo
 inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: (isLoading: Boolean) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Loading) action(true) else action(false)
     return this
-}
+}*/
 
 inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: (T) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Success) action(this.data)

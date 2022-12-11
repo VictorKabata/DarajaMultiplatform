@@ -52,7 +52,6 @@ import com.vickikbt.app_android.R
 import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
-import com.vickikbt.darajakmp.utils.isLoading
 import com.vickikbt.darajakmp.utils.onFailure
 import com.vickikbt.darajakmp.utils.onSuccess
 import org.koin.androidx.compose.get
@@ -117,7 +116,7 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onBackground
                 ),
-                label = { Text(text = "Till Number") },
+                label = { Text(text = "Amount") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
@@ -158,15 +157,12 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
 
     Log.i("Mpesa Response", "$mpesaResponse")
 
-    mpesaResponse?.isLoading {
-        Log.i("LOADING", "$it")
-        Toast.makeText(context, "Loading: $it", Toast.LENGTH_SHORT).show()
-    }?.onSuccess {
+    mpesaResponse?.onSuccess {
         Log.i("SUCCESS", "$it")
         Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
     }?.onFailure {
         Log.i("ERROR", "Daraja Error: $it")
-        Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
     }
 }
 
