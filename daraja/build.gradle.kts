@@ -79,6 +79,5 @@ afterEvaluate {
                 version = Library.version
             }
         }
-
     }
 }
