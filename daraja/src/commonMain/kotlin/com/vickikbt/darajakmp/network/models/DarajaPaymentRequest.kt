@@ -20,6 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+/**Request body sent to Daraja API to request Mpesa Express payment*/
 data class DarajaPaymentRequest(
 
     @SerialName("BusinessShortCode")

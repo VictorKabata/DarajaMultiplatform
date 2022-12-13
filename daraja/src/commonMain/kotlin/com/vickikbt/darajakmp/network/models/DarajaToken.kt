@@ -20,6 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+/**Response returned by Daraja API on successful access token request*/
 data class DarajaToken(
 
     @SerialName("access_token")

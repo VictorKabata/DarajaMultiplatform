@@ -20,6 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+/**Response returned by Daraja API on successful Mpesa Express payment initiation*/
 data class DarajaPaymentResponse(
     @SerialName("MerchantRequestID")
     var MerchantRequestID: String,

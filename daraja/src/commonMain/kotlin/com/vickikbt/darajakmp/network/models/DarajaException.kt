@@ -20,6 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+/** Error response from Daraja API*/
 data class DarajaException(
     @SerialName("requestId")
     var requestId: String?,
