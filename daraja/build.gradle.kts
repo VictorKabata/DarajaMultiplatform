@@ -11,7 +11,9 @@ group = Library.groupId
 version = Library.version
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release", "debug")
+    }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
@@ -19,10 +21,6 @@ kotlin {
         else -> ::iosX64
     }
     iosTarget("iOS") {}
-
-    jvm()
-
-    // js()
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -56,12 +54,6 @@ kotlin {
 
         sourceSets["iOSMain"].dependencies {}
         sourceSets["iOSTest"].dependencies {}
-
-        sourceSets["jvmMain"].dependencies {}
-        sourceSets["jvmTest"].dependencies {}
-
-        // sourceSets["jsMain"].dependencies {}
-        // sourceSets["jsTest"].dependencies {}
     }
 }
 
