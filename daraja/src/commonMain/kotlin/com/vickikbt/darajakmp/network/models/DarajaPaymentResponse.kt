@@ -20,20 +20,28 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-/**Response returned by Daraja API on successful Mpesa Express payment initiation*/
+/**
+ * Response returned by Daraja API on successful Mpesa Express payment initiation
+ *
+ * @param [merchantRequestID] This is a global unique Identifier for any submitted payment request.
+ * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request
+ * @param [responseCode] This is a Numeric status code that indicates the status of the transaction submission. 0 means successful submission and any other code means an error occured.
+ * @param [responseDescription] This is an acknowledgment message from the API that gives the status of the request submission
+ * @param [customerMessage] This is a message that your system can display to the Customer as an acknowledgement of the payment request submission.
+ * */
 data class DarajaPaymentResponse(
     @SerialName("MerchantRequestID")
-    var MerchantRequestID: String,
+    var merchantRequestID: String,
 
     @SerialName("CheckoutRequestID")
-    var CheckoutRequestID: String,
+    var checkoutRequestID: String,
 
     @SerialName("ResponseCode")
-    var ResponseCode: String,
+    var responseCode: String,
 
     @SerialName("ResponseDescription")
-    var ResponseDescription: String,
+    var responseDescription: String,
 
     @SerialName("CustomerMessage")
-    var CustomerMessage: String
+    var customerMessage: String
 )
