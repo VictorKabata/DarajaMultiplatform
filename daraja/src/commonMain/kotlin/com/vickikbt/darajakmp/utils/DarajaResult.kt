@@ -26,19 +26,28 @@ sealed class DarajaResult<out T> {
     // object Loading : DarajaResult<Nothing>() ToDo
 }
 
-/**Returns result of type [T] on success or null on failure*/
+/**Returns result of type [T] on success or null on failure
+ *
+ * @receiver [DarajaResult]
+ * */
 internal fun <T : Any> DarajaResult<T>.getOrNull(): T? {
     return if (this is DarajaResult.Success) this.data
     else null
 }
 
-/**Returns exception of type [DarajaException] on failure*/
+/**Returns exception of type [DarajaException] on failure
+ *
+ * @receiver [DarajaResult]
+ * */
 internal fun <T : Any> DarajaResult<T>.throwOnFailure(): DarajaException {
     return if (this is DarajaResult.Failure) this.exception
     else throw DarajaException()
 }
 
-/**Returns result of type [T] on success or exception of type [DarajaException] on failure*/
+/**Returns result of type [T] on success or exception of type [DarajaException] on failure
+ *
+ * @receiver [DarajaResult]
+ * */
 internal inline fun <T : Any> DarajaResult<T>.getOrThrow(): T {
     return if (this is DarajaResult.Success) this.data
     else throw this.throwOnFailure()
@@ -50,13 +59,19 @@ inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: (isLoading: B
     return this
 }*/
 
-/**Returns result of type [T] on success*/
+/**Returns result of type [T] on success
+ *
+ * @receiver [DarajaResult]
+ * */
 inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: (T) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Success) action(this.data)
     return this
 }
 
-/**Returns exception of type [DarajaException] on failure*/
+/**Returns exception of type [DarajaException] on failure
+ *
+ * @receiver [DarajaResult]
+ * */
 inline fun <T : Any> DarajaResult<T>.onFailure(crossinline action: (exception: DarajaException) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Failure) action(this.exception)
     return this
