@@ -26,13 +26,13 @@ import kotlinx.serialization.Serializable
 data class DarajaException(
     @SerialName("requestId")
     /**This is a unique requestID for the payment request.*/
-    var requestId: String?,
+    var requestId: String? = null,
 
     @SerialName("errorCode")
     /**This is a predefined code that indicates the reason for request failure.*/
-    var errorCode: String?,
+    var errorCode: String? = null,
 
     @SerialName("errorMessage")
     /**This is a short descriptive message of the failure reason.*/
-    var errorMessage: String?
+    var errorMessage: String? = null
 ) : Exception(errorMessage)
