@@ -148,7 +148,6 @@ fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumbe
         businessShortCode = tillNumber,
         amount = amount,
         phoneNumber = phoneNumber,
-        transactionType = DarajaTransactionType.CustomerBuyGoodsOnline,
         transactionDesc = "Mpesa payment",
         callbackUrl = "https://mydomain.com/path",
         accountReference = "Daraja KMP Android"

@@ -21,7 +21,6 @@ import androidx.lifecycle.viewModelScope
 import com.vickikbt.darajakmp.Daraja
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.utils.DarajaResult
-import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -35,7 +34,6 @@ class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
         businessShortCode: String,
         amount: Int,
         phoneNumber: String,
-        transactionType: DarajaTransactionType,
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String
@@ -44,7 +42,6 @@ class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
             businessShortCode = businessShortCode,
             amount = amount,
             phoneNumber = phoneNumber,
-            transactionType = transactionType,
             transactionDesc = transactionDesc,
             callbackUrl = callbackUrl,
             accountReference = accountReference

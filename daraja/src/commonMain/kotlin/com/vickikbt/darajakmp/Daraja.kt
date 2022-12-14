@@ -89,7 +89,7 @@ class Daraja constructor(
         businessShortCode: String,
         amount: Int,
         phoneNumber: String,
-        transactionType: DarajaTransactionType,
+        transactionType: DarajaTransactionType = DarajaTransactionType.CustomerPayBillOnline,
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
