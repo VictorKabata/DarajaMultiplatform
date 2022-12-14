@@ -21,19 +21,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 /**
- * Error response from Daraja API
- *
- * @param [requestId] This is a unique requestID for the payment request
- * @param [errorCode] This is a predefined code that indicates the reason for request failure
- * @param [errorMessage] This is a short descriptive message of the failure reason.
+ * Error response from Daraja API.
  * */
 data class DarajaException(
     @SerialName("requestId")
+    /**This is a unique requestID for the payment request.*/
     var requestId: String?,
 
     @SerialName("errorCode")
+    /**This is a predefined code that indicates the reason for request failure.*/
     var errorCode: String?,
 
     @SerialName("errorMessage")
+    /**This is a short descriptive message of the failure reason.*/
     var errorMessage: String?
 ) : Exception(errorMessage)
