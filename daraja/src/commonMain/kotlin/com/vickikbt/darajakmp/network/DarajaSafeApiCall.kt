@@ -31,7 +31,11 @@ import kotlinx.serialization.json.Json
 
 /**Encapsulate network calls and handles network and system exceptions.
  *Returns an instance of [DarajaResult] with data of type [T] on success and
- * an instance of [DarajaResult] with exception of type [DarajaException] on failure*/
+ * an instance of [DarajaResult] with exception of type [DarajaException] on failure
+ *
+ * @return [DarajaResult] Returns data of type [T] on success
+ * @throws DarajaException Throws expception of type [DarajaException] on failure
+ * */
 internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
     DarajaResult.Success(apiCall.invoke())
 } catch (e: RedirectResponseException) {
