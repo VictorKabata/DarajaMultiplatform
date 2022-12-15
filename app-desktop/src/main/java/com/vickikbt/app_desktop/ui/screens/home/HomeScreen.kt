@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.Daraja
-import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.onFailure
 import com.vickikbt.darajakmp.utils.onSuccess
 import io.github.aakira.napier.Napier
@@ -144,7 +143,7 @@ fun HomeScreen() {
 }
 
 fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumber: String) {
-    daraja.initiateDarajaStk(
+    daraja.initiateMpesaExpressPayment(
         businessShortCode = tillNumber,
         amount = amount,
         phoneNumber = phoneNumber,

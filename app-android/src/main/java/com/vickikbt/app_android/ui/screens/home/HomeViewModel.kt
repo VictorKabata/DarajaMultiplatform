@@ -38,7 +38,7 @@ class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
         callbackUrl: String,
         accountReference: String
     ) = viewModelScope.launch {
-        val response = daraja.initiateDarajaStk(
+        val response = daraja.initiateMpesaExpressPayment(
             businessShortCode = businessShortCode,
             amount = amount,
             phoneNumber = phoneNumber,
