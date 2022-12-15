@@ -17,7 +17,7 @@ kotlin {
     }
     iosTarget("iOS") {}
 
-    jvm()
+    // jvm()
 
     // js()
 
@@ -54,8 +54,8 @@ kotlin {
         sourceSets["iOSMain"].dependencies {}
         sourceSets["iOSTest"].dependencies {}
 
-        sourceSets["jvmMain"].dependencies {}
-        sourceSets["jvmTest"].dependencies {}
+        // sourceSets["jvmMain"].dependencies {}
+        // sourceSets["jvmTest"].dependencies {}
 
         // sourceSets["jsMain"].dependencies {}
         // sourceSets["jsTest"].dependencies {}

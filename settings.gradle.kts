@@ -17,5 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "DarajaMultiplatform"
 
 include(":daraja")
-include(":app-desktop")
 include(":app-android")
