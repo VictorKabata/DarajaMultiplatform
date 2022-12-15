@@ -19,6 +19,7 @@ package com.vickikbt.darajakmp.network
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
+import com.vickikbt.darajakmp.utils.DarajaEndpoints
 import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.getOrThrow
 import io.ktor.client.HttpClient
@@ -48,7 +49,7 @@ internal class DarajaApiService constructor(
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
-        return@darajaSafeApiCall httpClient.get(urlString = "oauth/v1/generate?grant_type=client_credentials") {
+        return@darajaSafeApiCall httpClient.get(urlString = DarajaEndpoints.REQUEST_ACCESS_TOKEN) {
             headers {
                 append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
             }
@@ -60,7 +61,7 @@ internal class DarajaApiService constructor(
         darajaSafeApiCall {
             val accessToken = getAccessToken().getOrThrow().accessToken
 
-            return@darajaSafeApiCall httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_MPESA_EXPRESS) {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
                 setBody(darajaPaymentRequest)
             }.body()
