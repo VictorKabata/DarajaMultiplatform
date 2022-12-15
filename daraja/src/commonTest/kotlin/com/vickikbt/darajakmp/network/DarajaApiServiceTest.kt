@@ -29,7 +29,6 @@ import kotlinx.coroutines.test.runTest
 
 class DarajaApiServiceTest {
 
-
     private lateinit var mockKtorHttpClient: HttpClient
 
     // Subject under test
@@ -60,7 +59,6 @@ class DarajaApiServiceTest {
         )
     }
 
-
     @Test
     fun fetchAccessToken_SuccessResponse() = runTest {
         // when
@@ -72,7 +70,7 @@ class DarajaApiServiceTest {
             )
         )
 
-        //then
+        // then
         assertEquals(expectedResult, actualResult)
     }
 
@@ -91,7 +89,7 @@ class DarajaApiServiceTest {
             )
         )
 
-        //then
+        // then
         assertEquals(expectedResult, actualResult)
     }
 }
