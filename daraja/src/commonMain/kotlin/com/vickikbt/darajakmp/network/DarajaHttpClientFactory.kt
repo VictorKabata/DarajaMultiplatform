@@ -44,6 +44,8 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
 
     /**Initialize Ktor Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
+        expectSuccess = true
+
         defaultRequest {
             contentType(ContentType.Application.Json)
 
