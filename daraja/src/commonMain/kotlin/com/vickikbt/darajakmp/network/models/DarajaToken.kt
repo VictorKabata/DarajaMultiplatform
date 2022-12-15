@@ -25,11 +25,11 @@ import kotlinx.serialization.Serializable
  * */
 data class DarajaToken(
 
-    @SerialName("access_token")
     /**Access token to access other Daraja APIs.*/
+    @SerialName("access_token")
     val accessToken: String,
 
-    @SerialName("expires_in")
     /**Token expiry time in seconds.*/
+    @SerialName("expires_in")
     val expiresIn: String,
 )
