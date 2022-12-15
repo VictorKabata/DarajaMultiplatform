@@ -25,7 +25,7 @@ object Versions {
     const val kotlinXSerialization = "1.2.2"
     const val napier = "2.4.0"
 
-    const val mockk = "1.13.3"
+    const val mockative = "1.1.2"
 
     const val kotlinxTestResources = "0.2.2"
 
@@ -60,7 +60,7 @@ object Dependencies {
 }
 
 object TestDependencies {
-    const val mockk = "io.mockk:mockk:${Versions.mockk}"
+    const val mockative = "io.mockative:mockative:${Versions.mockative}"
 
     const val ktorMock = "io.ktor:ktor-client-mock:${Versions.ktor}"
 
