@@ -3,9 +3,9 @@
 <p align="center">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=android&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-IOS-3AA335?logo=ios&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-WINDOWS-3AA335?logo=windows&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-LINUX-3AA335?logo=linux&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-MACOS-3AA335?logo=apple&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-WINDOWS-CCCCCC?logo=windows&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-LINUX-CCCCCC?logo=linux&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-MACOS-CCCCCC?logo=apple&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-WEB-CCCCCC?logo=javascript&logoColor=606060&style=for-the-badge">
 </p>
 
@@ -72,8 +72,6 @@ val daraja: Daraja = Daraja.Builder()
 - To request an access token from Daraja API, invoke the `requestAccessToken` function:
 
 ```Kotlin
-...
-
 val accessTokenResult: DarajaResult<DarajaToken> = daraja.requestAuthToken()
 
 accessTokenResult
@@ -88,8 +86,6 @@ accessTokenResult
 - To initiate M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `initiateDarajaStk` function:
 
 ```Kotlin
-...
-
 val darajaPaymentResponse: DarajaResult<DarajaPaymentResponse> = daraja.initiateDarajaStk(
             businessShortCode = "174379",
             amount = 1,

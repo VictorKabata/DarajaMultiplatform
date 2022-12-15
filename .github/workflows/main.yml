@@ -52,7 +52,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Lint check
-        run: ./gradlew lint --stacktrace
+        run: ./gradlew lint ktlintCheck --stacktrace
 
   unit-tests:
     name: 🧪 Run Tests

@@ -20,12 +20,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+/**
+ * Response returned by Daraja API on successful access token request.
+ * */
 data class DarajaToken(
 
+    /**Access token to access other Daraja APIs.*/
     @SerialName("access_token")
     val accessToken: String,
 
-    /*Token validity duration in seconds*/
+    /**Token expiry time in seconds.*/
     @SerialName("expires_in")
     val expiresIn: String,
 )
