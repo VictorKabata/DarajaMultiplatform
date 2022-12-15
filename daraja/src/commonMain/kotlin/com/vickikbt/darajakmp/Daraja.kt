@@ -34,6 +34,13 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
+/**Create an instance of [Daraja] object that acts as an interface to access Daraja API functionalities
+ *
+ * @param consumerKey Daraja API consumer key
+ * @param consumerSecret Daraja API consumer secret
+ * @param passKey Daraja API passkey
+ * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
+ * */
 class Daraja constructor(
     private val consumerKey: String?,
     private val consumerSecret: String?,
@@ -48,17 +55,23 @@ class Daraja constructor(
         private var environment: DarajaEnvironment? = null
     ) {
 
+        /**Provides [consumerKey] provided by Daraja API*/
         fun setConsumerKey(consumerKey: String) = apply { this.consumerKey = consumerKey }
 
+        /**Provides [consumerSecret] provided by Daraja API*/
         fun setConsumerSecret(consumerSecret: String) =
             apply { this.consumerSecret = consumerSecret }
 
+        /**Provides [passKey] provided by Daraja API*/
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
+        /**Set Daraja API environment to Sandbox/Testing mode*/
         fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
+        /**Set Daraja API environment to Production/Live mode*/
         fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
+        /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         fun build(): Daraja = Daraja(
             consumerKey = consumerKey,
             consumerSecret = consumerSecret,
