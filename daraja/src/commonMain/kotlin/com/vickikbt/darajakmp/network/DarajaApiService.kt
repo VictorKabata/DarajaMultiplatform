@@ -44,7 +44,7 @@ internal class DarajaApiService constructor(
 
     /**Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
      * of type [DarajaToken]*/
-    internal suspend fun getAuthToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
+    internal suspend fun getAccessToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
@@ -58,7 +58,7 @@ internal class DarajaApiService constructor(
     /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
     internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaResult<DarajaPaymentResponse> =
         darajaSafeApiCall {
-            val accessToken = getAuthToken().getOrThrow().accessToken
+            val accessToken = getAccessToken().getOrThrow().accessToken
 
             return@darajaSafeApiCall httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
