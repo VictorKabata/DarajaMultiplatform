@@ -29,6 +29,13 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**Encapsulate network calls and handles network and system exceptions.
+ *Returns an instance of [DarajaResult] with data of type [T] on success and
+ * an instance of [DarajaResult] with exception of type [DarajaException] on failure
+ *
+ * @return [DarajaResult] Returns data of type [T] on success
+ * @throws DarajaException Throws expception of type [DarajaException] on failure
+ * */
 internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
     DarajaResult.Success(apiCall.invoke())
 } catch (e: RedirectResponseException) {
@@ -54,7 +61,8 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
     DarajaResult.Failure(exception = error)
 }
 
-fun getError(
+/**Generate [DarajaException] from network or system error when making network calls*/
+internal fun getError(
     responseContent: ByteReadChannel? = null,
     exception: Exception? = null
 ): DarajaException {

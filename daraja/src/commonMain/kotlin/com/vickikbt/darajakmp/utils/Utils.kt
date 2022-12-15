@@ -16,13 +16,12 @@
 
 package com.vickikbt.darajakmp.utils
 
-import io.ktor.util.InternalAPI
 import io.ktor.util.encodeBase64
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-/*Format current date-time to YYYYMMDDHHmmss format*/
+/**Format current timestamp to YYYYMMDDHHmmss format*/
 internal fun Instant.getDarajaTimestamp(): String {
     val currentDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -37,20 +36,18 @@ internal fun Instant.getDarajaTimestamp(): String {
     val seconds =
         if (currentDateTime.second < 10) "0${currentDateTime.second}" else currentDateTime.second
 
-    val timestamp = "$year$month$dayOfMonth$hour$minutes$seconds"
-
-    return timestamp
+    return "$year$month$dayOfMonth$hour$minutes$seconds"
 }
 
 // Shortcode+Passkey+Timestamp
-@OptIn(InternalAPI::class)
+/** Generates a base 64 string by encoding a combination of [shortCode], [passkey] and [timestamp]*/
 internal fun getDarajaPassword(shortCode: String, passkey: String, timestamp: String): String {
     val password = shortCode + passkey + timestamp
-    val darajaPassword = password.encodeBase64()
 
-    return darajaPassword
+    return password.encodeBase64()
 }
 
+/**Format phone number provided by user to format that Daraja API recognises*/
 internal fun String.getDarajaPhoneNumber(): String? {
     if (this.isBlank()) return null
     if (this.length < 11 && this.startsWith("0")) {

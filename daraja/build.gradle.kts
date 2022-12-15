@@ -4,6 +4,7 @@ plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
+    id(BuildPlugins.dokka) version Versions.dokka
 }
 
 kotlin {
@@ -74,4 +75,8 @@ android {
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
     }
+}
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("reports/dokka"))
 }

@@ -33,21 +33,22 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+/**Initialize Ktor Http Client responsible for handling network operations*/
 internal class DarajaHttpClientFactory constructor(private val environment: DarajaEnvironment) {
 
-    internal val BASE_URL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+    private val baseURL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
         DarajaConstants.SANDBOX_BASE_URL
     } else {
         DarajaConstants.PROD_BASE_URL
     }
 
-    /*Initialize Http Client responsible for handling network operations*/
+    /**Initialize Ktor Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
         defaultRequest {
             contentType(ContentType.Application.Json)
 
             url {
-                host = BASE_URL
+                host = baseURL
                 url { protocol = URLProtocol.HTTPS }
             }
         }
