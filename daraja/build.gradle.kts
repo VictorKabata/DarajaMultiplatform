@@ -78,5 +78,5 @@ android {
 }
 
 tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("build/reports/dokka"))
+    outputDirectory.set(buildDir.resolve("reports/dokka"))
 }
