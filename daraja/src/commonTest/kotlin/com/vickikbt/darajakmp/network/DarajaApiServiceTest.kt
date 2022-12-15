@@ -16,55 +16,82 @@
 
 package com.vickikbt.darajakmp.network
 
+import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
+import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickikbt.darajakmp.network.models.DarajaToken
+import com.vickikbt.darajakmp.utils.DarajaResult
+import com.vickikbt.darajakmp.utils.DarajaTransactionType
+import io.ktor.client.HttpClient
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlinx.coroutines.test.runTest
+
 class DarajaApiServiceTest {
 
-    /*private lateinit var mockHttpClient: HttpClient
+
+    private lateinit var mockKtorHttpClient: HttpClient
+
+    // Subject under test
     private lateinit var darajaApiService: DarajaApiService
 
-    private val authToken: DarajaToken =
-        DarajaToken(accessToken = "access_token", expiresIn = "expires_in")
+    private val darajaPaymentRequest = DarajaPaymentRequest(
+        businessShortCode = "654321",
+        password = "password",
+        phoneNumber = "254708374149",
+        timestamp = "timestamp",
+        transactionType = DarajaTransactionType.CustomerPayBillOnline.name,
+        transactionDesc = "Transaction description",
+        amount = "1",
+        partyA = "254708374149",
+        partyB = "654321",
+        callBackUrl = "https://mydomain.com/path",
+        accountReference = "Account reference",
+    )
 
     @BeforeTest
     fun setup() {
-        mockHttpClient = HttpClient(MockEngine.create())
+        mockKtorHttpClient = mockDarajaHttpClient
 
-        darajaApiService =
-            DarajaApiService(
-                httpClient = mockHttpClient,
-                consumerKey = "consumer_key",
-                consumerSecret = "consumer_secret"
+        darajaApiService = DarajaApiService(
+            httpClient = mockKtorHttpClient,
+            consumerKey = "",
+            consumerSecret = ""
+        )
+    }
+
+
+    @Test
+    fun fetchAccessToken_SuccessResponse() = runTest {
+        // when
+        val actualResult = darajaApiService.getAccessToken()
+        val expectedResult = DarajaResult.Success(
+            DarajaToken(
+                accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
+                expiresIn = "3599"
             )
-    }
+        )
 
-    @AfterTest
-    fun teardown() {
-        unmockkAll()
-    }
-
-    @Test
-    fun getAuthToken_returns_result_success_on_success() = runTest {
-        // given
-        coEvery { darajaApiService.getAuthToken() } returns Result.success(authToken)
-
-        // when
-        val result = darajaApiService.getAuthToken()
-
-        // then
-        assertTrue(actual = result.isSuccess)
-        assertEquals(expected = Result.success(authToken), actual = result)
+        //then
+        assertEquals(expectedResult, actualResult)
     }
 
     @Test
-    fun getAuthToken_returns_result_error_on_error() = runTest {
-        // given
-        val exception = Exception()
-        coEvery { darajaApiService.getAuthToken() } throws exception
-
+    fun initiateMpesaExpress_SuccessResponse() = runTest {
         // when
-        val result = darajaApiService.getAuthToken()
+        val actualResult =
+            darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+        val expectedResult = DarajaResult.Success(
+            DarajaPaymentResponse(
+                merchantRequestID = "6093-85819535-1",
+                checkoutRequestID = "ws_CO_16122022001707470708374149",
+                responseCode = "0",
+                responseDescription = "Success. Request accepted for processing",
+                customerMessage = "Success. Request accepted for processing"
+            )
+        )
 
-        // then
-        assertTrue(actual = result.isFailure)
-        assertEquals(expected = Result.failure(exception), actual = result)
-    }*/
+        //then
+        assertEquals(expectedResult, actualResult)
+    }
 }
