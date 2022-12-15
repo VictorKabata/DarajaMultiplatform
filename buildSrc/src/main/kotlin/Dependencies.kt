@@ -8,6 +8,7 @@ object BuildPlugins {
     const val gradleVersionUpdates = "com.github.ben-manes.versions"
     const val spotless = "com.diffplug.spotless"
     const val dokka = "org.jetbrains.dokka"
+    const val kover = "org.jetbrains.kotlinx.kover"
 }
 
 object Versions {
@@ -16,6 +17,7 @@ object Versions {
     const val gradleVersionUpdate = "0.42.0"
     const val spotless = "6.2.2"
     const val dokka = "1.7.20"
+    const val kover = "0.6.1"
 
     const val kotlinxCoroutines = "1.6.0-native-mt"
     const val ktor = "2.1.3"

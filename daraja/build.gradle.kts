@@ -5,6 +5,7 @@ plugins {
     id(BuildPlugins.androidLibrary)
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
     id(BuildPlugins.dokka) version Versions.dokka
+    id(BuildPlugins.kover) version Versions.kover
 }
 
 kotlin {
@@ -79,4 +80,13 @@ android {
 
 tasks.dokkaHtml.configure {
     outputDirectory.set(buildDir.resolve("reports/dokka"))
+}
+
+kover {
+    verify {
+        rule {
+            name = "Minimal line coverage rate in percents"
+            bound { minValue = 80 }
+        }
+    }
 }
