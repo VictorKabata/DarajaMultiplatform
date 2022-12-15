@@ -36,7 +36,7 @@ import kotlinx.serialization.json.Json
 /**Initialize Ktor Http Client responsible for handling network operations*/
 internal class DarajaHttpClientFactory constructor(private val environment: DarajaEnvironment) {
 
-    private val BASE_URL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+    private val baseURL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
         DarajaConstants.SANDBOX_BASE_URL
     } else {
         DarajaConstants.PROD_BASE_URL
@@ -48,7 +48,7 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
             contentType(ContentType.Application.Json)
 
             url {
-                host = BASE_URL
+                host = baseURL
                 url { protocol = URLProtocol.HTTPS }
             }
         }
