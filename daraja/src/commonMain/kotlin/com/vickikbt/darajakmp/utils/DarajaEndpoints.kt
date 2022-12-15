@@ -17,8 +17,8 @@
 package com.vickikbt.darajakmp.utils
 
 internal object DarajaEndpoints {
-    val PROD_BASE_URL = "api.safaricom.co.ke"
-    val SANDBOX_BASE_URL = "sandbox.safaricom.co.ke"
+    const val PROD_BASE_URL = "api.safaricom.co.ke"
+    const val SANDBOX_BASE_URL = "sandbox.safaricom.co.ke"
 
     const val REQUEST_ACCESS_TOKEN = "oauth/v1/generate?grant_type=client_credentials"
     const val INITIATE_MPESA_EXPRESS = "mpesa/stkpush/v1/processrequest"
