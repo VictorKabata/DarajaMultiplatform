@@ -34,6 +34,11 @@ class DarajaApiServiceTest {
     // Subject under test
     private lateinit var darajaApiService: DarajaApiService
 
+    private val darajaToken = DarajaToken(
+        accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
+        expiresIn = "3599"
+    )
+
     private val darajaPaymentRequest = DarajaPaymentRequest(
         businessShortCode = "654321",
         password = "password",
@@ -63,12 +68,7 @@ class DarajaApiServiceTest {
     fun fetchAccessToken_SuccessResponse() = runTest {
         // when
         val actualResult = darajaApiService.fetchAccessToken()
-        val expectedResult = DarajaResult.Success(
-            DarajaToken(
-                accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
-                expiresIn = "3599"
-            )
-        )
+        val expectedResult = DarajaResult.Success(darajaToken)
 
         // then
         assertEquals(expectedResult, actualResult)

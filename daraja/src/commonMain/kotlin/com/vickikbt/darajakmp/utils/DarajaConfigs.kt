@@ -23,3 +23,11 @@ internal object DarajaEndpoints {
     const val REQUEST_ACCESS_TOKEN = "oauth/v1/generate?grant_type=client_credentials"
     const val INITIATE_MPESA_EXPRESS = "mpesa/stkpush/v1/processrequest"
 }
+
+enum class DarajaTransactionType {
+    CustomerPayBillOnline, CustomerBuyGoodsOnline
+}
+
+enum class DarajaEnvironment {
+    PRODUCTION_ENVIRONMENT, SANDBOX_ENVIRONMENT
+}
