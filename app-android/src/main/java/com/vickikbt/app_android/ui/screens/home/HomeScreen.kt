@@ -51,7 +51,6 @@ import androidx.compose.ui.unit.sp
 import com.vickikbt.app_android.R
 import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
-import com.vickikbt.darajakmp.utils.DarajaTransactionType
 import com.vickikbt.darajakmp.utils.onFailure
 import com.vickikbt.darajakmp.utils.onSuccess
 import org.koin.androidx.compose.get
@@ -144,7 +143,6 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     businessShortCode = tillNumber,
                     amount = amount,
                     phoneNumber = phoneNumber,
-                    transactionType = DarajaTransactionType.CustomerBuyGoodsOnline,
                     transactionDesc = "Mpesa payment",
                     callbackUrl = "https://mydomain.com/path",
                     accountReference = "Daraja KMP Android"

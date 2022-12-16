@@ -30,13 +30,21 @@ import io.ktor.client.request.setBody
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
 
+/**Encapsulate API calls to Daraja API
+ *
+ * @param [httpClient] HttpClient provided by Ktor Client
+ * @param[consumerKey] Daraja API consumer key
+ * @param [consumerSecret] Daraja API consumer secret
+ * */
 internal class DarajaApiService constructor(
     private val httpClient: HttpClient,
     private val consumerKey: String,
     private val consumerSecret: String
 ) {
 
-    internal suspend fun getAuthToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
+    /**Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
+     * of type [DarajaToken]*/
+    internal suspend fun getAccessToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
@@ -47,9 +55,10 @@ internal class DarajaApiService constructor(
         }.body()
     }
 
+    /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
     internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaResult<DarajaPaymentResponse> =
         darajaSafeApiCall {
-            val accessToken = getAuthToken().getOrThrow().accessToken
+            val accessToken = getAccessToken().getOrThrow().accessToken
 
             return@darajaSafeApiCall httpClient.post(urlString = "mpesa/stkpush/v1/processrequest") {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }

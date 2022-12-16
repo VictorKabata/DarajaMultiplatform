@@ -4,13 +4,12 @@ plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
+    id(BuildPlugins.dokka) version Versions.dokka
     id(BuildPlugins.maven)
 }
 
 kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-    }
+    android()
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
@@ -18,6 +17,10 @@ kotlin {
         else -> ::iosX64
     }
     iosTarget("iOS") {}
+
+    // jvm()
+
+    // js()
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -51,6 +54,12 @@ kotlin {
 
         sourceSets["iOSMain"].dependencies {}
         sourceSets["iOSTest"].dependencies {}
+
+        // sourceSets["jvmMain"].dependencies {}
+        // sourceSets["jvmTest"].dependencies {}
+
+        // sourceSets["jsMain"].dependencies {}
+        // sourceSets["jsTest"].dependencies {}
     }
 }
 
@@ -67,6 +76,10 @@ android {
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
     }
+}
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("reports/dokka"))
 }
 
 afterEvaluate {

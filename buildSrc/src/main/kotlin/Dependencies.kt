@@ -14,6 +14,7 @@ object BuildPlugins {
     const val detekt = "io.gitlab.arturbosch.detekt"
     const val gradleVersionUpdates = "com.github.ben-manes.versions"
     const val spotless = "com.diffplug.spotless"
+    const val dokka = "org.jetbrains.dokka"
 }
 
 object Versions {
@@ -21,6 +22,7 @@ object Versions {
     const val detekt = "1.19.0"
     const val gradleVersionUpdate = "0.42.0"
     const val spotless = "6.2.2"
+    const val dokka = "1.7.20"
 
     const val kotlinxCoroutines = "1.6.0-native-mt"
     const val ktor = "2.1.3"
