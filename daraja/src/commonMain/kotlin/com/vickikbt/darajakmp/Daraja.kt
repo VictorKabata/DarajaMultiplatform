@@ -116,7 +116,7 @@ class Daraja constructor(
      * */
     fun requestAccessToken(): DarajaResult<DarajaToken> = runBlocking {
         withContext(defaultDispatcher) {
-            return@withContext darajaApiService.getAccessToken()
+            return@withContext darajaApiService.fetchAccessToken()
         }
     }
 
