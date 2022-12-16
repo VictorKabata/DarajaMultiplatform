@@ -1,4 +1,4 @@
-name: Build Main
+name: Build Main Branch
 
 on:
   pull_request:
