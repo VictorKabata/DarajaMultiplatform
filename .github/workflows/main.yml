@@ -18,7 +18,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Apply Copyright
-        run: ./gradlew spotlessApply --stacktrace
+        run: ./gradlew :daraja:spotlessApply --stacktrace
 
   build:
     name: 🔨 Build
@@ -38,7 +38,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with gradle
-        run: ./gradlew build --stacktrace
+        run: ./gradlew :daraja:build --stacktrace
 
   lint-check:
     name: 🔍 Lint Check
@@ -52,7 +52,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Lint check
-        run: ./gradlew lint ktlintCheck --stacktrace
+        run: ./gradlew :daraja:ktlintCheck --stacktrace
 
   unit-tests:
     name: 🧪 Run Tests
@@ -66,7 +66,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute unit tests
-        run: ./gradlew allTests --stacktrace
+        run: ./gradlew :daraja:allTests --stacktrace
 
 #      - name: Generate test report
 #        uses: actions/upload-artifact@v2
