@@ -25,8 +25,10 @@ import io.ktor.client.HttpClient
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DarajaApiServiceTest {
 
     private lateinit var mockKtorHttpClient: HttpClient
