@@ -16,12 +16,14 @@
 
 package com.vickikbt.darajakmp.network
 
-import com.vickikbt.darajakmp.utils.DarajaConstants
+import com.vickikbt.darajakmp.utils.DarajaEndpoints
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.addDefaultResponseValidation
+import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -37,14 +39,15 @@ import kotlinx.serialization.json.Json
 internal class DarajaHttpClientFactory constructor(private val environment: DarajaEnvironment) {
 
     private val baseURL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
-        DarajaConstants.SANDBOX_BASE_URL
+        DarajaEndpoints.SANDBOX_BASE_URL
     } else {
-        DarajaConstants.PROD_BASE_URL
+        DarajaEndpoints.PROD_BASE_URL
     }
 
     /**Initialize Ktor Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
         expectSuccess = true
+        addDefaultResponseValidation()
 
         defaultRequest {
             contentType(ContentType.Application.Json)
@@ -54,6 +57,8 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
                 url { protocol = URLProtocol.HTTPS }
             }
         }
+
+        install(HttpCache)
 
         install(ContentNegotiation) {
             json(

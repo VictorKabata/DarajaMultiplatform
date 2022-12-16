@@ -5,6 +5,7 @@ plugins {
     id(BuildPlugins.androidLibrary)
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
     id(BuildPlugins.dokka) version Versions.dokka
+    id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.maven)
 }
 
@@ -44,7 +45,7 @@ kotlin {
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
             implementation(TestDependencies.kotlinxCoroutinesTest)
-            // implementation(TestDependencies.mockk)
+            implementation(TestDependencies.mockative)
             implementation(TestDependencies.ktorMock)
             implementation(TestDependencies.kotlinxTestResources)
         }
@@ -80,6 +81,15 @@ android {
 
 tasks.dokkaHtml.configure {
     outputDirectory.set(buildDir.resolve("reports/dokka"))
+}
+
+kover {
+    verify {
+        rule {
+            name = "Minimal line coverage rate in percents"
+            bound { minValue = 40 }
+        }
+    }
 }
 
 afterEvaluate {
