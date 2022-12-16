@@ -62,7 +62,7 @@ class DarajaApiServiceTest {
     @Test
     fun fetchAccessToken_SuccessResponse() = runTest {
         // when
-        val actualResult = darajaApiService.getAccessToken()
+        val actualResult = darajaApiService.fetchAccessToken()
         val expectedResult = DarajaResult.Success(
             DarajaToken(
                 accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
