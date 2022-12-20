@@ -94,13 +94,47 @@ kover {
 
 afterEvaluate {
     publishing {
-
         publications {
+
             create<MavenPublication>("maven") {
-                groupId = Library.groupId
-                artifactId = Library.artifactId
-                version = Library.version
+
+                pom {
+                    groupId = Library.groupId
+                    artifactId = Library.artifactId
+                    version = Library.version
+
+                    name.set("Daraja Multiplatform")
+                    description.set("Kotlin Multiplatform API wrapper for the M-Pesa/Daraja API")
+                    url.set("https://github.com/VictorKabata/DarajaMultiplatform")
+
+                    developers {
+                        developer {
+                            email.set("victorbro14@gmail.com")
+                            name.set("Victor Kabata")
+                        }
+                    }
+
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+
+                    issueManagement {
+                        system.set("Github")
+                        url.set("https://github.com/VictorKabata/DarajaMultiplatform/issues")
+                    }
+
+                    scm {
+                        connection.set("https://github.com/VictorKabata/DarajaMultiplatform.git")
+                        url.set("https://github.com/VictorKabata/DarajaMultiplatform")
+                    }
+
+                }
+
             }
+
         }
     }
 }
