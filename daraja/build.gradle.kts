@@ -130,11 +130,8 @@ afterEvaluate {
                         connection.set("https://github.com/VictorKabata/DarajaMultiplatform.git")
                         url.set("https://github.com/VictorKabata/DarajaMultiplatform")
                     }
-
                 }
-
             }
-
         }
     }
 }
