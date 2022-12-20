@@ -19,6 +19,8 @@ package com.vickikbt.darajakmp.network
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
+import com.vickikbt.darajakmp.network.models.DarajaTransactionResponse
+import com.vickikbt.darajakmp.network.models.QueryDarajaTransactionRequest
 import com.vickikbt.darajakmp.utils.DarajaEndpoints
 import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.getOrThrow
@@ -64,6 +66,18 @@ internal class DarajaApiService constructor(
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_MPESA_EXPRESS) {
                 headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
                 setBody(darajaPaymentRequest)
+            }.body()
+        }
+
+    /**Initiate API call using the [httpClient] provided by Ktor to query the status of an Mpesa Express payment transaction*/
+    internal suspend fun queryTransaction(queryDarajaTransactionRequest: QueryDarajaTransactionRequest): DarajaResult<DarajaTransactionResponse> =
+        darajaSafeApiCall {
+            val key = "$consumerKey:$consumerSecret"
+            val base64EncodedKey = key.encodeBase64()
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.QUERY_MPESA_TRANSACTION) {
+                headers { append(HttpHeaders.Authorization, "Basic $base64EncodedKey") }
+                setBody(queryDarajaTransactionRequest)
             }.body()
         }
 }
