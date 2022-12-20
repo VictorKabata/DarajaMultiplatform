@@ -98,7 +98,7 @@ val darajaPaymentResponse: DarajaResult<DarajaPaymentResponse> = daraja.initiate
             phoneNumber = "07xxxxxxxx",
             transactionDesc = "M-Pesa payment",
             callbackUrl = "your_callback_url",
-            accountReference = "Account reference"
+            accountReference = "CompanyName"
         )
 
 darajaPaymentResponse
