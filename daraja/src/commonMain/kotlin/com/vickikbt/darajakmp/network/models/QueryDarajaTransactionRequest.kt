@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.vickikbt.darajakmp.utils
+package com.vickikbt.darajakmp.network.models
 
-internal object DarajaEndpoints {
-    const val PROD_BASE_URL = "api.safaricom.co.ke"
-    const val SANDBOX_BASE_URL = "sandbox.safaricom.co.ke"
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-    const val REQUEST_ACCESS_TOKEN = "oauth/v1/generate?grant_type=client_credentials"
-    const val INITIATE_MPESA_EXPRESS = "mpesa/stkpush/v1/processrequest"
-    const val QUERY_MPESA_TRANSACTION = "mpesa/stkpushquery/v1/query"
-}
+@Serializable
+data class QueryDarajaTransactionRequest(
+    @SerialName("BusinessShortCode")
+    val businessShortCode: String,
 
-enum class DarajaTransactionType {
-    CustomerPayBillOnline, CustomerBuyGoodsOnline
-}
+    @SerialName("Password")
+    val password: String,
 
-enum class DarajaEnvironment {
-    PRODUCTION_ENVIRONMENT, SANDBOX_ENVIRONMENT
-}
+    @SerialName("Timestamp")
+    val timestamp: String,
+
+    @SerialName("CheckoutRequestID")
+    val checkoutRequestID: String,
+)
