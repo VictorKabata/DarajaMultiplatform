@@ -3,9 +3,9 @@
 <p align="center">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=android&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-IOS-3AA335?logo=ios&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-WINDOWS-CCCCCC?logo=windows&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-LINUX-CCCCCC?logo=linux&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-MACOS-CCCCCC?logo=apple&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-WINDOWS-CCCCCC?logo=windows&logoColor=606060&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-LINUX-CCCCCC?logo=linux&logoColor=606060&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-MACOS-CCCCCC?logo=apple&logoColor=606060&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-WEB-CCCCCC?logo=javascript&logoColor=606060&style=for-the-badge">
 </p>
 
@@ -20,13 +20,25 @@ After successfully creating an account on the Daraja API portal and creating a n
 
 ## How to use in your project
 
-Daraja Multiplatform is available for download from [Maven Central]().
+Daraja Multiplatform is available for download from [Maven Central](https://mvnrepository.com/repos/central).
 
 ## Android
 
 - In your android application project-level gradle file add the following dependency:
+
+<details open>
+<summary>Kotlin</summary>
+
+```Kotlin
+  dependencies {
+    implementation ("com.victorkabata.daraja:daraja-multiplatform:1.0.0")
+  }
+```
+
+</details>
   
-`build.gradle`
+<details>
+<summary>Groovy</summary>
 
 ```Groovy
   dependencies {
@@ -34,13 +46,7 @@ Daraja Multiplatform is available for download from [Maven Central]().
   }
  ```
 
-`build.gradle.kts`
-
-```Kotlin
-  dependencies {
-    implementation ("com.victorkabata.daraja:daraja-multiplatform:1.0.0")
-  }
-```
+ </details>
 
 - Add your consumer secret, consumer key and pass key to your project. You can get them from the [Daraja API portal](https://developer.safaricom.co.ke/MyApps).
 
@@ -90,7 +96,6 @@ val darajaPaymentResponse: DarajaResult<DarajaPaymentResponse> = daraja.initiate
             businessShortCode = "174379",
             amount = 1,
             phoneNumber = "07xxxxxxxx",
-            transactionType = DarajaTransactionType.CustomerPayBillOnline,
             transactionDesc = "M-Pesa payment",
             callbackUrl = "your_callback_url",
             accountReference = "Account reference"
