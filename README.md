@@ -109,3 +109,20 @@ darajaPaymentResponse
             // Failed to request M-Pesa STK
         }
 ```
+
+- To check the status of an M-pesa transaction, invoke the `queryMpesaTransaction` function:
+
+```Kotlin
+val darajaTransactionResponse: DarajaResult<DarajaTransactionResponse> = daraja.queryMpesaTransaction(
+            businessShortCode = "174379",
+            checkoutRequestID = "ws_CO_20122022180112029708374149"
+        )
+
+darajaTransactionResponse
+        .onSuccess { transactionResponse ->
+            // Successfully fetched M-pesa transaction status
+        }
+        .onFailure { error ->
+            // Failure fetching M-pesa transaction status
+        }
+```
