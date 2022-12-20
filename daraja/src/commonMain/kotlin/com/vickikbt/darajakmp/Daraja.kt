@@ -21,6 +21,8 @@ import com.vickikbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickikbt.darajakmp.network.models.DarajaToken
+import com.vickikbt.darajakmp.network.models.DarajaTransactionResponse
+import com.vickikbt.darajakmp.network.models.QueryDarajaTransactionRequest
 import com.vickikbt.darajakmp.utils.DarajaEnvironment
 import com.vickikbt.darajakmp.utils.DarajaResult
 import com.vickikbt.darajakmp.utils.DarajaTransactionType
@@ -166,6 +168,36 @@ class Daraja constructor(
 
         withContext(defaultDispatcher) {
             return@withContext darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+        }
+    }
+
+    /**Request the status of an Mpesa payment transaction
+     *
+     * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
+     * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
+     *
+     * @return [DarajaTransactionResponse]
+     * */
+    fun queryMpesaTransaction(
+        businessShortCode: String,
+        checkoutRequestID: String
+    ): DarajaResult<DarajaTransactionResponse> = runBlocking {
+        val timestamp = Clock.System.now().getDarajaTimestamp()
+        val darajaPassword = getDarajaPassword(
+            shortCode = businessShortCode,
+            passkey = passKey ?: "",
+            timestamp = timestamp
+        )
+
+        val queryDarajaTransactionRequest = QueryDarajaTransactionRequest(
+            businessShortCode = businessShortCode,
+            password = darajaPassword,
+            timestamp = timestamp,
+            checkoutRequestID = checkoutRequestID
+        )
+
+        withContext(defaultDispatcher) {
+            return@withContext darajaApiService.queryTransaction(queryDarajaTransactionRequest)
         }
     }
 }
