@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+val dokkaOutputDir = buildDir.resolve("reports/dokka")
+
 plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
@@ -80,7 +82,17 @@ android {
 }
 
 tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("reports/dokka"))
+    outputDirectory.set(dokkaOutputDir)
+}
+
+val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") {
+    delete(dokkaOutputDir)
+}
+
+val javadocJar = tasks.register<Jar>("javadocJar") {
+    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaOutputDir)
 }
 
 kover {
@@ -97,6 +109,8 @@ afterEvaluate {
         publications {
 
             create<MavenPublication>("maven") {
+
+                artifact(javadocJar)
 
                 pom {
                     groupId = Library.groupId
