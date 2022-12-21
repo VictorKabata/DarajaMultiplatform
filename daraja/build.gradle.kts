@@ -1,6 +1,10 @@
+import BuildPlugins.maven
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
+
+val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 plugins {
     kotlin(BuildPlugins.multiplatform)
@@ -110,6 +114,19 @@ afterEvaluate {
     publishing {
         publications {
 
+            /*repositories {
+                maven {
+                    name = "OSS"
+                    url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
+                    else releasesRepoUrl
+
+                    credentials{
+                        username = "VictorKabata"
+                        password = "Some password"
+                    }
+                }
+            }*/
+
             create<MavenPublication>("maven") {
 
                 artifact(javadocJar)
@@ -125,8 +142,9 @@ afterEvaluate {
 
                     developers {
                         developer {
-                            email.set("victorbro14@gmail.com")
+                            id.set("VictorKabata")
                             name.set("Victor Kabata")
+                            email.set("victorbro14@gmail.com")
                         }
                     }
 
