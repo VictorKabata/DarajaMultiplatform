@@ -16,7 +16,7 @@ plugins {
 
 kotlin {
     android {
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
@@ -120,7 +120,7 @@ afterEvaluate {
 
         repositories {
             maven {
-                name = "Sonartype"
+                name = "Sonatype"
                 url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
                 else releasesRepoUrl
 
