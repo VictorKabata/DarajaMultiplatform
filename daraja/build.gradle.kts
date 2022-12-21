@@ -131,8 +131,6 @@ afterEvaluate {
 
                 artifact(javadocJar)
 
-                from(components["java"])
-
                 pom {
                     groupId = Library.groupId
                     artifactId = Library.artifactId
