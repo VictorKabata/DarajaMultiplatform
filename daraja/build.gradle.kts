@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
 
@@ -11,7 +12,8 @@ plugins {
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
     id(BuildPlugins.dokka) version Versions.dokka
     id(BuildPlugins.kover) version Versions.kover
-    id(BuildPlugins.maven)
+    id(BuildPlugins.mavenPublish)
+    id(BuildPlugins.signing)
 }
 
 kotlin {
@@ -116,6 +118,11 @@ kover {
 }
 
 afterEvaluate {
+
+    fun get(key: String, defaultValue: String = "$key not found") =
+        gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
+        ?: defaultValue
+
     publishing {
 
         repositories {
@@ -125,8 +132,8 @@ afterEvaluate {
                 else releasesRepoUrl
 
                 credentials {
-                    username = ""
-                    password = ""
+                    username = get("OSSRH_USERNAME")
+                    password = get("OSSRH_PASSWORD")
                 }
             }
         }
@@ -140,35 +147,46 @@ afterEvaluate {
                 artifactId = Library.artifactId
                 version = Library.version
 
-                name.set("Daraja Multiplatform")
-                description.set("Kotlin Multiplatform API wrapper for the M-Pesa/Daraja API")
-                url.set("https://github.com/VictorKabata/DarajaMultiplatform")
+                name.set(get("POM_NAME"))
+                description.set(get("POM_DESCRIPTION"))
+                url.set(get("POM_URL"))
 
                 developers {
                     developer {
-                        id.set("VictorKabata")
-                        name.set("Victor Kabata")
-                        email.set("victorbro14@gmail.com")
+                        id.set(get("POM_DEVELOPER_ID"))
+                        name.set(get("POM_DEVELOPER_NAME"))
+                        email.set(get("POM_DEVELOPER_EMAIL"))
                     }
                 }
 
                 licenses {
                     license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        name.set(get("POM_LICENSE_NAME"))
+                        url.set(get("POM_LICENSE_URL"))
                     }
                 }
 
                 issueManagement {
-                    system.set("Github")
-                    url.set("https://github.com/VictorKabata/DarajaMultiplatform/issues")
+                    system.set(get("POM_ISSUE_SYSTEM"))
+                    url.set(get("POM_ISSUE_URL"))
                 }
 
                 scm {
-                    connection.set("https://github.com/VictorKabata/DarajaMultiplatform.git")
-                    url.set("https://github.com/VictorKabata/DarajaMultiplatform")
+                    connection.set(get("POM_SCM_CONNECTION"))
+                    developerConnection.set(get("POM_SCM_DEVELOPER_CONNECTION"))
+                    url.set(get("POM_SCM_URL"))
                 }
             }
+        }
+
+        signing {
+            useInMemoryPgpKeys(
+                get("SIGNING_KEY_ID"),
+                get("SIGNING_KEY_PASSWORD"),
+                get("SIGNING_KEY")
+            )
+
+            sign(publishing.publications)
         }
     }
 }
