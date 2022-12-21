@@ -1,4 +1,3 @@
-import BuildPlugins.maven
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
@@ -17,7 +16,7 @@ plugins {
 
 kotlin {
     android {
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
@@ -75,15 +74,18 @@ kotlin {
 android {
     namespace = AndroidSdk.namespace
     compileSdk = AndroidSdk.compileSdkVersion
-    sourceSets {
-        getByName("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-            java.srcDir("src/androidMain/kotlin")
-        }
-    }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
     }
 }
 
@@ -112,24 +114,26 @@ kover {
 
 afterEvaluate {
     publishing {
-        publications {
 
-            /*repositories {
-                maven {
-                    name = "OSS"
-                    url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
-                    else releasesRepoUrl
+        repositories {
+            maven {
+                name = "Sonartype"
+                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
+                else releasesRepoUrl
 
-                    credentials{
-                        username = "VictorKabata"
-                        password = "Some password"
-                    }
+                credentials {
+                    username = ""
+                    password = ""
                 }
-            }*/
+            }
+        }
+
+        publications {
 
             create<MavenPublication>("maven") {
 
                 artifact(javadocJar)
+                from(components["kotlin"])
 
                 pom {
                     groupId = Library.groupId

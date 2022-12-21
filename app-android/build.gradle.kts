@@ -54,7 +54,7 @@ dependencies {
 
     implementation("com.victorkabata.daraja:daraja-multiplatform:1.0.0")
 
-    //implementation(project(":daraja"))
+    // implementation(project(":daraja"))
 
     implementation("androidx.core:core-ktx:1.9.0")
 
