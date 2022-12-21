@@ -16,7 +16,7 @@ plugins {
 
 kotlin {
     android {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
     }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
@@ -83,6 +83,8 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+        }
         getByName("release") {
             isMinifyEnabled = false
         }
@@ -128,46 +130,42 @@ afterEvaluate {
             }
         }
 
-        publications {
+        publications.withType<MavenPublication> {
 
-            create<MavenPublication>("maven") {
+            artifact(javadocJar)
 
-                artifact(javadocJar)
-                from(components["kotlin"])
+            pom {
+                groupId = Library.groupId
+                artifactId = Library.artifactId
+                version = Library.version
 
-                pom {
-                    groupId = Library.groupId
-                    artifactId = Library.artifactId
-                    version = Library.version
+                name.set("Daraja Multiplatform")
+                description.set("Kotlin Multiplatform API wrapper for the M-Pesa/Daraja API")
+                url.set("https://github.com/VictorKabata/DarajaMultiplatform")
 
-                    name.set("Daraja Multiplatform")
-                    description.set("Kotlin Multiplatform API wrapper for the M-Pesa/Daraja API")
+                developers {
+                    developer {
+                        id.set("VictorKabata")
+                        name.set("Victor Kabata")
+                        email.set("victorbro14@gmail.com")
+                    }
+                }
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+
+                issueManagement {
+                    system.set("Github")
+                    url.set("https://github.com/VictorKabata/DarajaMultiplatform/issues")
+                }
+
+                scm {
+                    connection.set("https://github.com/VictorKabata/DarajaMultiplatform.git")
                     url.set("https://github.com/VictorKabata/DarajaMultiplatform")
-
-                    developers {
-                        developer {
-                            id.set("VictorKabata")
-                            name.set("Victor Kabata")
-                            email.set("victorbro14@gmail.com")
-                        }
-                    }
-
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-
-                    issueManagement {
-                        system.set("Github")
-                        url.set("https://github.com/VictorKabata/DarajaMultiplatform/issues")
-                    }
-
-                    scm {
-                        connection.set("https://github.com/VictorKabata/DarajaMultiplatform.git")
-                        url.set("https://github.com/VictorKabata/DarajaMultiplatform")
-                    }
                 }
             }
         }
