@@ -181,11 +181,10 @@ afterEvaluate {
 
         signing {
             useInMemoryPgpKeys(
-                get("SIGNING_KEY_ID"),
-                get("SIGNING_KEY_PASSWORD"),
-                get("SIGNING_KEY")
+                get("SIGNING_ID"),
+                get("SIGNING_KEY"),
+                get("SIGNING_PASSWORD")
             )
-
             sign(publishing.publications)
         }
     }
