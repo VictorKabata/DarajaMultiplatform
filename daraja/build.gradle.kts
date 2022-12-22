@@ -7,7 +7,8 @@ val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/de
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    gradleLocalProperties(buildDir)[key] ?: System.getenv(key) ?: defaultValue
+    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
+        ?: defaultValue
 
 plugins {
     kotlin(BuildPlugins.multiplatform)
