@@ -8,7 +8,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "$key not found") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
-    ?: defaultValue
+        ?: defaultValue
 
 plugins {
     kotlin(BuildPlugins.multiplatform)
