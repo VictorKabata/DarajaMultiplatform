@@ -44,6 +44,11 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
 
+      - name: Print or Echo
+        run: |
+          echo ${{ secrets.SIGNING_ID }}
+          echo ${{ secrets.OSSRH_USERNAME }}
+
 #      - name: Sign and Publish Android Library
 #        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 --stacktrace
 #        env:
