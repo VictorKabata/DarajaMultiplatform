@@ -9,7 +9,6 @@ jobs:
   deploy-android:
     name: 🚀 Sign and Publish Android Library
     runs-on: ubuntu-latest
-    needs: [ build ]
     steps:
 
       - name: Checkout code
