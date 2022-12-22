@@ -7,8 +7,7 @@ val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/de
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
-        ?: defaultValue
+    System.getenv(key) ?: defaultValue
 
 plugins {
     kotlin(BuildPlugins.multiplatform)
@@ -121,7 +120,7 @@ kover {
     }
 }
 
-tasks.create("printConfigs"){
+tasks.create("printConfigs") {
     println(get("OSSRH_USERNAME"))
     println(get("OSSRH_PASSWORD"))
     println(get("SIGNING_ID"))
