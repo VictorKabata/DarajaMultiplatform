@@ -121,6 +121,14 @@ kover {
     }
 }
 
+tasks.create("printConfigs"){
+    println(get("OSSRH_USERNAME"))
+    println(get("OSSRH_PASSWORD"))
+    println(get("SIGNING_ID"))
+    println(get("SIGNING_PASSWORD"))
+    println(get("SIGNING_KEY"))
+}
+
 afterEvaluate {
 
     publishing {
