@@ -6,7 +6,7 @@ val dokkaOutputDir = buildDir.resolve("reports/dokka")
 val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
-fun Project.get(key: String, defaultValue: String = "$key not found") =
+fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
         ?: defaultValue
 
