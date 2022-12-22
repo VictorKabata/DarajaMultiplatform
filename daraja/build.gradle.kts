@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
 
