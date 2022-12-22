@@ -6,6 +6,10 @@ val dokkaOutputDir = buildDir.resolve("reports/dokka")
 val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
+fun Project.get(key: String, defaultValue: String = "$key not found") =
+    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
+    ?: defaultValue
+
 plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
@@ -119,10 +123,6 @@ kover {
 
 afterEvaluate {
 
-    fun get(key: String, defaultValue: String = "$key not found") =
-        gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
-        ?: defaultValue
-
     publishing {
 
         repositories {
@@ -132,8 +132,8 @@ afterEvaluate {
                 else releasesRepoUrl
 
                 credentials {
-                    username = get("OSSRH_USERNAME")
-                    password = get("OSSRH_PASSWORD")
+                    username = project.get("OSSRH_USERNAME")
+                    password = project.get("OSSRH_PASSWORD")
                 }
             }
         }
