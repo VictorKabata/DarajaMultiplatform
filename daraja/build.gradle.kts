@@ -121,7 +121,7 @@ kover {
     }
 }
 
-tasks.create("printTask"){
+tasks.create("printTask") {
     println(project.get("POM_DEVELOPER_NAME"))
 }
 
