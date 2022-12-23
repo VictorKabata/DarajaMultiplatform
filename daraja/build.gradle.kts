@@ -7,7 +7,7 @@ val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/de
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    System.getenv(key) ?: gradleLocalProperties(rootDir).getProperty(key)?.toString()
+    System.getenv(key)?.toString() ?: gradleLocalProperties(rootDir).getProperty(key)?.toString()
     ?: defaultValue
 
 
