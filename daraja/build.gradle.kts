@@ -6,7 +6,9 @@ val dokkaOutputDir = buildDir.resolve("reports/dokka")
 val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
-fun Project.get(key: String, defaultValue: String = "Invalid value $key") = defaultValue
+fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
+    System.getenv(key)?.toString() ?: gradleLocalProperties(rootDir).getProperty(key)?.toString()
+    ?: defaultValue
 
 
 plugins {
@@ -121,7 +123,7 @@ kover {
 }
 
 tasks.create("printTask") {
-    println(System.getenv("POM_DEVELOPER_NAME"))
+    println(project.get("POM_DEVELOPER_NAME"))
 }
 
 afterEvaluate {
