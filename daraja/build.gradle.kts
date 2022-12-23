@@ -7,8 +7,9 @@ val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/de
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
-        ?: defaultValue
+    System.getenv(key) ?: gradleLocalProperties(rootDir).getProperty(key)?.toString()
+    ?: defaultValue
+
 
 plugins {
     kotlin(BuildPlugins.multiplatform)
@@ -122,7 +123,7 @@ kover {
 }
 
 tasks.create("printTask") {
-    println(System.getProperty("POM_DEVELOPER_NAME"))
+    println(System.getenv("POM_DEVELOPER_NAME"))
 }
 
 afterEvaluate {
