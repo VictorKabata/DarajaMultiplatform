@@ -122,7 +122,7 @@ kover {
 }
 
 tasks.create("printTask") {
-    println(project.get("POM_DEVELOPER_NAME"))
+    println(System.getenv("POM_DEVELOPER_NAME"))
 }
 
 afterEvaluate {
