@@ -1,11 +1,8 @@
 name: Publish Multiplatform Libraries
 
 on:
-  workflow_dispatch:
-    inputs:
-      versionName:
-        description: 'Version Name' #ToDo: Add version to github secret variables
-        required: true
+  push:
+    branches: [ publish-lib ]
 
 jobs:
 
