@@ -7,7 +7,7 @@ on:
 jobs:
 
   apply-copyright:
-    name: ©️ Apply Copyright
+    name: 🗒️ Apply Copyright
     runs-on: ubuntu-latest
     steps:
 
