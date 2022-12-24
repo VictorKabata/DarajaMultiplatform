@@ -7,7 +7,7 @@ val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/de
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    System.getenv(key)?.toString() ?: gradleLocalProperties(rootDir).getProperty(key)?.toString()
+    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
         ?: defaultValue
 
 plugins {
@@ -145,7 +145,7 @@ afterEvaluate {
             pom {
                 groupId = Library.groupId
                 artifactId = Library.artifactId
-                version = Library.version
+                version = project.get("POM_VERSION")
 
                 name.set(project.get("POM_NAME"))
                 description.set(project.get("POM_DESCRIPTION"))
