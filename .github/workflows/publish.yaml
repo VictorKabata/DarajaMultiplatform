@@ -4,26 +4,6 @@ on:
   push:
     branches: [ publish-lib ]
 
-env:
-  OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-  OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-  POM_NAME: ${{ secrets.POM_NAME }}
-  POM_DESCRIPTION: ${{ secrets.POM_DESCRIPTION }}
-  POM_URL: ${{ secrets.POM_URL }}
-  POM_DEVELOPER_ID: ${{ secrets.POM_DEVELOPER_ID }}
-  POM_DEVELOPER_NAME: ${{ secrets.POM_DEVELOPER_NAME }}
-  POM_DEVELOPER_EMAIL: ${{ secrets.POM_DEVELOPER_EMAIL }}
-  POM_LICENSE_NAME: ${{ secrets.POM_LICENSE_NAME }}
-  POM_LICENSE_URL: ${{ secrets.POM_LICENSE_URL }}
-  POM_ISSUE_SYSTEM: ${{ secrets.POM_ISSUE_SYSTEM }}
-  POM_ISSUE_URL: ${{ secrets.POM_ISSUE_SYSTEM }}
-  POM_SCM_CONNECTION: ${{ secrets.POM_SCM_CONNECTION }}
-  POM_SCM_DEVELOPER_CONNECTION: ${{ secrets.POM_SCM_DEVELOPER_CONNECTION }}
-  POM_SCM_URL: ${{ secrets.POM_SCM_URL }}
-  SIGNING_ID: ${{ secrets.SIGNING_ID }}
-  SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-  SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-
 jobs:
 
   deploy-android:
@@ -46,10 +26,24 @@ jobs:
       - name: Make gradle executable
         run: chmod +x ./gradlew
 
-      - name: Setup environment variables
-        uses: oNaiPs/secrets-to-env-action@v1
-        with:
-          secrets: ${{ toJSON(secrets) }}
-
       - name: Sign and Publish Android Library
-        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --no-daemon --no-parallel --stacktrace --info --debug
+        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --no-daemon --no-parallel --stacktrace
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          POM_NAME: ${{ secrets.POM_NAME }}
+          POM_DESCRIPTION: ${{ secrets.POM_DESCRIPTION }}
+          POM_URL: ${{ secrets.POM_URL }}
+          POM_DEVELOPER_ID: ${{ secrets.POM_DEVELOPER_ID }}
+          POM_DEVELOPER_NAME: ${{ secrets.POM_DEVELOPER_NAME }}
+          POM_DEVELOPER_EMAIL: ${{ secrets.POM_DEVELOPER_EMAIL }}
+          POM_LICENSE_NAME: ${{ secrets.POM_LICENSE_NAME }}
+          POM_LICENSE_URL: ${{ secrets.POM_LICENSE_URL }}
+          POM_ISSUE_SYSTEM: ${{ secrets.POM_ISSUE_SYSTEM }}
+          POM_ISSUE_URL: ${{ secrets.POM_ISSUE_SYSTEM }}
+          POM_SCM_CONNECTION: ${{ secrets.POM_SCM_CONNECTION }}
+          POM_SCM_DEVELOPER_CONNECTION: ${{ secrets.POM_SCM_DEVELOPER_CONNECTION }}
+          POM_SCM_URL: ${{ secrets.POM_SCM_URL }}
+          SIGNING_ID: ${{ secrets.SIGNING_ID }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
