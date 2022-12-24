@@ -20,7 +20,7 @@ jobs:
       - name: Execute Print Job
         run: ./gradlew printTask --stacktrace
         env:
-          POM_DEVELOPER_NAME: ${{ secrets.POM_DEVELOPER_NAME }}
+          POM_DEVELOPER_NAME: Hello World
 
 #      - name: Set up JDK 11
 #        uses: actions/setup-java@v3
