@@ -46,9 +46,10 @@ jobs:
       - name: Make gradle executable
         run: chmod +x ./gradlew
 
-      - uses: oNaiPs/secrets-to-env-action@v1
+      - name: Setup environment variables
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
       - name: Sign and Publish Android Library
-        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --no-daemon --no-parallel --stacktrace
+        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --no-daemon --no-parallel --stacktrace --info --debug
