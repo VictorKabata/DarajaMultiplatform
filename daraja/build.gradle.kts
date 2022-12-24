@@ -6,8 +6,8 @@ val dokkaOutputDir = buildDir.resolve("reports/dokka")
 val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
-fun Project.get(key: String, defaultValue: String = "$key not found") =
-    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)
+fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
+    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
         ?: defaultValue
 
 plugins {
@@ -145,45 +145,49 @@ afterEvaluate {
             pom {
                 groupId = Library.groupId
                 artifactId = Library.artifactId
-                version = Library.version
+                version = project.get("POM_VERSION")
 
-                name.set(get("POM_NAME"))
-                description.set(get("POM_DESCRIPTION"))
-                url.set(get("POM_URL"))
+                name.set(project.get("POM_NAME"))
+                description.set(project.get("POM_DESCRIPTION"))
+                url.set(project.get("POM_URL"))
 
                 developers {
                     developer {
-                        id.set(get("POM_DEVELOPER_ID"))
-                        name.set(get("POM_DEVELOPER_NAME"))
-                        email.set(get("POM_DEVELOPER_EMAIL"))
+                        id.set(project.get("POM_DEVELOPER_ID"))
+                        name.set(project.get("POM_DEVELOPER_NAME"))
+                        email.set(project.get("POM_DEVELOPER_EMAIL"))
                     }
                 }
 
                 licenses {
                     license {
-                        name.set(get("POM_LICENSE_NAME"))
-                        url.set(get("POM_LICENSE_URL"))
+                        name.set(project.get("POM_LICENSE_NAME"))
+                        url.set(project.get("POM_LICENSE_URL"))
                     }
                 }
 
                 issueManagement {
-                    system.set(get("POM_ISSUE_SYSTEM"))
-                    url.set(get("POM_ISSUE_URL"))
+                    system.set(project.get("POM_ISSUE_SYSTEM"))
+                    url.set(project.get("POM_ISSUE_URL"))
                 }
 
                 scm {
-                    connection.set(get("POM_SCM_CONNECTION"))
-                    developerConnection.set(get("POM_SCM_DEVELOPER_CONNECTION"))
-                    url.set(get("POM_SCM_URL"))
+                    connection.set(project.get("POM_SCM_CONNECTION"))
+                    developerConnection.set(project.get("POM_SCM_DEVELOPER_CONNECTION"))
+                    url.set(project.get("POM_SCM_URL"))
                 }
             }
         }
 
         signing {
+            val signingKeyId = project.get("SIGNING_ID")
+            val signingKeyPassword = project.get("SIGNING_KEY")
+            val signingKey = project.get("SIGNING_PASSWORD")
+
             useInMemoryPgpKeys(
-                get("SIGNING_ID"),
-                get("SIGNING_KEY"),
-                get("SIGNING_PASSWORD")
+                signingKeyId,
+                signingKeyPassword,
+                signingKey
             )
             sign(publishing.publications)
         }
