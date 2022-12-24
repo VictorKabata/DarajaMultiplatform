@@ -122,10 +122,6 @@ kover {
     }
 }
 
-tasks.create("printTask") {
-    println(project.get("POM_DEVELOPER_NAME"))
-}
-
 afterEvaluate {
 
     publishing {
