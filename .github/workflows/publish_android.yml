@@ -59,6 +59,7 @@ jobs:
   deploy-android:
     name: 🚀 Sign and Publish Android Library
     runs-on: ubuntu-latest
+    needs: [build, lint-check, unit-tests]
     steps:
 
       - name: Sign and Publish Android Library
