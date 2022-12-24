@@ -1,4 +1,14 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
+val dokkaOutputDir = buildDir.resolve("reports/dokka")
+
+val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+
+fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
+    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
+        ?: defaultValue
 
 plugins {
     kotlin(BuildPlugins.multiplatform)
@@ -6,10 +16,14 @@ plugins {
     kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
     id(BuildPlugins.dokka) version Versions.dokka
     id(BuildPlugins.kover) version Versions.kover
+    id(BuildPlugins.mavenPublish)
+    id(BuildPlugins.signing)
 }
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
@@ -66,20 +80,36 @@ kotlin {
 android {
     namespace = AndroidSdk.namespace
     compileSdk = AndroidSdk.compileSdkVersion
-    sourceSets {
-        getByName("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-            java.srcDir("src/androidMain/kotlin")
-        }
-    }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
     }
+
+    buildTypes {
+        getByName("debug") {
+        }
+
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
 }
 
 tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("reports/dokka"))
+    outputDirectory.set(dokkaOutputDir)
+}
+
+val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") {
+    delete(dokkaOutputDir)
+}
+
+val javadocJar = tasks.register<Jar>("javadocJar") {
+    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaOutputDir)
 }
 
 kover {
@@ -87,6 +117,79 @@ kover {
         rule {
             name = "Minimal line coverage rate in percents"
             bound { minValue = 40 }
+        }
+    }
+}
+
+afterEvaluate {
+
+    publishing {
+
+        repositories {
+            maven {
+                name = "Sonatype"
+                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
+                else releasesRepoUrl
+
+                credentials {
+                    username = project.get("OSSRH_USERNAME")
+                    password = project.get("OSSRH_PASSWORD")
+                }
+            }
+        }
+
+        publications.withType<MavenPublication> {
+
+            artifact(javadocJar)
+
+            pom {
+                groupId = Library.groupId
+                artifactId = Library.artifactId
+                version = project.get("POM_VERSION")
+
+                name.set(project.get("POM_NAME"))
+                description.set(project.get("POM_DESCRIPTION"))
+                url.set(project.get("POM_URL"))
+
+                developers {
+                    developer {
+                        id.set(project.get("POM_DEVELOPER_ID"))
+                        name.set(project.get("POM_DEVELOPER_NAME"))
+                        email.set(project.get("POM_DEVELOPER_EMAIL"))
+                    }
+                }
+
+                licenses {
+                    license {
+                        name.set(project.get("POM_LICENSE_NAME"))
+                        url.set(project.get("POM_LICENSE_URL"))
+                    }
+                }
+
+                issueManagement {
+                    system.set(project.get("POM_ISSUE_SYSTEM"))
+                    url.set(project.get("POM_ISSUE_URL"))
+                }
+
+                scm {
+                    connection.set(project.get("POM_SCM_CONNECTION"))
+                    developerConnection.set(project.get("POM_SCM_DEVELOPER_CONNECTION"))
+                    url.set(project.get("POM_SCM_URL"))
+                }
+            }
+        }
+
+        signing {
+            val signingKeyId = project.get("SIGNING_ID")
+            val signingKeyPassword = project.get("SIGNING_KEY")
+            val signingKey = project.get("SIGNING_PASSWORD")
+
+            useInMemoryPgpKeys(
+                signingKeyId,
+                signingKeyPassword,
+                signingKey
+            )
+            sign(publishing.publications)
         }
     }
 }
