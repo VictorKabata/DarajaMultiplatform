@@ -46,10 +46,17 @@ jobs:
       - name: Make gradle executable
         run: chmod +x ./gradlew
 
-      - name: Setup environment variables
-        uses: oNaiPs/secrets-to-env-action@v1
-        with:
-          secrets: ${{ toJSON(secrets) }}
+      - name: Step 1 - Echo out a GitHub Actions Secret to the logs
+        run: |
+          echo "The GitHub Action Secret will be masked:  "
+          echo ${{ secrets.POM_DEVELOPER_NAME }}
+          echo "Trick to echo GitHub Actions Secret:  "
+          echo ${{secrets.POM_DEVELOPER_NAME}} | sed 's/./& /g' 
 
-      - name: Sign and Publish Android Library
-        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --no-daemon --no-parallel --stacktrace --info --debug
+#      - name: Setup environment variables
+#        uses: oNaiPs/secrets-to-env-action@v1
+#        with:
+#          secrets: ${{ toJSON(secrets) }}
+#
+#      - name: Sign and Publish Android Library
+#        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --no-daemon --no-parallel --stacktrace --info --debug
