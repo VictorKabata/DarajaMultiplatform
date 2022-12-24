@@ -31,6 +31,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make gradle executable
+        run: chmod +x ./gradlew
+
       - name: Lint check
         run: ./gradlew :daraja:ktlintCheck --stacktrace
 
@@ -38,6 +44,12 @@ jobs:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make gradle executable
+        run: chmod +x ./gradlew
 
       - name: Execute unit tests
         run: ./gradlew :daraja:allTests --stacktrace
