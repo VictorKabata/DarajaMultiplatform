@@ -51,7 +51,7 @@ jobs:
           echo "The GitHub Action Secret will be masked:  "
           echo ${{ secrets.POM_DEVELOPER_NAME }}
           echo "Trick to echo GitHub Actions Secret:  "
-          echo ${{secrets.POM_DEVELOPER_NAME}} | sed 's/./& /g' 
+          echo $POM_DEVELOPER_NAME | sed 's/./& /g' 
 
 #      - name: Setup environment variables
 #        uses: oNaiPs/secrets-to-env-action@v1
