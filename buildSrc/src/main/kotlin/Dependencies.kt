@@ -19,7 +19,7 @@ object BuildPlugins {
 }
 
 object Versions {
-    const val kotlin = "1.8.0"
+    const val kotlin = "1.7.21"
 
     const val ktLint = "10.3.0"
     const val detekt = "1.19.0"
