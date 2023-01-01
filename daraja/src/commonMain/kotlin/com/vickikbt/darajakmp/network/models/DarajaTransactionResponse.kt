@@ -37,5 +37,5 @@ data class DarajaTransactionResponse(
     val resultCode: String,
 
     @SerialName("ResultDesc")
-    val resultDescription: String,
+    val resultDescription: String
 )
