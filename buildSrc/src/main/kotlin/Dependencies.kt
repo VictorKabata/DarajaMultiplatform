@@ -21,7 +21,7 @@ object BuildPlugins {
 object Versions {
     const val kotlin = "1.7.21"
 
-    const val ktLint = "10.3.0"
+    const val ktLint = "11.0.0"
     const val detekt = "1.19.0"
     const val gradleVersionUpdate = "0.44.0"
     const val spotless = "6.2.2"
