@@ -11,6 +11,13 @@ fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
         ?: defaultValue
 
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
 plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
@@ -110,13 +117,6 @@ tasks.withType<DependencyUpdatesTask> {
     outputFormatter = "html"
     outputDir = "${project.rootDir}/build/reports"
     reportfileName = "dependencies_report"
-}
-
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
 }
 
 tasks.dokkaHtml.configure {
