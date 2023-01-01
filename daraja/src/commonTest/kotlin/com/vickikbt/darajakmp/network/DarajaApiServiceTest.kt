@@ -52,7 +52,7 @@ class DarajaApiServiceTest {
         partyA = "254708374149",
         partyB = "654321",
         callBackUrl = "https://mydomain.com/path",
-        accountReference = "Account reference",
+        accountReference = "Account reference"
     )
 
     @BeforeTest
