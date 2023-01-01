@@ -36,7 +36,7 @@ object Versions {
 
     const val mockative = "1.1.2"
 
-    const val kotlinxTestResources = "0.2.2"
+    const val kotlinxTestResources = "0.2.4"
 
     const val composeDesktop = "1.2.0-alpha01-dev683"
 }
