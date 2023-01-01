@@ -7,9 +7,12 @@ on:
 jobs:
 
   deploy-android:
-    
-    - name: Make gradle executable
-      run: chmod +x ./gradlew
+    name: 🚀 Sign and Publish iOS Library
+    runs-on: ubuntu-latest
+    steps:
 
-    - name: Publish Swift Package
-      uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
+      - name: Make gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Publish Swift Package
+        uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
