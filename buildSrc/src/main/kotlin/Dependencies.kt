@@ -27,12 +27,12 @@ object Versions {
     const val kover = "0.6.1"
 
     const val kotlinxCoroutines = "1.6.0-native-mt"
-    const val ktor = "2.1.3"
+    const val ktor = "2.2.1"
     const val kotlinxDateTime = "0.3.2"
     const val base64Encoding = "1.1.3"
     const val kotlinSerialization = "1.6.10"
     const val kotlinXSerialization = "1.2.2"
-    const val napier = "2.4.0"
+    const val napier = "2.6.1"
 
     const val mockative = "1.1.2"
 
