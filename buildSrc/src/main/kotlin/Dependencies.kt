@@ -1,13 +1,13 @@
-object Library{
-    const val groupId="io.github.victorkabata"
-    const val artifactId="daraja-multiplatform"
+object Library {
+    const val groupId = "io.github.victorkabata"
+    const val artifactId = "daraja-multiplatform"
 }
 
 object BuildPlugins {
     const val androidLibrary = "com.android.library"
     const val multiplatform = "multiplatform"
     const val kotlinXSerialization = "plugin.serialization"
-    const val mavenPublish="maven-publish"
+    const val mavenPublish = "maven-publish"
     const val signing = "signing"
 
     const val ktLint = "org.jlleitschuh.gradle.ktlint"
@@ -19,6 +19,8 @@ object BuildPlugins {
 }
 
 object Versions {
+    const val kotlin = "1.8.0"
+
     const val ktLint = "10.3.0"
     const val detekt = "1.19.0"
     const val gradleVersionUpdate = "0.44.0"
@@ -26,7 +28,7 @@ object Versions {
     const val dokka = "1.7.20"
     const val kover = "0.6.1"
 
-    const val kotlinxCoroutines = "1.6.0-native-mt"
+    const val kotlinxCoroutines = "1.6.4"
     const val ktor = "2.2.1"
     const val kotlinxDateTime = "0.3.2"
     const val base64Encoding = "1.1.3"
@@ -34,7 +36,7 @@ object Versions {
     const val kotlinXSerialization = "1.2.2"
     const val napier = "2.6.1"
 
-    const val mockative = "1.1.2"
+    const val mockative = "1.3.0"
 
     const val kotlinxTestResources = "0.2.4"
 
