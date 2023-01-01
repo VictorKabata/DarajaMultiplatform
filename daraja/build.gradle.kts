@@ -9,7 +9,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
@@ -26,7 +26,7 @@ plugins {
     id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.mavenPublish)
     id(BuildPlugins.signing)
-    id(BuildPlugins.kmmbridge) version Versions.kmmbridge
+    // id(BuildPlugins.kmmbridge) version Versions.kmmbridge
 
     id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
 }
@@ -216,8 +216,8 @@ afterEvaluate {
     }
 }
 
-kmmbridge {
+/*kmmbridge {
     spm()
     manualVersions()
     versionPrefix.set("9.0")
-}
+}*/
