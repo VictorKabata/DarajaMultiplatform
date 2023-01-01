@@ -1,5 +1,6 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
 
@@ -10,6 +11,13 @@ fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
         ?: defaultValue
 
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
 plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
@@ -18,6 +26,9 @@ plugins {
     id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.mavenPublish)
     id(BuildPlugins.signing)
+    // id(BuildPlugins.kmmbridge) version Versions.kmmbridge
+
+    id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
 }
 
 kotlin {
@@ -96,6 +107,17 @@ android {
             isMinifyEnabled = false
         }
     }
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf { isNonStable(candidate.version) && !isNonStable(currentVersion) }
+
+    checkForGradleUpdate = true
+    gradleReleaseChannel = "current"
+
+    outputFormatter = "html"
+    outputDir = "${project.rootDir}/build/reports"
+    reportfileName = "dependencies_report"
 }
 
 tasks.dokkaHtml.configure {

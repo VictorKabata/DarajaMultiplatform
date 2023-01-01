@@ -48,7 +48,7 @@ internal fun <T : Any> DarajaResult<T>.throwOnFailure(): DarajaException {
  *
  * @receiver [DarajaResult]
  * */
-internal inline fun <T : Any> DarajaResult<T>.getOrThrow(): T {
+internal fun <T : Any> DarajaResult<T>.getOrThrow(): T {
     return if (this is DarajaResult.Success) this.data
     else throw this.throwOnFailure()
 }

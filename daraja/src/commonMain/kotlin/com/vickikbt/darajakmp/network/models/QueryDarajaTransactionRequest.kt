@@ -31,5 +31,5 @@ data class QueryDarajaTransactionRequest(
     val timestamp: String,
 
     @SerialName("CheckoutRequestID")
-    val checkoutRequestID: String,
+    val checkoutRequestID: String
 )

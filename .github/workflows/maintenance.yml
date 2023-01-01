@@ -24,7 +24,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Check for release dependencies
-        run: ./gradlew dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependecies_report -DoutputDir=build/reports --stacktrace
+        run: ./gradlew :daraja:dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependecies_report -DoutputDir=build/reports --stacktrace
 
       - name: Upload dependecies report artifact
         uses: actions/upload-artifact@v3

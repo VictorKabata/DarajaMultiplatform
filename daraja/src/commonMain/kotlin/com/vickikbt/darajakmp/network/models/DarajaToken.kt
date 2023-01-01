@@ -31,5 +31,5 @@ data class DarajaToken(
 
     /**Token expiry time in seconds.*/
     @SerialName("expires_in")
-    val expiresIn: String,
+    val expiresIn: String
 )

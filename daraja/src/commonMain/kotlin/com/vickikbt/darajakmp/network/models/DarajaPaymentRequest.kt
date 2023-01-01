@@ -67,5 +67,5 @@ data class DarajaPaymentRequest(
 
     /**This is any additional information/comment that can be sent along with the request from your system. Maximum of 13 Characters.*/
     @SerialName("TransactionDesc")
-    val transactionDesc: String,
+    val transactionDesc: String
 )
