@@ -26,7 +26,7 @@ plugins {
     id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.mavenPublish)
     id(BuildPlugins.signing)
-    // id(BuildPlugins.kmmbridge) version Versions.kmmbridge
+    id(BuildPlugins.kmmbridge) version Versions.kmmbridge
 
     id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
 }
