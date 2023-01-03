@@ -9,6 +9,8 @@
 <img  src="https://img.shields.io/badge/-WEB-CCCCCC?logo=javascript&logoColor=606060&style=for-the-badge">
 </p>
 
+# ⚠️Not Stable⚠️
+
 [Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API budded [_Daraja API_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
 > M-PESA is a mobile money transfer service in Kenya that allows users to store and transfer money through their mobile phones.
 
@@ -31,7 +33,7 @@ Daraja Multiplatform is available for download from [Maven Central](https://mvnr
 
 ```Kotlin
   dependencies {
-    implementation ("com.victorkabata.daraja:daraja-multiplatform:1.0.0")
+    implementation ("io.github.victorkabata:daraja-multiplatform:0.9.0")
   }
 ```
 
@@ -42,7 +44,7 @@ Daraja Multiplatform is available for download from [Maven Central](https://mvnr
 
 ```Groovy
   dependencies {
-    implementation 'com.victorkabata.daraja:daraja-multiplatform:1.0.0'
+    implementation 'io.github.victorkabata:daraja-multiplatform:0.9.0'
   }
  ```
 
