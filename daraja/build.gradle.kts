@@ -215,3 +215,9 @@ afterEvaluate {
         }
     }
 }
+
+/*kmmbridge {
+    spm()
+    manualVersions()
+    versionPrefix.set("9.0")
+}*/
