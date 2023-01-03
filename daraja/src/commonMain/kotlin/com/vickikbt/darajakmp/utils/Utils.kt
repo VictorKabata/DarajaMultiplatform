@@ -49,12 +49,10 @@ internal fun getDarajaPassword(shortCode: String, passkey: String, timestamp: St
 
 /**Format phone number provided by user to format that Daraja API recognises*/
 internal fun String.getDarajaPhoneNumber(): String? {
-    if (this.isBlank()) return null
-    if (this.length < 11 && this.startsWith("0")) {
-        return this.replaceFirst("^0".toRegex(), "254")
+    return when{
+        this.isBlank() -> null
+        this.length < 11 && this.startsWith("0") -> this.replaceFirst("^0".toRegex(), "254")
+        this.length == 13 && this.startsWith("+") -> this.replaceFirst("^+".toRegex(), "")
+        else -> this
     }
-    return if (this.length == 13 && this.startsWith("+")) this.replaceFirst(
-        "^+".toRegex(),
-        ""
-    ) else this
 }
