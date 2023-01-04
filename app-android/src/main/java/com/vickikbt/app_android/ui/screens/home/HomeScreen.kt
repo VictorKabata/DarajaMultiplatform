@@ -14,19 +14,31 @@
  * limitations under the License.
  */
 
-package com.vickikbt.app_android.ui.screens
+package com.vickikbt.app_android.ui.screens.home
 
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -39,7 +51,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,8 +63,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.vickikbt.app_android.R
-import com.vickikbt.app_android.ui.screens.home.HomeViewModel
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 import com.vickikbt.darajakmp.utils.onFailure
 import com.vickikbt.darajakmp.utils.onSuccess
@@ -58,86 +73,89 @@ import org.koin.androidx.compose.get
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = get()) {
-    var tillNumber by remember { mutableStateOf("174379") }
+    val tillNumber by remember { mutableStateOf("174379") }
     var amount by remember { mutableStateOf(1) }
-    var phoneNumber by remember { mutableStateOf("0714091304") }
+    var phoneNumber by remember { mutableStateOf("") }
 
     val mpesaResponse = viewModel.mpesaResponse.collectAsState().value
 
     val context = LocalContext.current
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 16.dp, horizontal = 8.dp)
-    ) {
-        Text(
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+
+        val (card, button) = createRefs()
+
+        ElevatedCard(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(horizontal = 2.dp),
-            text = stringResource(id = R.string.app_name),
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                space = 42.dp,
-                alignment = Alignment.CenterVertically
-            )
+                .fillMaxWidth()
+                .fillMaxHeight(.35f)
+                .padding(horizontal = 24.dp)
+                .constrainAs(card) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+            shape = RoundedCornerShape(6.dp)
         ) {
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(.8f),
-                value = tillNumber,
-                onValueChange = { tillNumber = it },
-                singleLine = true,
-                maxLines = 1,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                    color = MaterialTheme.colorScheme.onBackground
-                ),
-                label = { Text(text = "Till Number") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-            )
 
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(.8f),
-                value = amount.toString(),
-                onValueChange = { amount = it.toInt() },
-                singleLine = true,
-                maxLines = 1,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                    color = MaterialTheme.colorScheme.onBackground
-                ),
-                label = { Text(text = "Amount") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 24.dp,
+                    alignment = Alignment.CenterVertically
+                )
+            ) {
 
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(.8f),
-                value = phoneNumber,
-                onValueChange = { phoneNumber = it },
-                singleLine = true,
-                maxLines = 1,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                    color = MaterialTheme.colorScheme.onBackground
-                ),
-                label = { Text(text = "Phone Number") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
-            )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = amount.toString(),
+                    onValueChange = { amount = it.toInt() },
+                    singleLine = true,
+                    maxLines = 1,
+                    textStyle = TextStyle(
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.onBackground
+                    ),
+                    label = { Text(text = "Amount") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = phoneNumber,
+                    onValueChange = { it.let { phoneNumber = it } },
+                    singleLine = true,
+                    maxLines = 1,
+                    textStyle = TextStyle(
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.onBackground
+                    ),
+                    label = { Text(text = "Phone Number") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
+                )
+
+            }
+
         }
 
-        Button(
-            modifier = Modifier.align(Alignment.BottomCenter),
+        FloatingActionButton(
+            modifier = Modifier
+                .size(64.dp)
+                .constrainAs(button) {
+                    top.linkTo(card.bottom)
+                    bottom.linkTo(card.bottom)
+                    start.linkTo(card.start)
+                    end.linkTo(card.end)
+                },
+            shape = CircleShape,
+            containerColor = colorResource(id = R.color.theme_color),
+            contentColor = Color.White,
+            elevation = FloatingActionButtonDefaults.elevation(),
             onClick = {
                 viewModel.initiateMpesaPayment(
                     businessShortCode = tillNumber,
@@ -149,17 +167,17 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                 )
             }
         ) {
-            Text(text = "Make Payment", fontSize = 20.sp)
+            Icon(
+                modifier = Modifier.size(28.dp),
+                painter = painterResource(id = R.drawable.ic_payment),
+                contentDescription = "Pay"
+            )
         }
     }
 
-    Log.i("Mpesa Response", "$mpesaResponse")
-
     mpesaResponse?.onSuccess {
-        Log.i("SUCCESS", "$it")
         Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
     }?.onFailure {
-        Log.i("ERROR", "Daraja Error: $it")
         Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
     }
 }
