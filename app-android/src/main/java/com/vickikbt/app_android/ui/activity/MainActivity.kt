@@ -25,7 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.vickikbt.app_android.ui.screens.HomeScreen
+import com.vickikbt.app_android.ui.screens.home.HomeScreen
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
 
 class MainActivity : ComponentActivity() {
