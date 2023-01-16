@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalObjCName::class)
-
 package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
@@ -47,6 +45,7 @@ import kotlinx.datetime.Clock
  * @param passKey Daraja API passkey
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
+@OptIn(ExperimentalObjCName::class)
 @ObjCName(swiftName = "Daraja")
 class Daraja constructor(
     private val consumerKey: String?,
