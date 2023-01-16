@@ -14,27 +14,22 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalObjCName::class)
+
 package com.vickikbt.darajakmp
 
 import com.vickikbt.darajakmp.network.DarajaApiService
 import com.vickikbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickikbt.darajakmp.network.models.DarajaPaymentRequest
-import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
-import com.vickikbt.darajakmp.network.models.DarajaToken
-import com.vickikbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickikbt.darajakmp.network.models.QueryDarajaTransactionRequest
-import com.vickikbt.darajakmp.utils.DarajaEnvironment
-import com.vickikbt.darajakmp.utils.DarajaResult
-import com.vickikbt.darajakmp.utils.DarajaTransactionType
-import com.vickikbt.darajakmp.utils.getDarajaPassword
-import com.vickikbt.darajakmp.utils.getDarajaPhoneNumber
-import com.vickikbt.darajakmp.utils.getDarajaTimestamp
-import io.ktor.client.HttpClient
+import com.vickikbt.darajakmp.network.models.*
+import com.vickikbt.darajakmp.utils.*
+import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 /**Create an instance of [Daraja] object that acts as an interface to access Daraja API functionalities
  *
@@ -43,6 +38,7 @@ import kotlinx.datetime.Clock
  * @param passKey Daraja API passkey
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
+@ObjCName(swiftName = "Daraja")
 class Daraja constructor(
     private val consumerKey: String?,
     private val consumerSecret: String?,
@@ -58,10 +54,10 @@ class Daraja constructor(
      * @param [environment]
      * */
     data class Builder(
-        private var consumerKey: String? = null,
-        private var consumerSecret: String? = null,
-        private var passKey: String? = null,
-        private var environment: DarajaEnvironment? = null
+        @ObjCName(swiftName = "consumerKey") private var consumerKey: String? = null,
+        @ObjCName(swiftName = "consumerSecret") private var consumerSecret: String? = null,
+        @ObjCName(swiftName = "passKey") private var passKey: String? = null,
+        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment? = null
     ) {
 
         /**Provides [consumerKey] provided by Daraja API
@@ -90,6 +86,7 @@ class Daraja constructor(
         fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
+        @ObjCName(swiftName = "init")
         fun build(): Daraja = Daraja(
             consumerKey = consumerKey,
             consumerSecret = consumerSecret,
