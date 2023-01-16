@@ -99,7 +99,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Sign and Publish Android Library
-        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 :daraja:closeAndReleaseSonatypeStagingRepository --stacktrace
+        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 --stacktrace
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
