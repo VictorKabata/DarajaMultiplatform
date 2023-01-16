@@ -16,15 +16,23 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.*
+import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
+import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickbt.darajakmp.network.models.DarajaToken
+import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
+import com.vickbt.darajakmp.network.models.QueryDarajaTransactionRequest
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.getOrThrow
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.util.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.utils.EmptyContent.headers
+import io.ktor.http.HttpHeaders
+import io.ktor.util.encodeBase64
 
 /**Encapsulate API calls to Daraja API
  *

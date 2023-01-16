@@ -21,12 +21,12 @@ import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
-import io.ktor.client.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
+import io.ktor.client.HttpClient
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DarajaApiServiceTest {
