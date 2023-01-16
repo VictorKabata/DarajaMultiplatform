@@ -60,7 +60,7 @@ kotlin {
 
             implementation(Dependencies.kotlinXSerialization)
 
-            api(Dependencies.napier) // ToDo: Change to implementation
+            implementation(Dependencies.napier)
 
             implementation(Dependencies.kotlinxDateTime)
 
