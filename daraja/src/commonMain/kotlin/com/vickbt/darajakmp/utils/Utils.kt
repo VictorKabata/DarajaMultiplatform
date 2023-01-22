@@ -26,17 +26,22 @@ internal fun Instant.getDarajaTimestamp(): String {
     val currentDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
 
     val year = currentDateTime.year
-    val month =
-        if (currentDateTime.monthNumber < 10) "0${currentDateTime.monthNumber}" else currentDateTime.monthNumber
-    val dayOfMonth =
-        if (currentDateTime.dayOfMonth < 10) "0${currentDateTime.dayOfMonth}" else currentDateTime.dayOfMonth
-    val hour = if (currentDateTime.hour < 10) "0${currentDateTime.hour}" else currentDateTime.hour
-    val minutes =
-        if (currentDateTime.minute < 10) "0${currentDateTime.minute}" else currentDateTime.minute
-    val seconds =
-        if (currentDateTime.second < 10) "0${currentDateTime.second}" else currentDateTime.second
+    val month = currentDateTime.monthNumber.asFormattedWithZero()
+    val dayOfMonth = currentDateTime.dayOfMonth.asFormattedWithZero()
+    val hour = currentDateTime.hour.asFormattedWithZero()
+    val minutes = currentDateTime.minute.asFormattedWithZero()
+    val seconds = currentDateTime.second.asFormattedWithZero()
 
     return "$year$month$dayOfMonth$hour$minutes$seconds"
+}
+
+/**
+ * Formats time values that have a single digit by prefixing them with an extra zero
+ * e.g "1:00" becomes "01:00"
+ */
+internal fun Int.asFormattedWithZero(): Comparable<*> = when (this < 10) {
+    true -> "0$this"
+    false -> this
 }
 
 // Shortcode+Passkey+Timestamp
