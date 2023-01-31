@@ -16,11 +16,13 @@
 
 package com.vickbt.darajakmp.utils
 
+import com.vickbt.darajakmp.network.models.DarajaException
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class UtilsTest {
 
@@ -44,22 +46,64 @@ class UtilsTest {
 
     @Test
     fun phone_number_starting_with_07_is_formatted_correctly() {
-        val phoneNumber = "0714091304"
-        val expectedResult = "254714091304"
+        val phoneNumber = "0714021306"
+        val expectedResult = "254714021306"
+
+        assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
+    }
+
+    @Test
+    fun phone_number_starting_with_01_is_formatted_correctly() {
+        val phoneNumber = "0114624401"
+        val expectedResult = "254114624401"
 
         assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
     }
 
     @Test
     fun phone_number_starting_with_254_is_formatted_correctly() {
-        val phoneNumber = "254714091304"
-        val expectedResult = "254714091304"
+        val phoneNumber = "254714091301"
+        val expectedResult = "254714091301"
 
         assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
     }
 
     @Test
-    fun time_units_with_value_less_than_ten_are_formatted_as_expected() {
+    fun phone_number_starting_with_plus_254_is_formatted_correctly() {
+        val phoneNumber = "+254714091301"
+        val expectedResult = "254714091301"
+
+        assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
+    }
+
+    @Test
+    fun phone_number_less_than_10_characters_throws_errors() {
+        val phoneNumbers = listOf("071409130", "+25471409130", "25471409130")
+
+        assertFailsWith<DarajaException> {
+            phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+        }
+    }
+
+    @Test
+    fun phone_number_more_than_10_characters_throws_errors() {
+        val phoneNumbers = listOf("07140913023", "+2547140913023", "2547140913023")
+
+        assertFailsWith<DarajaException> {
+            phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+        }
+    }
+
+    @Test
+    fun phone_number_with_spaces_are_formatted_correctly() {
+        val phoneNumbers = listOf("0 714091 30  3", " + 2 547  140 913 03", "2 5 4714 091 30 3 ")
+        val expectedPhoneNumbers = listOf("254714091303", "254714091303", "254714091303")
+
+        assertEquals(expectedPhoneNumbers, phoneNumbers.map { it.getDarajaPhoneNumber() })
+    }
+
+    @Test
+    fun time_units_with_value_less_than_ten_are_formatted_correctly() {
         val timeUnit = 1
         val expectedTimeUnit = "01"
 
