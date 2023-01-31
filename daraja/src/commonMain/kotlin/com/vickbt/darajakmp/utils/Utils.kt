@@ -16,6 +16,7 @@
 
 package com.vickbt.darajakmp.utils
 
+import com.vickbt.darajakmp.network.models.DarajaException
 import io.ktor.util.encodeBase64
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -52,12 +53,19 @@ internal fun getDarajaPassword(shortCode: String, passkey: String, timestamp: St
     return password.encodeBase64()
 }
 
-/**Format phone number provided by user to format that Daraja API recognises*/
-internal fun String.getDarajaPhoneNumber(): String? {
+/**Format phone number provided by user to format that Daraja API recognises ie. 254714023125
+ *
+ * @return [phoneNumber] Formatted string to match a valid M-pesa number
+ * */
+internal fun String.getDarajaPhoneNumber(): String {
+    val phoneNumber = this.replace("\\s".toRegex(), "")
+
     return when {
-        this.isBlank() -> null
-        this.length < 11 && this.startsWith("0") -> this.replaceFirst("^0".toRegex(), "254")
-        this.length == 13 && this.startsWith("+") -> this.replaceFirst("^+".toRegex(), "")
-        else -> this
+        phoneNumber.matches(Regex("^(?:254)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) -> phoneNumber
+        phoneNumber.matches(Regex("^(?:0)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) ->
+            phoneNumber.replaceFirst("0", "254")
+        phoneNumber.matches(Regex("^(?:\\+254)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) ->
+            phoneNumber.replaceFirst("+", "")
+        else -> throw DarajaException("Invalid phone number format provided: $this")
     }
 }
