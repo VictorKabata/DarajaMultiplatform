@@ -55,9 +55,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.vickbt.app_android.ui.theme.DarajaKmpTheme
+import com.vickbt.darajakmp.utils.onFailure
+import com.vickbt.darajakmp.utils.onSuccess
 import com.vickikbt.app_android.R
-import com.vickikbt.darajakmp.utils.onFailure
-import com.vickikbt.darajakmp.utils.onSuccess
 import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalMaterial3Api::class)

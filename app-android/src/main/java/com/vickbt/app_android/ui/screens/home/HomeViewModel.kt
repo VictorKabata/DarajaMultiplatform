@@ -18,9 +18,9 @@ package com.vickbt.app_android.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vickikbt.darajakmp.Daraja
-import com.vickikbt.darajakmp.network.models.DarajaPaymentResponse
-import com.vickikbt.darajakmp.utils.DarajaResult
+import com.vickbt.darajakmp.Daraja
+import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickbt.darajakmp.utils.DarajaResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

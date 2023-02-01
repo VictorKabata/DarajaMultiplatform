@@ -35,17 +35,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-        )
     }
+
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = "1.4.0"
     }
     packagingOptions {
         resources {
@@ -57,7 +53,7 @@ android {
 dependencies {
     val compose_version = "1.1.1"
 
-    implementation("io.github.victorkabata:daraja-multiplatform:0.9.0")
+    implementation("io.github.victorkabata:daraja-multiplatform:0.9.1")
 
     implementation("androidx.core:core-ktx:1.9.0")
 

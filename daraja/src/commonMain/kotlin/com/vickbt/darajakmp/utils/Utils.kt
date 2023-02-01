@@ -16,6 +16,7 @@
 
 package com.vickbt.darajakmp.utils
 
+import com.vickbt.darajakmp.network.models.DarajaException
 import io.ktor.util.encodeBase64
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -26,17 +27,22 @@ internal fun Instant.getDarajaTimestamp(): String {
     val currentDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
 
     val year = currentDateTime.year
-    val month =
-        if (currentDateTime.monthNumber < 10) "0${currentDateTime.monthNumber}" else currentDateTime.monthNumber
-    val dayOfMonth =
-        if (currentDateTime.dayOfMonth < 10) "0${currentDateTime.dayOfMonth}" else currentDateTime.dayOfMonth
-    val hour = if (currentDateTime.hour < 10) "0${currentDateTime.hour}" else currentDateTime.hour
-    val minutes =
-        if (currentDateTime.minute < 10) "0${currentDateTime.minute}" else currentDateTime.minute
-    val seconds =
-        if (currentDateTime.second < 10) "0${currentDateTime.second}" else currentDateTime.second
+    val month = currentDateTime.monthNumber.asFormattedWithZero()
+    val dayOfMonth = currentDateTime.dayOfMonth.asFormattedWithZero()
+    val hour = currentDateTime.hour.asFormattedWithZero()
+    val minutes = currentDateTime.minute.asFormattedWithZero()
+    val seconds = currentDateTime.second.asFormattedWithZero()
 
     return "$year$month$dayOfMonth$hour$minutes$seconds"
+}
+
+/**
+ * Formats time values that have a single digit by prefixing them with an extra zero
+ * e.g "1:00" becomes "01:00"
+ */
+internal fun Int.asFormattedWithZero(): Comparable<*> = when (this < 10) {
+    true -> "0$this"
+    false -> this
 }
 
 // Shortcode+Passkey+Timestamp
@@ -47,12 +53,19 @@ internal fun getDarajaPassword(shortCode: String, passkey: String, timestamp: St
     return password.encodeBase64()
 }
 
-/**Format phone number provided by user to format that Daraja API recognises*/
-internal fun String.getDarajaPhoneNumber(): String? {
+/**Format phone number provided by user to format that Daraja API recognises ie. 254714023125
+ *
+ * @return [phoneNumber] Formatted string to match a valid M-pesa number
+ * */
+internal fun String.getDarajaPhoneNumber(): String {
+    val phoneNumber = this.replace("\\s".toRegex(), "")
+
     return when {
-        this.isBlank() -> null
-        this.length < 11 && this.startsWith("0") -> this.replaceFirst("^0".toRegex(), "254")
-        this.length == 13 && this.startsWith("+") -> this.replaceFirst("^+".toRegex(), "")
-        else -> this
+        phoneNumber.matches(Regex("^(?:254)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) -> phoneNumber
+        phoneNumber.matches(Regex("^(?:0)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) ->
+            phoneNumber.replaceFirst("0", "254")
+        phoneNumber.matches(Regex("^(?:\\+254)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) ->
+            phoneNumber.replaceFirst("+", "")
+        else -> throw DarajaException("Invalid phone number format provided: $this")
     }
 }

@@ -26,7 +26,7 @@ jobs:
   build:
     name: 🔨 Build
     runs-on: ubuntu-latest
-    needs: [apply-copyright]
+    needs: [ apply-copyright ]
     steps:
 
       - name: Checkout code
@@ -47,7 +47,7 @@ jobs:
   lint-check:
     name: 🔍 Lint Check
     runs-on: ubuntu-latest
-    needs: [apply-copyright]
+    needs: [ apply-copyright ]
     steps:
 
       - name: Checkout code
@@ -62,7 +62,7 @@ jobs:
   unit-tests:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
-    needs: [apply-copyright]
+    needs: [ apply-copyright ]
     steps:
 
       - name: Checkout code
@@ -83,7 +83,7 @@ jobs:
   deploy-android:
     name: 🚀 Sign and Publish Android Library
     runs-on: ubuntu-latest
-    needs: [build, lint-check, unit-tests]
+    needs: [ build, lint-check, unit-tests ]
     steps:
 
       - name: Checkout code
@@ -99,7 +99,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Sign and Publish Android Library
-        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 --stacktrace
+        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 daraja:closeAndReleaseSonatypeStagingRepository --stacktrace
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
