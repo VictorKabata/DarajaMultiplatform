@@ -53,7 +53,7 @@ android {
 dependencies {
     val compose_version = "1.1.1"
 
-    // implementation("io.github.victorkabata:daraja-multiplatform:0.9.1")
+    implementation("io.github.victorkabata:daraja-multiplatform:0.9.1")
 
     implementation("androidx.core:core-ktx:1.9.0")
 
