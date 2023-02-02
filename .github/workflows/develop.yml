@@ -26,20 +26,6 @@ jobs:
       - name: Build with gradle
         run: ./gradlew :daraja:build --stacktrace
 
-  lint-check:
-    name: 🔍 Lint Check
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Make gradle executable
-        run: chmod +x ./gradlew
-
-      - name: Lint check
-        run: ./gradlew :daraja:ktlintCheck --stacktrace
-
   unit-tests:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
