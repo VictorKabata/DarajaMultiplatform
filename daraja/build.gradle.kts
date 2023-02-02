@@ -26,7 +26,7 @@ plugins {
     id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.mavenPublish)
     id(BuildPlugins.signing)
-    // id(BuildPlugins.kmmbridge) version Versions.kmmbridge
+    id(BuildPlugins.kmmbridge)
 
     id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
 }
@@ -41,7 +41,13 @@ kotlin {
         System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
         else -> ::iosX64
     }
-    iosTarget("iOS") {}
+    iosTarget("iOS") {
+        binaries {
+            framework {
+                isStatic = true
+            }
+        }
+    }
 
     // jvm()
 
@@ -216,8 +222,8 @@ afterEvaluate {
     }
 }
 
-/*kmmbridge {
+kmmbridge {
     spm()
     manualVersions()
-    versionPrefix.set("9.0")
-}*/
+    versionPrefix.set("9.2")
+}

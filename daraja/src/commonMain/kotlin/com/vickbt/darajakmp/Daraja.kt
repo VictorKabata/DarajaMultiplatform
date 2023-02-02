@@ -72,12 +72,14 @@ class Daraja constructor(
          *
          * @param consumerKey Daraja API consumer key
          * */
+        @ObjCName(swiftName = "withConsumerKey")
         fun setConsumerKey(consumerKey: String) = apply { this.consumerKey = consumerKey }
 
         /**Provides [consumerSecret] provided by Daraja API
          *
          * @param consumerSecret Daraja API consumer secret
          * */
+        @ObjCName(swiftName = "withConsumerSecret")
         fun setConsumerSecret(consumerSecret: String) =
             apply { this.consumerSecret = consumerSecret }
 
@@ -85,6 +87,7 @@ class Daraja constructor(
          *
          * @param passKey Daraja API pass key
          * */
+        @ObjCName(swiftName = "withPassKey")
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
         /**Set Daraja API environment to Sandbox/Testing mode*/

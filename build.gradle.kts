@@ -8,6 +8,8 @@ plugins {
     id(BuildPlugins.ktLint) version Versions.ktLint
     id(BuildPlugins.detekt) version Versions.detekt
     id(BuildPlugins.spotless) version Versions.spotless
+
+    id(BuildPlugins.kmmbridge) version Versions.kmmbridge apply false
 }
 
 subprojects {
