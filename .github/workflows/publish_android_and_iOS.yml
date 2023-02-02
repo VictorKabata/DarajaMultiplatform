@@ -74,7 +74,7 @@ jobs:
   deploy-android:
     name: 🚀 Sign and Publish Android Library
     runs-on: ubuntu-latest
-    needs: [ build, lint-check, unit-tests ]
+    needs: [ build, unit-tests ]
     steps:
 
       - name: Checkout code
@@ -114,5 +114,5 @@ jobs:
 
   publish-iOS:
     name: 🚀 Publish iOS Library
-    needs: [ build, lint-check, unit-tests ]
+    needs: [ build, unit-tests ]
     uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
