@@ -6,6 +6,9 @@ on:
       androidVersionName:
         description: 'Android Version Name (eg. 0.9.0)'
         required: true
+      iOSVersionName:
+        description: 'iOS Version prefix (eg. _.9.0)'
+        required: true
 
 jobs:
 
@@ -105,3 +108,8 @@ jobs:
           SIGNING_ID: ${{ secrets.SIGNING_ID }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+
+  publish-iOS:
+    name: 🚀 Publish iOS Library
+    needs: [ build, lint-check, unit-tests ]
+    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6

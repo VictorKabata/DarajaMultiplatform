@@ -1,10 +1,17 @@
-name: Sign and Publish iOS Library
+name: Publish iOS Library
 
 on:
-  push:
-    branches: [ iOS-support ]
+  workflow_dispatch:
+    inputs:
+      iOSVersionName:
+        description: 'iOS Version prefix (eg. _.9.0)'
+        required: true
+
+  env:
+    IOS_PREFIX: ${{ github.event.inputs.iOSVersionName }}
+
 
 jobs:
-  call-kmmbridge-publish:
+  publish-iOS:
     name: 🚀 Publish iOS Library
     uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6

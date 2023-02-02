@@ -43,7 +43,8 @@ kotlin {
     }
     iosTarget("iOS") {
         binaries {
-            framework {
+            framework("DarajaMultiplatform") {
+                baseName = "DarajaMultiplatform"
                 isStatic = true
             }
         }
@@ -223,7 +224,8 @@ afterEvaluate {
 }
 
 kmmbridge {
+    mavenPublishArtifacts()
     spm()
     manualVersions()
-    versionPrefix.set("9.2")
+    versionPrefix.set(project.get("IOS_PREFIX"))
 }
