@@ -1,4 +1,4 @@
-name: Sign and Publish Android Library
+name: Publish Android and iOS Libraries
 
 on:
   workflow_dispatch:
@@ -9,6 +9,9 @@ on:
       iOSVersionName:
         description: 'iOS Version prefix (eg. _.9.0)'
         required: true
+
+env:
+  IOS_PREFIX: ${{ github.event.inputs.iOSVersionName }}
 
 jobs:
 
