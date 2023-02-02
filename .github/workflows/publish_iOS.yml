@@ -7,8 +7,8 @@ on:
         description: 'iOS Version prefix (eg. _.9.0)'
         required: true
 
-  env:
-    IOS_PREFIX: ${{ github.event.inputs.iOSVersionName }}
+env:
+  IOS_PREFIX: ${{ github.event.inputs.iOSVersionName }}
 
 
 jobs:
