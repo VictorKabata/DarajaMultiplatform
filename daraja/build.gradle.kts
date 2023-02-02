@@ -41,7 +41,13 @@ kotlin {
         System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
         else -> ::iosX64
     }
-    iosTarget("iOS") {}
+    iosTarget("iOS") {
+        binaries {
+            framework {
+                isStatic = true
+            }
+        }
+    }
 
     // jvm()
 
@@ -216,8 +222,8 @@ afterEvaluate {
     }
 }
 
-/*kmmbridge {
+kmmbridge {
     spm()
     manualVersions()
-    versionPrefix.set("9.0")
-}*/
+    versionPrefix.set("9.2")
+}
