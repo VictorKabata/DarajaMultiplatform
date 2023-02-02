@@ -33,7 +33,7 @@ Daraja Multiplatform is available for download from [Maven Central](https://mvnr
 
 ```Kotlin
   dependencies {
-    implementation ("io.github.victorkabata:daraja-multiplatform:0.9.2")
+    implementation ("io.github.victorkabata:daraja-multiplatform:0.9.3")
   }
 ```
 
@@ -44,7 +44,7 @@ Daraja Multiplatform is available for download from [Maven Central](https://mvnr
 
 ```Groovy
   dependencies {
-    implementation 'io.github.victorkabata:daraja-multiplatform:0.9.2'
+    implementation 'io.github.victorkabata:daraja-multiplatform:0.9.3'
   }
  ```
 
