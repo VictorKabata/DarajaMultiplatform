@@ -1,10 +1,10 @@
-#name: Sign and Publish iOS Library
-#
-#on:
-#  push:
-#    branches: [ maintainance ]
-#
-#jobs:
-#  call-kmmbridge-publish:
-#    name: 🚀 Sign and Publish iOS Library
-#    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
+name: Sign and Publish iOS Library
+
+on:
+  push:
+    branches: [ iOS-support ]
+
+jobs:
+  call-kmmbridge-publish:
+    name: 🚀 Publish iOS Library
+    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
