@@ -1,6 +1,7 @@
-name: Sign and Publish iOS Library
+name: Publish iOS Library
 
 on:
+  workflow_dispatch:
   push:
     branches: [ iOS-support ]
 
