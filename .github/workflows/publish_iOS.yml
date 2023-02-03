@@ -2,14 +2,6 @@ name: Publish iOS Library
 
 on:
   workflow_dispatch:
-    inputs:
-      iOSVersionName:
-        description: 'iOS Version prefix (eg. _.9.0)'
-        required: true
-
-env:
-  IOS_PREFIX: ${{ github.event.inputs.iOSVersionName }}
-
 
 jobs:
   publish-iOS:
