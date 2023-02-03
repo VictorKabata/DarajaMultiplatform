@@ -6,6 +6,8 @@ on:
       iOSVersionName:
         description: 'iOS Version prefix (eg. _.9.0)'
         required: true
+  push:
+    branches: [iOS-support]
 
 env:
   IOS_PREFIX: ${{ github.event.inputs.iOSVersionName }}
