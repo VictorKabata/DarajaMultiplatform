@@ -228,6 +228,7 @@ kmmbridge {
     githubReleaseVersions()
     versionPrefix.set("0.9")
     frameworkName.set("DarajaMultiplatform")
+    addGithubPackagesRepository()
     spm()
     // versionPrefix.set(project.get("IOS_PREFIX"))
 }
