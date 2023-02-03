@@ -2,8 +2,6 @@ name: Publish iOS Library
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ci-cd]
 
 jobs:
   publish-iOS:
