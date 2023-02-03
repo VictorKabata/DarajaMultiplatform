@@ -226,7 +226,7 @@ afterEvaluate {
 kmmbridge {
     mavenPublishArtifacts()
     githubReleaseVersions()
-    versionPrefix.set("9.3")
+    versionPrefix.set("0.9")
     frameworkName.set("DarajaMultiplatform")
     spm()
     // versionPrefix.set(project.get("IOS_PREFIX"))
