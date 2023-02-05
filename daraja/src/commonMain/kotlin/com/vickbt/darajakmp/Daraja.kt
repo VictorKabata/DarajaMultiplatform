@@ -29,14 +29,9 @@ import com.vickbt.darajakmp.utils.DarajaTransactionType
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
-import com.vickbt.darajakmp.utils.getOrNull
-import com.vickbt.darajakmp.utils.getOrThrow
-import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
