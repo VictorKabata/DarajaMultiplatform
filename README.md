@@ -1,6 +1,6 @@
-<p align="center"><img src="assets/logo.png" alt="Daraja Multiplatform logo" height="100px"></p>
+# __Daraja Multiplatform__
 
-<p align="center">
+<p align="left">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=android&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-IOS-3AA335?logo=ios&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-WINDOWS-CCCCCC?logo=windows&logoColor=606060&style=for-the-badge">
@@ -9,10 +9,22 @@
 <img  src="https://img.shields.io/badge/-WEB-CCCCCC?logo=javascript&logoColor=606060&style=for-the-badge">
 </p>
 
-# ⚠️Work in Progress⚠️
+## ⚠️Work in progress⚠️
 
 [Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API dubbed [_Daraja API_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
 > M-PESA is a mobile money transfer service in Kenya that allows users to store and transfer money through their mobile phones.
+
+## Table of Content
+
+- [Prerequisite](#prerequisite)
+- [Usage](#usage)
+  - [Android - Kotlin/Java](#android---kotlinjava)
+    - [Setting Up](#setting-up)
+    - [Request Access Token](#request-access-token)
+    - [Initiate M-Pesa Express STK Request](#initiate-m-pesa-express-stk-request)
+    - [Query M-Pesa Transaction](#query-m-pesa-transaction)
+  - [iOS - Swift](#ios---swift)
+    - [Setting Up](#setting-up-1)
 
 ## Prerequisite
 
@@ -20,11 +32,11 @@ To get started, you’ll need to create an account on the Daraja API portal to u
 
 After successfully creating an account on the Daraja API portal and creating a new Daraja app, you’ll need to add your ___consumer key___, ___consumer secret___ and ___pass key___ obtained from the Daraja API portal to your project.
 
-## How to use in your project
-
-Daraja Multiplatform is available for download from [Maven Central](https://mvnrepository.com/repos/central).
+## Usage
 
 ## Android - Kotlin/Java
+
+### Setting Up
 
 - In your android application project-level gradle file add the following dependency:
 
@@ -33,12 +45,12 @@ Daraja Multiplatform is available for download from [Maven Central](https://mvnr
 
 ```Kotlin
   dependencies {
-    implementation ("io.github.victorkabata:daraja-multiplatform:0.9.3")
-  }
+  implementation ("io.github.victorkabata:daraja-multiplatform:0.9.3")
+}
 ```
 
 </details>
-  
+
 <details>
 <summary>Groovy</summary>
 
@@ -77,6 +89,8 @@ val daraja: Daraja = Daraja.Builder()
 
 > Network logs are strictly disabled in production mode.
 
+### Request Access Token
+
 - To request an access token from Daraja API, invoke the `requestAccessToken` function:
 
 ```Kotlin
@@ -90,6 +104,8 @@ accessTokenResult
             // Failure fetching daraja access token
         }
 ```
+
+### Initiate M-Pesa Express STK Request
 
 - To initiate M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `initiateDarajaStk` function:
 
@@ -112,6 +128,8 @@ darajaPaymentResponse
         }
 ```
 
+### Query M-Pesa Transaction
+
 - To check the status of an M-pesa transaction, invoke the `queryMpesaTransaction` function:
 
 ```Kotlin
@@ -131,8 +149,8 @@ darajaTransactionResponse
 
 ## iOS - Swift
 
+### Setting Up
+
 - To add ___DarajaMultiplatform___ package to your Xcode Project, open your Xcode project, navigate to the File tab within the macOS bar and click __Select Packages__ then __Add Package Dependency__. Enter the package name ie. DarajaMultiplatform or the URL package GitHub URL:
-  
-```text
-https://github.com/VictorKabata/DarajaMultiplatform.git
-```
+
+> <https://github.com/VictorKabata/DarajaMultiplatform.git>
