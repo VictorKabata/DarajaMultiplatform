@@ -227,7 +227,7 @@ kmmbridge {
     mavenPublishArtifacts()
     gitTagVersions()
     versionPrefix.set("0.9")
-    // frameworkName.set("DarajaMultiplatform")
+    frameworkName.set("DarajaMultiplatform")
     spm()
     // versionPrefix.set(project.get("IOS_PREFIX"))
 }
