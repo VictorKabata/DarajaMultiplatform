@@ -25,8 +25,8 @@ val presentationModule = module {
 
     single {
         Daraja.Builder()
-            .setConsumerKey("NrF3UW9YCIUeTeLeamBC9HRjlaGkw6RZ")
-            .setConsumerSecret("lARzdAdZaRAtrXZ0")
+            .setConsumerKey("zg1m1CbMGx8E2BqVThHIJHFMWSnVJ4XA")
+            .setConsumerSecret("z4CAY2TUw6rprEvy")
             .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
             .isSandbox()
             .build()
