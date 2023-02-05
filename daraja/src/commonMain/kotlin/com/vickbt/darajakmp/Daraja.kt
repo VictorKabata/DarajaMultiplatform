@@ -29,9 +29,14 @@ import com.vickbt.darajakmp.utils.DarajaTransactionType
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
+import com.vickbt.darajakmp.utils.getOrNull
+import com.vickbt.darajakmp.utils.getOrThrow
+import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -51,7 +56,10 @@ class Daraja constructor(
     private val consumerKey: String?,
     private val consumerSecret: String?,
     private val passKey: String?,
-    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
+    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT,
+    internal val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
+        environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
+    ).createDarajaHttpClient()
 ) {
 
     /**Creates instance of [Daraja]
@@ -105,11 +113,6 @@ class Daraja constructor(
             environment = environment
         )
     }
-
-    /**Create an instance of Ktor Http Client*/
-    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
-        environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
-    ).createDarajaHttpClient()
 
     /**Create instance of [DarajaApiService]*/
     private val darajaApiService: DarajaApiService = DarajaApiService(
@@ -167,7 +170,7 @@ class Daraja constructor(
             transactionDesc = transactionDesc,
             amount = amount.toString(),
             transactionType = transactionType.name,
-            phoneNumber = phoneNumber.getDarajaPhoneNumber() ?: phoneNumber,
+            phoneNumber = phoneNumber.getDarajaPhoneNumber(),
             callBackUrl = callbackUrl, // ToDo: Figure out how callback urls work
             accountReference = accountReference ?: businessShortCode,
             partyA = phoneNumber,
