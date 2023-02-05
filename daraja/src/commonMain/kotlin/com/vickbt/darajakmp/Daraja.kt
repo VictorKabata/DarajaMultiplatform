@@ -52,10 +52,11 @@ class Daraja constructor(
     private val consumerSecret: String?,
     private val passKey: String?,
     private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT,
-    internal val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
+) {
+
+    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
         environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
     ).createDarajaHttpClient()
-) {
 
     /**Creates instance of [Daraja]
      *
