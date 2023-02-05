@@ -223,7 +223,6 @@ afterEvaluate {
     }
 }
 
-addGithubPackagesRepository()
 kmmbridge {
     mavenPublishArtifacts()
     gitTagVersions()
