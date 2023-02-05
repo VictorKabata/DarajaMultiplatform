@@ -45,7 +45,7 @@ kotlin {
         binaries {
             framework("DarajaMultiplatform") {
                 baseName = "DarajaMultiplatform"
-                // isStatic = true
+                isStatic = true
             }
         }
     }
@@ -223,7 +223,7 @@ afterEvaluate {
     }
 }
 
-addGithubPackagesRepository()
+// addGithubPackagesRepository()
 
 kmmbridge {
     mavenPublishArtifacts()
