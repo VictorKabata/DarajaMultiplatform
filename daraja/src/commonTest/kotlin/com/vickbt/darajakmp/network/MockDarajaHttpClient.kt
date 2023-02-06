@@ -28,7 +28,6 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.request
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
@@ -36,48 +35,66 @@ import io.ktor.http.contentType
 import io.ktor.http.fullPath
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
-import io.mockative.Mock
 import kotlinx.serialization.json.Json
 
-private val responseHeaders = headersOf(HttpHeaders.ContentType, "application/json")
+internal class MockDarajaHttpClient {
 
-val mockDarajaHttpClient = HttpClient(MockEngine) {
-    engine {
-        addHandler { request ->
-            when(request.url.fullPath) {
-                "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
-                    respond(AccessTokenSuccessJSON, HttpStatusCode.OK, responseHeaders)
+    private var httpStatusCode: HttpStatusCode = HttpStatusCode.OK
+    private var responseContent: String? = null
+    fun throwError(httpStatus: HttpStatusCode, response: String) {
+        httpStatusCode = httpStatus
+        responseContent = response
+    }
+
+    private val responseHeaders = headersOf(HttpHeaders.ContentType, "application/json")
+
+    val mockDarajaHttpClient = HttpClient(MockEngine) {
+        engine {
+            addHandler { request ->
+                when (request.url.fullPath) {
+                    "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
+                        respond(
+                            responseContent ?: AccessTokenSuccessJSON,
+                            httpStatusCode,
+                            responseHeaders
+                        )
+                    }
+                    "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
+                        respond(
+                            responseContent ?: MpesaExpressSuccessJSON,
+                            httpStatusCode,
+                            responseHeaders
+                        )
+                    }
+                    else -> {
+                        error("Unhandled ${request.url.encodedPathAndQuery}")
+                    }
                 }
-                "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
-                    respond(MpesaExpressSuccessJSON, HttpStatusCode.OK, responseHeaders)
+            }
+        }
+
+        expectSuccess = true
+        addDefaultResponseValidation()
+
+        defaultRequest { contentType(ContentType.Application.Json) }
+
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
                 }
-                else -> {
-                    error("Unhandled ${request.url.encodedPathAndQuery}")
+            )
+        }
+
+        install(Logging) {
+            level = LogLevel.ALL
+            logger = object : Logger {
+                override fun log(message: String) {
+                    println("Http Logs: $message")
                 }
             }
         }
     }
 
-    expectSuccess = true
-    addDefaultResponseValidation()
-
-    defaultRequest { contentType(ContentType.Application.Json) }
-
-    install(ContentNegotiation) {
-        json(
-            Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-            }
-        )
-    }
-
-    install(Logging) {
-        level = LogLevel.ALL
-        logger = object : Logger {
-            override fun log(message: String) {
-                println("Http Logs: $message")
-            }
-        }
-    }
 }
