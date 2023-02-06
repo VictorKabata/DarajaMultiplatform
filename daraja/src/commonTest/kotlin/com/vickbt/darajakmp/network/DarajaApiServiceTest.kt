@@ -16,29 +16,38 @@
 
 package com.vickbt.darajakmp.network
 
+import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
+import com.vickbt.darajakmp.network.models.MpesaExpress404JSON
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
+import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
+import io.ktor.http.HttpStatusCode
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DarajaApiServiceTest {
 
+    private val mockDarajaHttpClient = MockDarajaHttpClient()
+
     private lateinit var mockKtorHttpClient: HttpClient
+    private lateinit var mockInMemoryCache: Cache<Long, DarajaToken>
 
     // Subject under test
     private lateinit var darajaApiService: DarajaApiService
 
     private val darajaToken = DarajaToken(
-        accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
-        expiresIn = "3599"
+        accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ", expiresIn = "3599"
     )
 
     private val darajaPaymentRequest = DarajaPaymentRequest(
@@ -57,27 +66,52 @@ class DarajaApiServiceTest {
 
     @BeforeTest
     fun setup() {
-        mockKtorHttpClient = mockDarajaHttpClient
+        mockKtorHttpClient = mockDarajaHttpClient.mockDarajaHttpClient
+
+        mockInMemoryCache = Cache.Builder().build()
 
         darajaApiService = DarajaApiService(
             httpClient = mockKtorHttpClient,
-            consumerKey = "",
-            consumerSecret = ""
+            consumerKey = "consumerKey",
+            consumerSecret = "consumerSecret"
         )
     }
 
-    @Test
-    fun fetchAccessToken_SuccessResponse() = runTest {
-        // when
-        val actualResult = darajaApiService.fetchAccessToken()
-        val expectedResult = DarajaResult.Success(darajaToken)
-
-        // then
-        assertEquals(expectedResult, actualResult)
+    @AfterTest
+    fun tearDown() {
+        mockInMemoryCache.invalidateAll()
     }
 
     @Test
-    fun initiateMpesaExpress_SuccessResponse() = runTest {
+    fun fetchAccessToken_success() = runTest {
+        // when
+        val actualResult = darajaApiService.fetchAccessToken()
+
+
+        // then
+        assertEquals(expected = DarajaResult.Success(darajaToken), actual = actualResult)
+    }
+
+    @Test
+    fun fetchAccessToken_failure_throws_daraja_exception() = runTest {
+        // given
+        mockDarajaHttpClient.throwError(
+            httpStatus = HttpStatusCode.Unauthorized, response = MpesaExpress404JSON
+        )
+
+        // then - when
+        /*assertFailsWith(DarajaException::class) {
+            darajaApiService.fetchAccessToken()
+        }*/
+        assertFailsWith<DarajaException> {
+            darajaApiService.fetchAccessToken()
+        }
+    }
+
+    @Test
+    fun initiateMpesaExpress_success() = runTest {
+        assertNull(mockInMemoryCache.get(1))
+
         // when
         val actualResult =
             darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
@@ -92,6 +126,17 @@ class DarajaApiServiceTest {
         )
 
         // then
-        assertEquals(expectedResult, actualResult)
+        assertEquals(expected = expectedResult, actual = actualResult)
+    }
+
+    // @Test
+    fun initiateMpesaExpress_twice_uses_cached_token() = runTest {
+        assertNull(mockInMemoryCache.get(1))
+
+        // when
+        darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+
+        assertNull(mockInMemoryCache.get(1))
+
     }
 }
