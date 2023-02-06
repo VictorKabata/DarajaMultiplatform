@@ -40,6 +40,7 @@ object Versions {
     const val cache4k = "0.9.0"
 
     const val mockative = "1.3.0"
+    const val mockk = "1.13.4"
 
     const val kotlinxTestResources = "0.2.4"
 
@@ -84,6 +85,8 @@ object TestDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinxCoroutines}"
 
     const val kotlinxTestResources = "com.goncalossilva:resources:${Versions.kotlinxTestResources}"
+
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
 }
 
 object AndroidSdk {
