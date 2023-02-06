@@ -51,7 +51,7 @@ class Daraja constructor(
     private val consumerKey: String?,
     private val consumerSecret: String?,
     private val passKey: String?,
-    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT,
+    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
 ) {
 
     private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(

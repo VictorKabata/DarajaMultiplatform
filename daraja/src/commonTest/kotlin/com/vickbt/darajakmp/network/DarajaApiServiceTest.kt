@@ -87,7 +87,6 @@ class DarajaApiServiceTest {
         // when
         val actualResult = darajaApiService.fetchAccessToken()
 
-
         // then
         assertEquals(expected = DarajaResult.Success(darajaToken), actual = actualResult)
     }
@@ -137,6 +136,5 @@ class DarajaApiServiceTest {
         darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
 
         assertNull(mockInMemoryCache.get(1))
-
     }
 }

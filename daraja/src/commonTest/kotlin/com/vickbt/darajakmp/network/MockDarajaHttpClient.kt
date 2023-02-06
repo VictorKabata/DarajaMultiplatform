@@ -75,10 +75,12 @@ internal class MockDarajaHttpClient {
         defaultRequest { contentType(ContentType.Application.Json) }
 
         install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-            })
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                }
+            )
         }
 
         install(Logging) {
@@ -90,5 +92,4 @@ internal class MockDarajaHttpClient {
             }
         }
     }
-
 }
