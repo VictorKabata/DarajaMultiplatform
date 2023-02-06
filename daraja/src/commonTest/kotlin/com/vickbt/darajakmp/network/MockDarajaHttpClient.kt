@@ -16,8 +16,8 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.AccessTokenSuccessJSON
-import com.vickbt.darajakmp.network.models.MpesaExpressSuccessJSON
+import com.vickbt.darajakmp.network.models.AccessToken200JSON
+import com.vickbt.darajakmp.network.models.MpesaExpress200JSON
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -54,16 +54,12 @@ internal class MockDarajaHttpClient {
                 when (request.url.fullPath) {
                     "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
                         respond(
-                            responseContent ?: AccessTokenSuccessJSON,
-                            httpStatusCode,
-                            responseHeaders
+                            responseContent ?: AccessToken200JSON, httpStatusCode, responseHeaders
                         )
                     }
                     "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
                         respond(
-                            responseContent ?: MpesaExpressSuccessJSON,
-                            httpStatusCode,
-                            responseHeaders
+                            responseContent ?: MpesaExpress200JSON, httpStatusCode, responseHeaders
                         )
                     }
                     else -> {
@@ -79,12 +75,10 @@ internal class MockDarajaHttpClient {
         defaultRequest { contentType(ContentType.Application.Json) }
 
         install(ContentNegotiation) {
-            json(
-                Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                }
-            )
+            json(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            })
         }
 
         install(Logging) {
