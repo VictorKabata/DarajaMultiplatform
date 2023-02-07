@@ -18,6 +18,7 @@ package com.vickbt.darajakmp.network
 
 import com.vickbt.darajakmp.network.models.AccessToken200JSON
 import com.vickbt.darajakmp.network.models.MpesaExpress200JSON
+import com.vickbt.darajakmp.network.models.QueryTransaction200JSON
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -62,6 +63,13 @@ internal class MockDarajaHttpClient {
                             responseContent ?: MpesaExpress200JSON, httpStatusCode, responseHeaders
                         )
                     }
+                    "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {
+                        respond(
+                            responseContent ?: QueryTransaction200JSON,
+                            httpStatusCode,
+                            responseHeaders
+                        )
+                    }
                     else -> {
                         error("Unhandled ${request.url.encodedPathAndQuery}")
                     }
@@ -75,12 +83,10 @@ internal class MockDarajaHttpClient {
         defaultRequest { contentType(ContentType.Application.Json) }
 
         install(ContentNegotiation) {
-            json(
-                Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                }
-            )
+            json(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            })
         }
 
         install(Logging) {
