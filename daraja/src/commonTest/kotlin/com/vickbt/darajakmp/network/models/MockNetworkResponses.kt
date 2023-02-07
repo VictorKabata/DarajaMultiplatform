@@ -41,10 +41,21 @@ const val MpesaExpress500JSON = """
 }
 """
 
-const val MpesaExpress404JSON = """
+const val InvalidAccessTokenJSON = """
 {
   "requestId": "16813-15-1",
   "errorCode": "404.001.04",
   "errorMessage": "Invalid Access Token"
+}
+"""
+
+const val QueryTransaction200JSON = """
+{
+  "ResponseCode": "0",
+  "ResponseDescription": "The service request has been accepted successsfully",
+  "MerchantRequestID": "15386-269505584-1",
+  "CheckoutRequestID": "ws_CO_07022023155508743714091304",
+  "ResultCode": "0",
+  "ResultDesc": "The service request is processed successfully."
 }
 """
