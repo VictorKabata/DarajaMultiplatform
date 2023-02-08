@@ -230,6 +230,5 @@ class DarajaApiServiceTest {
         )
 
         assertEquals(expected = expectedResult, actual = actualResult)
-
     }
 }

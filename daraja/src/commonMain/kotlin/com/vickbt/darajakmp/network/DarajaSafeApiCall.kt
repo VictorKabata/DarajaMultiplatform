@@ -24,8 +24,6 @@ import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
-import io.ktor.utils.io.errors.IOException
-import kotlinx.serialization.SerializationException
 
 /**Encapsulate network calls and handles network and system exceptions.
  *Returns an instance of [DarajaResult] with data of type [T] on success and

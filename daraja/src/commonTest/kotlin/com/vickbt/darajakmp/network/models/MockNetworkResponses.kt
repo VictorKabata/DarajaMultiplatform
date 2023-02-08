@@ -23,7 +23,7 @@ const val AccessToken200JSON = """
 }
 """
 
-const val AccessToken400JSON="""
+const val AccessToken400JSON = """
     {
 	"requestId": "43301-58413611-1",
 	"errorCode": "400.008.01",
