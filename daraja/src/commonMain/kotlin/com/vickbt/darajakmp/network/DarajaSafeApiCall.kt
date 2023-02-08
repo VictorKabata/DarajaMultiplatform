@@ -22,12 +22,8 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
+import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
-import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.errors.IOException
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 
 /**Encapsulate network calls and handles network and system exceptions.
  *Returns an instance of [DarajaResult] with data of type [T] on success and
@@ -39,33 +35,30 @@ import kotlinx.serialization.json.Json
 internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
     DarajaResult.Success(apiCall.invoke())
 } catch (e: RedirectResponseException) {
-    val error = getError(e.response.body())
+    val error = parseNetworkError(e.response.body())
     DarajaResult.Failure(exception = error)
 } catch (e: ClientRequestException) {
-    val error = getError(e.response.body())
+    val error = parseNetworkError(e.response.body())
     DarajaResult.Failure(exception = error)
 } catch (e: ServerResponseException) {
-    val error = getError(e.response.body())
+    val error = parseNetworkError(e.response.body())
     DarajaResult.Failure(exception = error)
 } catch (e: UnresolvedAddressException) {
-    val error = getError(exception = e)
-    DarajaResult.Failure(exception = error)
-} catch (e: IOException) {
-    val error = getError(exception = e)
-    DarajaResult.Failure(exception = error)
-} catch (e: SerializationException) {
-    val error = getError(exception = e)
+    val error = parseNetworkError(exception = e)
     DarajaResult.Failure(exception = error)
 } catch (e: Exception) {
-    val error = getError(exception = e)
+    val error = parseNetworkError(exception = e)
     DarajaResult.Failure(exception = error)
 }
 
-/**Generate [DarajaException] from network or system error when making network calls*/
-internal fun getError(
-    responseContent: ByteReadChannel? = null,
+/**Generate [DarajaException] from network or system error when making network calls
+ *
+ * @throws [DarajaException]
+ * */
+internal suspend fun parseNetworkError(
+    errorResponse: HttpResponse? = null,
     exception: Exception? = null
 ): DarajaException {
-    return if (responseContent != null) Json.decodeFromString(string = responseContent.toString())
-    else DarajaException(requestId = null, errorCode = null, errorMessage = exception?.message)
+    throw errorResponse?.body<DarajaException>()
+        ?: DarajaException(requestId = "0", errorCode = "0", errorMessage = exception?.message)
 }

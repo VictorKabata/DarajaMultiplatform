@@ -16,14 +16,22 @@
 
 package com.vickbt.darajakmp.network.models
 
-const val AccessTokenSuccessJSON = """   
+const val AccessToken200JSON = """   
 {
   "access_token": "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
   "expires_in": "3599"
 }
 """
 
-const val MpesaExpressSuccessJSON = """
+const val AccessToken400JSON = """
+    {
+	"requestId": "43301-58413611-1",
+	"errorCode": "400.008.01",
+	"errorMessage": "Invalid Authentication passed"
+}
+"""
+
+const val MpesaExpress200JSON = """
 {
   "MerchantRequestID": "6093-85819535-1",
   "CheckoutRequestID": "ws_CO_16122022001707470708374149",
@@ -33,10 +41,29 @@ const val MpesaExpressSuccessJSON = """
 }
 """
 
-const val MpesaExpressFailureJSON = """
+const val MpesaExpress500JSON = """
+{
+	"requestId": "119414-258858845-1",
+	"errorCode": "500.001.1001",
+	"errorMessage": "Unable to lock subscriber, a transaction is already in process for the current subscriber"
+}
+"""
+
+const val InvalidAccessTokenJSON = """
 {
   "requestId": "16813-15-1",
   "errorCode": "404.001.04",
-  "errorMessage": "Invalid Access Token",
+  "errorMessage": "Invalid Access Token"
+}
+"""
+
+const val QueryTransaction200JSON = """
+{
+  "ResponseCode": "0",
+  "ResponseDescription": "The service request has been accepted successsfully",
+  "MerchantRequestID": "15386-269505584-1",
+  "CheckoutRequestID": "ws_CO_07022023155508743714091304",
+  "ResultCode": "0",
+  "ResultDesc": "The service request is processed successfully."
 }
 """

@@ -55,16 +55,17 @@ internal fun getDarajaPassword(shortCode: String, passkey: String, timestamp: St
 
 /**Format phone number provided by user to format that Daraja API recognises ie. 254714023125
  *
- * @return [phoneNumber] Formatted string to match a valid M-pesa number
+ * @return [phoneNumber] Formatted string to match a valid Safaricom/M-Pesa number
+ * @throws [DarajaException]
  * */
 internal fun String.getDarajaPhoneNumber(): String {
     val phoneNumber = this.replace("\\s".toRegex(), "")
 
     return when {
-        phoneNumber.matches(Regex("^(?:254)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) -> phoneNumber
-        phoneNumber.matches(Regex("^(?:0)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) ->
+        phoneNumber.matches(Regex("^(?:254)?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) -> phoneNumber
+        phoneNumber.matches(Regex("^0?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) ->
             phoneNumber.replaceFirst("0", "254")
-        phoneNumber.matches(Regex("^(?:\\+254)?(?:1|7)(?:(?:[12][0-9])|(?:0[0-8])|(9[0-2]))[0-9]{6}\$")) ->
+        phoneNumber.matches(Regex("^(?:\\+254)?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) ->
             phoneNumber.replaceFirst("+", "")
         else -> throw DarajaException("Invalid phone number format provided: $this")
     }

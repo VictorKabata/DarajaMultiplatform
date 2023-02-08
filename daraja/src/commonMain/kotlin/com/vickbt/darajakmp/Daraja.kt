@@ -54,6 +54,10 @@ class Daraja constructor(
     private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
 ) {
 
+    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
+        environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
+    ).createDarajaHttpClient()
+
     /**Creates instance of [Daraja]
      *
      * @param [consumerKey]
@@ -105,11 +109,6 @@ class Daraja constructor(
             environment = environment
         )
     }
-
-    /**Create an instance of Ktor Http Client*/
-    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
-        environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
-    ).createDarajaHttpClient()
 
     /**Create instance of [DarajaApiService]*/
     private val darajaApiService: DarajaApiService = DarajaApiService(
@@ -167,7 +166,7 @@ class Daraja constructor(
             transactionDesc = transactionDesc,
             amount = amount.toString(),
             transactionType = transactionType.name,
-            phoneNumber = phoneNumber.getDarajaPhoneNumber() ?: phoneNumber,
+            phoneNumber = phoneNumber.getDarajaPhoneNumber(),
             callBackUrl = callbackUrl, // ToDo: Figure out how callback urls work
             accountReference = accountReference ?: businessShortCode,
             partyA = phoneNumber,

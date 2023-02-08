@@ -24,15 +24,17 @@ import com.vickbt.darajakmp.network.models.QueryDarajaTransactionRequest
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.getOrThrow
+import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.client.utils.EmptyContent.headers
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 /**Encapsulate API calls to Daraja API
  *
@@ -43,7 +45,10 @@ import io.ktor.util.encodeBase64
 internal class DarajaApiService constructor(
     private val httpClient: HttpClient,
     private val consumerKey: String,
-    private val consumerSecret: String
+    private val consumerSecret: String,
+    private val inMemoryCache: Cache<Long, DarajaToken> = Cache.Builder()
+        .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS))
+        .build()
 ) {
 
     /**Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
@@ -52,20 +57,26 @@ internal class DarajaApiService constructor(
         val key = "$consumerKey:$consumerSecret"
         val base64EncodedKey = key.encodeBase64()
 
-        return@darajaSafeApiCall httpClient.get(urlString = DarajaEndpoints.REQUEST_ACCESS_TOKEN) {
+        val accessToken = httpClient.get(urlString = DarajaEndpoints.REQUEST_ACCESS_TOKEN) {
             headers {
                 append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
             }
-        }.body()
+        }.body<DarajaToken>().also { darajaToken ->
+            inMemoryCache.put(key = 1, value = darajaToken)
+        }
+
+        return@darajaSafeApiCall accessToken
     }
 
     /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
     internal suspend fun initiateMpesaStk(darajaPaymentRequest: DarajaPaymentRequest): DarajaResult<DarajaPaymentResponse> =
         darajaSafeApiCall {
-            val accessToken = fetchAccessToken().getOrThrow().accessToken
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_MPESA_EXPRESS) {
-                headers { append(HttpHeaders.Authorization, "Bearer $accessToken") }
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
                 setBody(darajaPaymentRequest)
             }.body()
         }

@@ -3,9 +3,9 @@
 <p align="left">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=android&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-IOS-3AA335?logo=ios&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-WINDOWS-CCCCCC?logo=windows&logoColor=606060&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-LINUX-CCCCCC?logo=linux&logoColor=606060&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-MACOS-CCCCCC?logo=apple&logoColor=606060&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-WINDOWS-3AA335?logo=windows&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-LINUX-3AA335?logo=linux&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-MACOS-3AA335?logo=apple&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-WEB-CCCCCC?logo=javascript&logoColor=606060&style=for-the-badge">
 </p>
 

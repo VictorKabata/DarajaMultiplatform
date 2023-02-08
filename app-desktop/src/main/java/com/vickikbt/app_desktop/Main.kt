@@ -14,23 +14,13 @@
  * limitations under the License.
  */
 
-package com.vickbt.app_android.di
+package com.vickikbt.app_desktop
 
-import com.vickbt.app_android.ui.screens.home.HomeViewModel
-import com.vickbt.darajakmp.Daraja
-import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.ui.window.application
+import ui.screens.main.MainScreen
 
-val presentationModule = module {
-
-    single {
-        Daraja.Builder()
-            .setConsumerKey("zg1m1CbMGx8E2BqVThHIJHFMWSnVJ4XA")
-            .setConsumerSecret("z4CAY2TUw6rprEvy")
-            .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
-            .isSandbox()
-            .build()
+fun main() {
+    return application {
+        MainScreen(applicationScope = this)
     }
-
-    viewModelOf(::HomeViewModel)
 }

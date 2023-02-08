@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package com.vickbt.app_android.di
+package com.vickikbt.app_android.ui.theme
 
-import com.vickbt.app_android.ui.screens.home.HomeViewModel
-import com.vickbt.darajakmp.Daraja
-import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.ui.graphics.Color
 
-val presentationModule = module {
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
 
-    single {
-        Daraja.Builder()
-            .setConsumerKey("zg1m1CbMGx8E2BqVThHIJHFMWSnVJ4XA")
-            .setConsumerSecret("z4CAY2TUw6rprEvy")
-            .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
-            .isSandbox()
-            .build()
-    }
-
-    viewModelOf(::HomeViewModel)
-}
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
