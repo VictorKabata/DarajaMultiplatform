@@ -50,7 +50,7 @@ kotlin {
         }
     }
 
-    // jvm()
+    jvm()
 
     // js()
 
@@ -89,8 +89,8 @@ kotlin {
         sourceSets["iOSMain"].dependencies {}
         sourceSets["iOSTest"].dependencies {}
 
-        // sourceSets["jvmMain"].dependencies {}
-        // sourceSets["jvmTest"].dependencies {}
+        sourceSets["jvmMain"].dependencies {}
+        sourceSets["jvmTest"].dependencies {}
 
         // sourceSets["jsMain"].dependencies {}
         // sourceSets["jsTest"].dependencies {}
@@ -109,8 +109,7 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-        }
+        getByName("debug") {}
 
         getByName("release") {
             isMinifyEnabled = false
@@ -216,9 +215,7 @@ afterEvaluate {
             val signingKey = project.get("SIGNING_PASSWORD")
 
             useInMemoryPgpKeys(
-                signingKeyId,
-                signingKeyPassword,
-                signingKey
+                signingKeyId, signingKeyPassword, signingKey
             )
             sign(publishing.publications)
         }
