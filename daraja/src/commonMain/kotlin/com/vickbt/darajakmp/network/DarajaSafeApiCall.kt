@@ -48,12 +48,6 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
 } catch (e: UnresolvedAddressException) {
     val error = parseNetworkError(exception = e)
     DarajaResult.Failure(exception = error)
-} catch (e: IOException) {
-    val error = parseNetworkError(exception = e)
-    DarajaResult.Failure(exception = error)
-} catch (e: SerializationException) {
-    val error = parseNetworkError(exception = e)
-    DarajaResult.Failure(exception = error)
 } catch (e: Exception) {
     val error = parseNetworkError(exception = e)
     DarajaResult.Failure(exception = error)
