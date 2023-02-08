@@ -23,6 +23,14 @@ const val AccessToken200JSON = """
 }
 """
 
+const val AccessToken400JSON="""
+    {
+	"requestId": "43301-58413611-1",
+	"errorCode": "400.008.01",
+	"errorMessage": "Invalid Authentication passed"
+}
+"""
+
 const val MpesaExpress200JSON = """
 {
   "MerchantRequestID": "6093-85819535-1",
