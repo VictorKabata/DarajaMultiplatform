@@ -72,6 +72,8 @@ kotlin {
             implementation(Dependencies.kotlinxDateTime)
 
             implementation(Dependencies.base64Encoding)
+
+            implementation(Dependencies.cache4k)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))

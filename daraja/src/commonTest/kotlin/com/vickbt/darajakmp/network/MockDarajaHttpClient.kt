@@ -16,8 +16,9 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.AccessTokenSuccessJSON
-import com.vickbt.darajakmp.network.models.MpesaExpressSuccessJSON
+import com.vickbt.darajakmp.network.models.AccessToken200JSON
+import com.vickbt.darajakmp.network.models.MpesaExpress200JSON
+import com.vickbt.darajakmp.network.models.QueryTransaction200JSON
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -32,50 +33,70 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import io.ktor.http.fullPath
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-private val responseHeaders = headersOf(HttpHeaders.ContentType, "application/json")
+internal class MockDarajaHttpClient {
 
-val mockDarajaHttpClient = HttpClient(MockEngine) {
-    engine {
-        addHandler { request ->
-            println("Request: ${request.url.encodedPathAndQuery}")
+    private var httpStatusCode: HttpStatusCode = HttpStatusCode.OK
+    private var responseContent: String? = null
+    fun throwError(httpStatus: HttpStatusCode, response: String) {
+        httpStatusCode = httpStatus
+        responseContent = response
+    }
 
-            when {
-                request.url.encodedPathAndQuery.contains(DarajaEndpoints.REQUEST_ACCESS_TOKEN) -> {
-                    respond(AccessTokenSuccessJSON, HttpStatusCode.OK, responseHeaders)
-                }
-                request.url.encodedPathAndQuery.contains(DarajaEndpoints.INITIATE_MPESA_EXPRESS) -> {
-                    respond(MpesaExpressSuccessJSON, HttpStatusCode.OK, responseHeaders)
-                }
-                else -> {
-                    error("Unhandled ${request.url.encodedPathAndQuery}")
+    private val responseHeaders = headersOf(HttpHeaders.ContentType, "application/json")
+
+    val mockDarajaHttpClient = HttpClient(MockEngine) {
+        engine {
+            addHandler { request ->
+                when (request.url.fullPath) {
+                    "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
+                        respond(
+                            responseContent ?: AccessToken200JSON, httpStatusCode, responseHeaders
+                        )
+                    }
+                    "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
+                        respond(
+                            responseContent ?: MpesaExpress200JSON, httpStatusCode, responseHeaders
+                        )
+                    }
+                    "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {
+                        respond(
+                            responseContent ?: QueryTransaction200JSON,
+                            httpStatusCode,
+                            responseHeaders
+                        )
+                    }
+                    else -> {
+                        error("Unhandled ${request.url.encodedPathAndQuery}")
+                    }
                 }
             }
         }
-    }
 
-    expectSuccess = true
-    addDefaultResponseValidation()
+        expectSuccess = true
+        addDefaultResponseValidation()
 
-    defaultRequest { contentType(ContentType.Application.Json) }
+        defaultRequest { contentType(ContentType.Application.Json) }
 
-    install(ContentNegotiation) {
-        json(
-            Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-            }
-        )
-    }
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                }
+            )
+        }
 
-    install(Logging) {
-        level = LogLevel.ALL
-        logger = object : Logger {
-            override fun log(message: String) {
-                println("Http Logs: $message")
+        install(Logging) {
+            level = LogLevel.ALL
+            logger = object : Logger {
+                override fun log(message: String) {
+                    println("Http Logs: $message")
+                }
             }
         }
     }

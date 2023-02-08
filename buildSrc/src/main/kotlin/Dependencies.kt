@@ -9,7 +9,7 @@ object BuildPlugins {
     const val kotlinXSerialization = "plugin.serialization"
     const val mavenPublish = "maven-publish"
     const val signing = "signing"
-    const val kmmbridge="co.touchlab.faktory.kmmbridge"
+    const val kmmbridge = "co.touchlab.faktory.kmmbridge"
 
     const val ktLint = "org.jlleitschuh.gradle.ktlint"
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -28,7 +28,7 @@ object Versions {
     const val spotless = "6.2.2"
     const val dokka = "1.7.20"
     const val kover = "0.6.1"
-    const val kmmbridge="0.3.4"
+    const val kmmbridge = "0.3.4"
 
     const val kotlinxCoroutines = "1.6.4"
     const val ktor = "2.2.1"
@@ -37,8 +37,10 @@ object Versions {
     const val kotlinSerialization = "1.8.0"
     const val kotlinXSerialization = "1.4.1"
     const val napier = "2.6.1"
+    const val cache4k = "0.9.0"
 
     const val mockative = "1.3.0"
+    const val mockk = "1.13.4"
 
     const val kotlinxTestResources = "0.2.4"
 
@@ -70,6 +72,8 @@ object Dependencies {
         "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinXSerialization}"
 
     const val napier = "io.github.aakira:napier:${Versions.napier}"
+
+    const val cache4k = "io.github.reactivecircus.cache4k:cache4k:${Versions.cache4k}"
 }
 
 object TestDependencies {
@@ -81,6 +85,8 @@ object TestDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinxCoroutines}"
 
     const val kotlinxTestResources = "com.goncalossilva:resources:${Versions.kotlinxTestResources}"
+
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
 }
 
 object AndroidSdk {
