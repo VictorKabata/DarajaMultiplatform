@@ -71,6 +71,7 @@ kotlin {
 
             implementation(Dependencies.kotlinxDateTime)
 
+            // ToDo: Update to kotlin 1.8.20 which has base64 encoding in stdLib
             implementation(Dependencies.base64Encoding)
 
             implementation(Dependencies.cache4k)
@@ -80,7 +81,6 @@ kotlin {
             implementation(TestDependencies.kotlinxCoroutinesTest)
             implementation(TestDependencies.mockative)
             implementation(TestDependencies.ktorMock)
-            implementation(TestDependencies.kotlinxTestResources)
         }
 
         sourceSets["androidMain"].dependencies {}
