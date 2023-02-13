@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalObjCName::class)
+
 package com.vickbt.darajakmp.network.models
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@ObjCName(swiftName = "DarajaPaymentRequest")
 @Serializable
 /**
  * Request body sent to Daraja API to request Mpesa Express payment.
