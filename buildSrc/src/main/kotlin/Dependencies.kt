@@ -24,7 +24,7 @@ object Versions {
 
     const val ktLint = "11.0.0"
     const val detekt = "1.19.0"
-    const val gradleVersionUpdate = "0.44.0"
+    const val gradleVersionUpdate = "0.45.0"
     const val spotless = "6.2.2"
     const val dokka = "1.7.20"
     const val kover = "0.6.1"
