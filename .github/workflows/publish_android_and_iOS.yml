@@ -15,24 +15,9 @@ env:
 
 jobs:
 
-  apply-copyright:
-    name: 🗒️ Apply Copyright
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Make gradle executable
-        run: chmod +x ./gradlew
-
-      - name: Apply Copyright
-        run: ./gradlew :daraja:spotlessApply --stacktrace
-
   build:
     name: 🔨 Build
     runs-on: ubuntu-latest
-    needs: [ apply-copyright ]
     steps:
 
       - name: Checkout code
@@ -53,7 +38,6 @@ jobs:
   unit-tests:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
-    needs: [ apply-copyright ]
     steps:
 
       - name: Checkout code
