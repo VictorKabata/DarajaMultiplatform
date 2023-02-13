@@ -36,7 +36,7 @@ fun MainScreen(applicationScope: ApplicationScope) {
         state = rememberWindowState(
             position = WindowPosition.Aligned(Alignment.Center),
             width = Dp.Unspecified,
-            height = Dp.Unspecified,
+            height = Dp.Unspecified
         )
     ) {
         DarajaKmpTheme(darkTheme = true) {
