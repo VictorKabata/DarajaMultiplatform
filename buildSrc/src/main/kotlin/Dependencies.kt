@@ -34,7 +34,7 @@ object Versions {
     const val ktor = "2.2.3"
     const val kotlinxDateTime = "0.4.0"
     const val base64Encoding = "1.2.1"
-    const val kotlinSerialization = "1.8.0"
+    const val kotlinSerialization = "1.8.10"
     const val kotlinXSerialization = "1.4.1"
     const val napier = "2.6.1"
     const val cache4k = "0.9.0"
