@@ -31,7 +31,7 @@ object Versions {
     const val kmmbridge = "0.3.4"
 
     const val kotlinxCoroutines = "1.6.4"
-    const val ktor = "2.2.1"
+    const val ktor = "2.2.3"
     const val kotlinxDateTime = "0.4.0"
     const val base64Encoding = "1.1.3"
     const val kotlinSerialization = "1.8.0"
