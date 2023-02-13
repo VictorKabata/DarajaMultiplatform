@@ -39,7 +39,7 @@ object Versions {
     const val napier = "2.6.1"
     const val cache4k = "0.9.0"
 
-    const val mockative = "1.3.0"
+    const val mockative = "1.3.1"
     const val mockk = "1.13.4"
 
     const val kotlinxTestResources = "0.2.4"
