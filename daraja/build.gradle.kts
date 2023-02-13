@@ -21,7 +21,7 @@ fun isNonStable(version: String): Boolean {
 plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
-    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
+    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinXSerialization
     id(BuildPlugins.dokka) version Versions.dokka
     id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.mavenPublish)
