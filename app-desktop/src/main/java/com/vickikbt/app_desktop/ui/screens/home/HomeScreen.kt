@@ -99,7 +99,7 @@ fun HomeScreen() {
                 ),
                 label = { Text(text = "Amount") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
 
             OutlinedTextField(
@@ -114,7 +114,7 @@ fun HomeScreen() {
                 ),
                 label = { Text(text = "Phone Number") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
             )
         }
 
