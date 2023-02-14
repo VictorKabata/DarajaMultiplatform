@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalObjCName::class)
-
 package com.vickbt.darajakmp.network.models
 
 import kotlin.experimental.ExperimentalObjCName
@@ -23,6 +21,7 @@ import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@OptIn(ExperimentalObjCName::class)
 @ObjCName(swiftName = "DarajaToken")
 @Serializable
 /**

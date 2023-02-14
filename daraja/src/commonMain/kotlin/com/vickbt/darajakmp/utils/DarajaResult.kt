@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalObjCName::class)
-
 package com.vickbt.darajakmp.utils
 
 import com.vickbt.darajakmp.network.models.DarajaException
@@ -24,6 +22,7 @@ import kotlin.native.ObjCName
 
 /**Encapsulate success result in with value of type [T]
  * or a failure result of type [DarajaException]*/
+@OptIn(ExperimentalObjCName::class)
 @ObjCName(swiftName = "DarajaResult")
 sealed class DarajaResult<out T> {
     @ObjCName(swiftName = "Success")
