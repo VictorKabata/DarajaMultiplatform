@@ -17,12 +17,20 @@
 package com.vickbt.darajakmp.utils
 
 import com.vickbt.darajakmp.network.models.DarajaException
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 /**Encapsulate success result in with value of type [T]
  * or a failure result of type [DarajaException]*/
+@OptIn(ExperimentalObjCName::class)
+@ObjCName(swiftName = "DarajaResult")
 sealed class DarajaResult<out T> {
+    @ObjCName(swiftName = "Success")
     data class Success<out T : Any>(val data: T) : DarajaResult<T>()
+
+    @ObjCName(swiftName = "Error")
     data class Failure(val exception: DarajaException) : DarajaResult<Nothing>()
+
     // object Loading : DarajaResult<Nothing>() ToDo
 }
 

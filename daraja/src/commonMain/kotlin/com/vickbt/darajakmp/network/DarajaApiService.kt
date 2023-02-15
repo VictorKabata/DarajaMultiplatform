@@ -47,8 +47,7 @@ internal class DarajaApiService constructor(
     private val consumerKey: String,
     private val consumerSecret: String,
     private val inMemoryCache: Cache<Long, DarajaToken> = Cache.Builder()
-        .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS))
-        .build()
+        .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS)).build()
 ) {
 
     /**Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
