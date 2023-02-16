@@ -43,7 +43,7 @@ kotlin {
     }
     iosTarget("iOS") {
         binaries {
-            framework("DarajaMultiplatform") {
+            framework {
                 baseName = "DarajaMultiplatform"
                 isStatic = true
             }
