@@ -11,6 +11,9 @@ env:
   ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
 
 jobs:
-  publish-iOS:
+  call-kmmbridge-publish:
     name: 🚀 Publish iOS Library
+    permissions:
+      contents: write
+      packages: write
     uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
