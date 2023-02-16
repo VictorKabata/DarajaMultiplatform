@@ -222,7 +222,7 @@ afterEvaluate {
     }
 }
 
-addGithubPackagesRepository()
+// addGithubPackagesRepository()
 
 kmmbridge {
     mavenPublishArtifacts()
