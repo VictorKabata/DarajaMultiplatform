@@ -2,6 +2,8 @@ name: Publish iOS Library
 
 on:
   workflow_dispatch:
+  push:
+    branches: [clean-up]
 
 jobs:
   publish-iOS:
