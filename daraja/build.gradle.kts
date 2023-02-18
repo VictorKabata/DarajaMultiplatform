@@ -228,6 +228,6 @@ kmmbridge {
     // versionPrefix.set("0.9")
     // frameworkName.set("DarajaMultiplatform")
     // manualVersions()
-    spm("https://github.com/VictorKabata/DarajaMultiplatform")
+    spm()
     // versionPrefix.set(project.get("IOS_PREFIX"))
 }
