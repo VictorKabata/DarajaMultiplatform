@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew :daraja:allTests --stacktrace
 
       - name: Upload test report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: unit_tests_report.html
           path: daraja/build/reports/tests/testReleaseUnitTest/
