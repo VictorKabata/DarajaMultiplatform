@@ -16,9 +16,13 @@
 
 package com.vickbt.darajakmp.network.models
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName(swiftName = "DarajaException")
 @Serializable
 /**
  * Error response from Daraja API.

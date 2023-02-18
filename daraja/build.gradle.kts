@@ -21,7 +21,7 @@ fun isNonStable(version: String): Boolean {
 plugins {
     kotlin(BuildPlugins.multiplatform)
     id(BuildPlugins.androidLibrary)
-    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinSerialization
+    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinXSerialization
     id(BuildPlugins.dokka) version Versions.dokka
     id(BuildPlugins.kover) version Versions.kover
     id(BuildPlugins.mavenPublish)
@@ -43,7 +43,7 @@ kotlin {
     }
     iosTarget("iOS") {
         binaries {
-            framework("DarajaMultiplatform") {
+            framework {
                 baseName = "DarajaMultiplatform"
                 isStatic = true
             }
@@ -71,6 +71,7 @@ kotlin {
 
             implementation(Dependencies.kotlinxDateTime)
 
+            // ToDo: Update to kotlin 1.8.20 which has base64 encoding in stdLib
             implementation(Dependencies.base64Encoding)
 
             implementation(Dependencies.cache4k)
@@ -80,7 +81,6 @@ kotlin {
             implementation(TestDependencies.kotlinxCoroutinesTest)
             implementation(TestDependencies.mockative)
             implementation(TestDependencies.ktorMock)
-            implementation(TestDependencies.kotlinxTestResources)
         }
 
         sourceSets["androidMain"].dependencies {}
@@ -222,13 +222,12 @@ afterEvaluate {
     }
 }
 
-// addGithubPackagesRepository()
-
 kmmbridge {
     mavenPublishArtifacts()
-    gitTagVersions()
-    versionPrefix.set("0.9")
-    frameworkName.set("DarajaMultiplatform")
+    // gitTagVersions()
+    // versionPrefix.set("0.9")
+    // frameworkName.set("DarajaMultiplatform")
+    manualVersions()
     spm()
     // versionPrefix.set(project.get("IOS_PREFIX"))
 }
