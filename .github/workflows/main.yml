@@ -39,8 +39,8 @@ jobs:
       - name: Execute unit tests
         run: ./gradlew :daraja:allTests --stacktrace
 
-#      - name: Generate test report
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: unit_tests_report.html
-#          path: androidApp/build/reports/tests/testDebugUnitTest/
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit_tests_report.html
+          path: daraja/build/reports/tests/testReleaseUnitTest/

@@ -43,7 +43,7 @@ kotlin {
     }
     iosTarget("iOS") {
         binaries {
-            framework("DarajaMultiplatform") {
+            framework {
                 baseName = "DarajaMultiplatform"
                 isStatic = true
             }
@@ -222,13 +222,12 @@ afterEvaluate {
     }
 }
 
-// addGithubPackagesRepository()
-
 kmmbridge {
     mavenPublishArtifacts()
-    gitTagVersions()
-    versionPrefix.set("0.9")
-    frameworkName.set("DarajaMultiplatform")
+    // gitTagVersions()
+    // versionPrefix.set("0.9")
+    // frameworkName.set("DarajaMultiplatform")
+    manualVersions()
     spm()
     // versionPrefix.set(project.get("IOS_PREFIX"))
 }
