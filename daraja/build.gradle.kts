@@ -230,3 +230,8 @@ multiplatformSwiftPackage {
     }
     outputDirectory(File(rootDir, "swiftpackage"))
 }
+
+// Opt-In Experimental ObjCName in Kotlin > 1.8.0
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+}
