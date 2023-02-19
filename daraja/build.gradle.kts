@@ -228,5 +228,5 @@ multiplatformSwiftPackage {
     targetPlatforms {
         iOS { v("13") }
     }
-    outputDirectory(File(rootDir, "/"))
+    outputDirectory(File(rootDir, "swiftpackage"))
 }
