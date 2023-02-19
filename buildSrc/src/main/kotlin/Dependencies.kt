@@ -9,7 +9,7 @@ object BuildPlugins {
     const val kotlinXSerialization = "plugin.serialization"
     const val mavenPublish = "maven-publish"
     const val signing = "signing"
-    const val kmmbridge = "co.touchlab.faktory.kmmbridge"
+    const val multiplatformSwiftpackage = "io.github.luca992.multiplatform-swiftpackage"
 
     const val ktLint = "org.jlleitschuh.gradle.ktlint"
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -28,7 +28,7 @@ object Versions {
     const val spotless = "6.2.2"
     const val dokka = "1.7.20"
     const val kover = "0.6.1"
-    const val kmmbridge = "0.3.4"
+    const val multiplatformSwiftpackage = "2.1.1"
 
     const val kotlinxCoroutines = "1.6.4"
     const val ktor = "2.2.3"
