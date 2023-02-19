@@ -223,8 +223,10 @@ afterEvaluate {
 }
 
 multiplatformSwiftPackage {
+    packageName("daraja-multiplatform")
     swiftToolsVersion("5.3")
     targetPlatforms {
         iOS { v("13") }
     }
+    outputDirectory(File(rootDir, "/"))
 }
