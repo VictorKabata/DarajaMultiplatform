@@ -223,12 +223,15 @@ afterEvaluate {
 }
 
 multiplatformSwiftPackage {
-    packageName("daraja-multiplatform")
+    packageName("DarajaMultiplatform")
+    zipFileName("DarajaMultiplatform")
     swiftToolsVersion("5.3")
     targetPlatforms {
         iOS { v("13") }
     }
     outputDirectory(File(rootDir, "swiftpackage"))
+
+    distributionMode { remote("https://github.com/VictorKabata/DarajaMultiplatform") }
 }
 
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
