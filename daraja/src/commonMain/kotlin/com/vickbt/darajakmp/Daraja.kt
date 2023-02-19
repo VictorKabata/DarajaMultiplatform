@@ -30,7 +30,6 @@ import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +44,6 @@ import kotlinx.datetime.Clock
  * @param passKey Daraja API passkey
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
-@OptIn(ExperimentalObjCName::class)
 @ObjCName(swiftName = "Daraja")
 class Daraja constructor(
     private val consumerKey: String?,
