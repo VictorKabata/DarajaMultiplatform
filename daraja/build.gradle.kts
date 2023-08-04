@@ -66,14 +66,11 @@ kotlin {
             implementation(libs.ktor.contentNegotiation)
             implementation(libs.ktor.json)
             implementation(libs.ktor.logging)
-            
+
             implementation(libs.kotlinX.serializationJson)
             implementation(libs.kotlinX.dateTime)
 
             implementation(libs.napier)
-
-            // ToDo: Update to kotlin 1.8.20 which has base64 encoding in stdLib
-            implementation("io.matthewnelson.kotlin-components:encoding-base64:1.2.1")
 
             implementation(libs.cache4k)
         }
