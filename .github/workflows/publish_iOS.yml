@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: '11'
+          java-version: '17'
 
       - name: Make gradle executable
         run: chmod +x ./gradlew
@@ -29,4 +29,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: daraja-multiplatform-sp
-          path: swiftpackage/
+          path: /
