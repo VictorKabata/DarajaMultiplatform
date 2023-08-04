@@ -1,17 +1,18 @@
 plugins {
-    id("com.android.library").version("7.3.1").apply(false)
-    kotlin("multiplatform").version(Versions.kotlin).apply(false)
-    id("org.jetbrains.kotlin.jvm") version Versions.kotlin apply false
-    id("org.jetbrains.kotlin.android") version Versions.kotlin apply false
-    id("com.android.application") version "7.3.1" apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.kotlin) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.multiplatform) apply false
+    alias(libs.plugins.jvm) apply false
+    alias(libs.plugins.nativeCocoapod) apply false
 
-    id(BuildPlugins.ktLint) version Versions.ktLint
-    id(BuildPlugins.detekt) version Versions.detekt
-    id(BuildPlugins.spotless) version Versions.spotless
+    // alias(libs.plugins.ktLint)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.spotless)
 }
 
 subprojects {
-    apply(plugin = BuildPlugins.ktLint)
+    /*apply(plugin = "org.jlleitschuh.gradle.ktlint")
     ktlint {
         debug.set(true)
         verbose.set(true)
@@ -21,17 +22,16 @@ subprojects {
         filter {
             enableExperimentalRules.set(true)
             exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
-            include("**/kotlin/**")
         }
-    }
+    }*/
 
-    apply(plugin = BuildPlugins.detekt)
+    apply(plugin = "io.gitlab.arturbosch.detekt")
     detekt {
         parallel = true
         config = files("${project.rootDir}/config/detekt/detekt.yml")
     }
 
-    apply(plugin = BuildPlugins.spotless)
+    apply(plugin = "com.diffplug.spotless")
     spotless {
         kotlin {
             target("**/*.kt")

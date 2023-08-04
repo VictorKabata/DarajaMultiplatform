@@ -21,7 +21,6 @@ import com.vickbt.darajakmp.utils.DarajaEnvironment
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.addDefaultResponseValidation
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -45,7 +44,7 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
     }
 
     /**Initialize Ktor Http Client responsible for handling network operations*/
-    internal fun createDarajaHttpClient() = HttpClient(engineFactory = CIO) {
+    internal fun createDarajaHttpClient() = HttpClient {
         expectSuccess = true
         addDefaultResponseValidation()
 
