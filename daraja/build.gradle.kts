@@ -19,11 +19,13 @@ fun isNonStable(version: String): Boolean {
 }
 
 plugins {
-    kotlin(BuildPlugins.multiplatform)
-    id(BuildPlugins.androidLibrary)
-    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinXSerialization
-    id(BuildPlugins.dokka) version Versions.dokka
-    id(BuildPlugins.kover) version Versions.kover
+    // alias(libs.plugins.nativeCocoapod)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinX.serialization)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.kover)
+
     id(BuildPlugins.mavenPublish)
     id(BuildPlugins.signing)
     id(BuildPlugins.multiplatformSwiftpackage) version Versions.multiplatformSwiftpackage
@@ -31,24 +33,29 @@ plugins {
     id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
 }
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
+
     android {
         publishLibraryVariants("release")
     }
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
-        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
-        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
-        else -> ::iosX64
-    }
-    iosTarget("iOS") {
-        binaries {
-            framework {
-                baseName = "DarajaMultiplatform"
-                isStatic = true
-            }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    /*cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        version = "1.0"
+        ios.deploymentTarget = "14.1"
+        // podfile = project.file("../appiOS/Podfile")
+        framework {
+            baseName = "DarajaMultiplatform"
+            isStatic = true
         }
-    }
+    }*/
 
     jvm()
 
@@ -86,8 +93,8 @@ kotlin {
         sourceSets["androidMain"].dependencies {}
         sourceSets["androidTest"].dependencies {}
 
-        sourceSets["iOSMain"].dependencies {}
-        sourceSets["iOSTest"].dependencies {}
+        sourceSets["iosMain"].dependencies {}
+        sourceSets["iosTest"].dependencies {}
 
         sourceSets["jvmMain"].dependencies {}
         sourceSets["jvmTest"].dependencies {}
