@@ -68,7 +68,7 @@ kotlin {
             implementation(libs.ktor.json)
             implementation(libs.ktor.logging)
 
-            implementation(Dependencies.ktorCioEngine)
+            implementation("io.ktor:ktor-client-cio:2.2.3")
 
             implementation(libs.kotlinX.serializationJson)
             implementation(libs.kotlinX.dateTime)
@@ -76,7 +76,7 @@ kotlin {
             implementation(libs.napier)
 
             // ToDo: Update to kotlin 1.8.20 which has base64 encoding in stdLib
-            implementation(Dependencies.base64Encoding)
+            implementation("io.matthewnelson.kotlin-components:encoding-base64:1.2.1")
 
             implementation(libs.cache4k)
         }
@@ -186,8 +186,8 @@ afterEvaluate {
             artifact(javadocJar)
 
             pom {
-                groupId = Library.groupId
-                artifactId = Library.artifactId
+                groupId = project.get("POM_GROUPID")
+                artifactId = project.get("POM_ARTIFACTID")
                 version = project.get("POM_VERSION")
 
                 name.set(project.get("POM_NAME"))
