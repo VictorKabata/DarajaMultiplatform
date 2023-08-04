@@ -36,14 +36,6 @@ internal fun Instant.getDarajaTimestamp(): String {
     return "$year$month$dayOfMonth$hour$minutes$seconds"
 }
 
-/**
- * Formats time values that have a single digit by prefixing them with an extra zero
- * e.g "1:00" becomes "01:00"
- */
-internal fun Int.asFormattedWithZero(): Comparable<*> = when (this < 10) {
-    true -> "0$this"
-    false -> this
-}
 
 // Shortcode+Passkey+Timestamp
 /** Generates a base 64 string by encoding a combination of [shortCode], [passkey] and [timestamp]*/
