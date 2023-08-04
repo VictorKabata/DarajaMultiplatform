@@ -1,6 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
 
@@ -109,20 +108,18 @@ kotlin {
 }
 
 android {
-    namespace = AndroidSdk.namespace
-    compileSdk = AndroidSdk.compileSdkVersion
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
+    compileSdk = 33
     defaultConfig {
-        minSdk = AndroidSdk.minSdkVersion
-        targetSdk = AndroidSdk.targetSdkVersion
+        minSdk = 21
     }
+    namespace = "com.vickikbt.darajakmp"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     buildTypes {
         getByName("debug") {}
