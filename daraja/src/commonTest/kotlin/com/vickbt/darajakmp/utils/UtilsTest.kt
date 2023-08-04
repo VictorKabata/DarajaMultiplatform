@@ -101,6 +101,4 @@ class UtilsTest {
 
         assertEquals(expectedPhoneNumbers, phoneNumbers.map { it.getDarajaPhoneNumber() })
     }
-
-    
 }
