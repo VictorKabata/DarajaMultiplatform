@@ -236,7 +236,7 @@ multiplatformSwiftPackage {
     targetPlatforms {
         iOS { v("13") }
     }
-    outputDirectory(File(rootDir, "swiftpackage"))
+    outputDirectory(File(rootDir, "/"))
 
     distributionMode { remote("https://github.com/VictorKabata/DarajaMultiplatform") }
 }
