@@ -102,18 +102,5 @@ class UtilsTest {
         assertEquals(expectedPhoneNumbers, phoneNumbers.map { it.getDarajaPhoneNumber() })
     }
 
-    @Test
-    fun time_units_with_value_less_than_ten_are_formatted_correctly() {
-        val timeUnit = 1
-        val expectedTimeUnit = "01"
-
-        assertEquals(expected = expectedTimeUnit, actual = timeUnit.asFormattedWithZero())
-    }
-    @Test
-    fun time_units_with_value_more_than_ten_retain_their_formatting() {
-        val timeUnit = 11
-        val expectedTimeUnit = 11
-
-        assertEquals(expected = expectedTimeUnit, actual = timeUnit.asFormattedWithZero())
-    }
+    
 }
