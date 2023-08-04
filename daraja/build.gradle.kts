@@ -66,9 +66,7 @@ kotlin {
             implementation(libs.ktor.contentNegotiation)
             implementation(libs.ktor.json)
             implementation(libs.ktor.logging)
-
-            implementation("io.ktor:ktor-client-cio:2.2.3")
-
+            
             implementation(libs.kotlinX.serializationJson)
             implementation(libs.kotlinX.dateTime)
 
