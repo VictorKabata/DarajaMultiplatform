@@ -48,7 +48,6 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "14.1"
-        // podfile = project.file("../appiOS/Podfile")
         framework {
             baseName = "DarajaMultiplatform"
             isStatic = true
@@ -90,7 +89,7 @@ kotlin {
         sourceSets["androidMain"].dependencies {
             implementation(libs.ktor.android)
         }
-        sourceSets["androidUnitTest"].dependencies {}
+        sourceSets["androidTest"].dependencies {}
 
         sourceSets["iosMain"].dependencies {
             implementation(libs.ktor.darwin)
