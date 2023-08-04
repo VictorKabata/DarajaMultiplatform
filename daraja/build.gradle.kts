@@ -9,7 +9,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
@@ -19,18 +19,17 @@ fun isNonStable(version: String): Boolean {
 }
 
 plugins {
-    // alias(libs.plugins.nativeCocoapod)
+    alias(libs.plugins.nativeCocoapod)
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinX.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
 
-    id(BuildPlugins.mavenPublish)
-    id(BuildPlugins.signing)
-    id(BuildPlugins.multiplatformSwiftpackage) version Versions.multiplatformSwiftpackage
-
-    id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
+    id("maven-publish")
+    id("signing")
+    alias(libs.plugins.multiplatformSwiftPackage)
+    alias(libs.plugins.gradleVersionUpdate)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -45,7 +44,7 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    /*cocoapods {
+    cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
@@ -55,7 +54,7 @@ kotlin {
             baseName = "DarajaMultiplatform"
             isStatic = true
         }
-    }*/
+    }
 
     jvm()
 
@@ -63,7 +62,7 @@ kotlin {
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
-            implementation(Dependencies.kotlinxCoroutines)
+            implementation(libs.kotlinX.coroutines)
 
             implementation(Dependencies.ktorCore)
             implementation(Dependencies.ktorContentNegotiation)
@@ -91,7 +90,7 @@ kotlin {
         }
 
         sourceSets["androidMain"].dependencies {}
-        sourceSets["androidTest"].dependencies {}
+        sourceSets["androidUnitTest"].dependencies {}
 
         sourceSets["iosMain"].dependencies {}
         sourceSets["iosTest"].dependencies {}
@@ -113,6 +112,11 @@ android {
     defaultConfig {
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -244,4 +248,8 @@ multiplatformSwiftPackage {
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+}
+
+task("testClasses").doLast {
+    println("This is a dummy testClasses task")
 }
