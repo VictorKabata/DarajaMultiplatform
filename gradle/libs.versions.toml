@@ -11,7 +11,7 @@ mulitplatformSwiftPackage = "2.1.1"
 gradleVersionUpdate = "0.45.0"
 
 # Kotlin Multiplatform Version
-kotlinxCoroutines = "1.6.4"
+kotlinxCoroutines = "1.7.3"
 kotlinxSerializationJson = "1.5.1"
 kotlinxDateTime = "0.4.0"
 napier = "2.6.1"
