@@ -16,7 +16,7 @@ let package = Package(
         .binaryTarget(
             name: "DarajaMultiplatform",
             url: "https://github.com/VictorKabata/DarajaMultiplatform/DarajaMultiplatform.zip",
-            checksum: "a9539d7da02a1a379a79370d19b175cf41c6edc2e21a0fe1254274c8b00b05cf"
+            checksum: "f2c6d55f42808617f5be53fa9f559fac099597da980ba262c980812139a61534"
         ),
     ]
 )

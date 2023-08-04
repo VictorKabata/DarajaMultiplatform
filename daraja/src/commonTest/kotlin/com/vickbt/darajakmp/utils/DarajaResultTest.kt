@@ -86,7 +86,7 @@ class DarajaResultTest {
         val result = DarajaResult.Failure(darajaException)
 
         result.onSuccess {
-            assertNull(it)
+            assertNull(it) // ToDo: Unreachable code
         }
     }
 
@@ -126,7 +126,7 @@ class DarajaResultTest {
         val result = DarajaResult.Failure(darajaException)
 
         result.onSuccess {
-            assertNull(it)
+            assertNull(it) // ToDo: Unreachable code
         }.onFailure {
             assertNotNull(it)
             assertEquals(expected = it, actual = darajaException)

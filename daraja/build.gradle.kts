@@ -1,6 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
 
@@ -9,7 +8,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
@@ -19,34 +18,39 @@ fun isNonStable(version: String): Boolean {
 }
 
 plugins {
-    kotlin(BuildPlugins.multiplatform)
-    id(BuildPlugins.androidLibrary)
-    kotlin(BuildPlugins.kotlinXSerialization) version Versions.kotlinXSerialization
-    id(BuildPlugins.dokka) version Versions.dokka
-    id(BuildPlugins.kover) version Versions.kover
-    id(BuildPlugins.mavenPublish)
-    id(BuildPlugins.signing)
-    id(BuildPlugins.multiplatformSwiftpackage) version Versions.multiplatformSwiftpackage
+    alias(libs.plugins.nativeCocoapod)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinX.serialization)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.gradleVersionUpdate)
 
-    id(BuildPlugins.gradleVersionUpdates) version Versions.gradleVersionUpdate
+    id("maven-publish")
+    id("signing")
+    alias(libs.plugins.multiplatformSwiftPackage)
 }
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
+
     android {
         publishLibraryVariants("release")
     }
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
-        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
-        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
-        else -> ::iosX64
-    }
-    iosTarget("iOS") {
-        binaries {
-            framework {
-                baseName = "DarajaMultiplatform"
-                isStatic = true
-            }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        version = "1.0"
+        ios.deploymentTarget = "14.1"
+        framework {
+            baseName = "DarajaMultiplatform"
+            isStatic = true
         }
     }
 
@@ -56,40 +60,40 @@ kotlin {
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
-            implementation(Dependencies.kotlinxCoroutines)
+            implementation(libs.kotlinX.coroutines)
 
-            implementation(Dependencies.ktorCore)
-            implementation(Dependencies.ktorContentNegotiation)
-            implementation(Dependencies.ktorJson)
-            implementation(Dependencies.ktorLogging)
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.contentNegotiation)
+            implementation(libs.ktor.json)
+            implementation(libs.ktor.logging)
 
-            implementation(Dependencies.ktorCioEngine)
+            implementation(libs.kotlinX.serializationJson)
+            implementation(libs.kotlinX.dateTime)
 
-            implementation(Dependencies.kotlinXSerialization)
+            implementation(libs.napier)
 
-            implementation(Dependencies.napier)
-
-            implementation(Dependencies.kotlinxDateTime)
-
-            // ToDo: Update to kotlin 1.8.20 which has base64 encoding in stdLib
-            implementation(Dependencies.base64Encoding)
-
-            implementation(Dependencies.cache4k)
+            implementation(libs.cache4k)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
-            implementation(TestDependencies.kotlinxCoroutinesTest)
-            implementation(TestDependencies.mockative)
-            implementation(TestDependencies.ktorMock)
+            implementation(libs.kotlinX.coroutines.test)
+            implementation(libs.mockative)
+            implementation(libs.ktor.mock)
         }
 
-        sourceSets["androidMain"].dependencies {}
+        sourceSets["androidMain"].dependencies {
+            implementation(libs.ktor.android)
+        }
         sourceSets["androidTest"].dependencies {}
 
-        sourceSets["iOSMain"].dependencies {}
-        sourceSets["iOSTest"].dependencies {}
+        sourceSets["iosMain"].dependencies {
+            implementation(libs.ktor.darwin)
+        }
+        sourceSets["iosTest"].dependencies {}
 
-        sourceSets["jvmMain"].dependencies {}
+        sourceSets["jvmMain"].dependencies {
+            implementation(libs.ktor.java)
+        }
         sourceSets["jvmTest"].dependencies {}
 
         // sourceSets["jsMain"].dependencies {}
@@ -98,15 +102,18 @@ kotlin {
 }
 
 android {
-    namespace = AndroidSdk.namespace
-    compileSdk = AndroidSdk.compileSdkVersion
+    compileSdk = 33
+    defaultConfig {
+        minSdk = 21
+    }
+    namespace = "com.vickikbt.darajakmp"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
-    defaultConfig {
-        minSdk = AndroidSdk.minSdkVersion
-        targetSdk = AndroidSdk.targetSdkVersion
-    }
 
     buildTypes {
         getByName("debug") {}
@@ -173,8 +180,8 @@ afterEvaluate {
             artifact(javadocJar)
 
             pom {
-                groupId = Library.groupId
-                artifactId = Library.artifactId
+                groupId = project.get("POM_GROUPID")
+                artifactId = project.get("POM_ARTIFACTID")
                 version = project.get("POM_VERSION")
 
                 name.set(project.get("POM_NAME"))
@@ -229,7 +236,7 @@ multiplatformSwiftPackage {
     targetPlatforms {
         iOS { v("13") }
     }
-    outputDirectory(File(rootDir, "swiftpackage"))
+    outputDirectory(File(rootDir, "/"))
 
     distributionMode { remote("https://github.com/VictorKabata/DarajaMultiplatform") }
 }
@@ -237,4 +244,8 @@ multiplatformSwiftPackage {
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+}
+
+task("testClasses").doLast {
+    println("This is a dummy testClasses task")
 }
