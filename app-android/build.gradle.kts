@@ -1,16 +1,17 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.kotlin)
 }
 
 android {
     namespace = "com.vickikbt.app_android"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.vickikbt.app_android"
+
         minSdk = 21
-        targetSdk = 33
+        targetSdk =34
         versionCode = 1
         versionName = "1.0"
 
