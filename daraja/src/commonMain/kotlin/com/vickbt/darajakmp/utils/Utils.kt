@@ -22,7 +22,19 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+/**Format current timestamp to YYYYMMDDHHmmss format*/
+internal fun Instant.getDarajaTimestamp(): String {
+    val currentDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
 
+    val year = currentDateTime.year
+    val month = currentDateTime.monthNumber.asFormattedWithZero()
+    val dayOfMonth = currentDateTime.dayOfMonth.asFormattedWithZero()
+    val hour = currentDateTime.hour.asFormattedWithZero()
+    val minutes = currentDateTime.minute.asFormattedWithZero()
+    val seconds = currentDateTime.second.asFormattedWithZero()
+
+    return "$year$month$dayOfMonth$hour$minutes$seconds"
+}
 
 /**
  * Formats time values that have a single digit by prefixing them with an extra zero
