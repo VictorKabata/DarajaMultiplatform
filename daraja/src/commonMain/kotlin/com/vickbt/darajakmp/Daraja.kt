@@ -30,12 +30,13 @@ import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import kotlin.native.ObjCName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
+import kotlin.native.ObjCName
 
 /**Create an instance of [Daraja] object that acts as an interface to access Daraja API functionalities
  *
@@ -115,14 +116,14 @@ class Daraja constructor(
         consumerSecret = consumerSecret ?: ""
     )
 
-    private val defaultDispatcher = CoroutineScope(Dispatchers.Default).coroutineContext
+    private val ioCoroutineContext = CoroutineScope(Dispatchers.IO).coroutineContext
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
      * @return [DarajaToken]
      * */
     fun requestAccessToken(): DarajaResult<DarajaToken> = runBlocking {
-        withContext(defaultDispatcher) {
+        withContext(ioCoroutineContext) {
             return@withContext darajaApiService.fetchAccessToken()
         }
     }
@@ -171,7 +172,7 @@ class Daraja constructor(
             partyB = businessShortCode
         )
 
-        withContext(defaultDispatcher) {
+        withContext(ioCoroutineContext) {
             return@withContext darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
         }
     }
@@ -201,7 +202,7 @@ class Daraja constructor(
             checkoutRequestID = checkoutRequestID
         )
 
-        withContext(defaultDispatcher) {
+        withContext(ioCoroutineContext) {
             return@withContext darajaApiService.queryTransaction(queryDarajaTransactionRequest)
         }
     }

@@ -1,0 +1,62 @@
+[versions]
+kotlin = "1.8.20"
+gradle = "8.0.2"
+ktLint = "10.3.0"
+detekt = "1.19.0"
+spotless = "6.2.2"
+nativeCocoapod = "1.9.0"
+dokka = "1.8.20"
+kover = "0.6.1"
+mulitplatformSwiftPackage = "2.1.1"
+gradleVersionUpdate = "0.45.0"
+
+# Kotlin Multiplatform Version
+kotlinxCoroutines = "1.7.3"
+kotlinxSerializationJson = "1.5.1"
+kotlinxDateTime = "0.4.0"
+napier = "2.6.1"
+ktor = "2.3.2"
+kotlinxTestResources = "0.2.2"
+composeMultiplatform = "1.5.0-beta01"
+cache4k = "0.9.0"
+mockative = "1.3.1"
+
+[plugins]
+ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+nativeCocoapod = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "gradle" }
+android-application = { id = "com.android.application", version.ref = "gradle" }
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinX-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+multiplatformSwiftPackage = { id = "io.github.luca992.multiplatform-swiftpackage", version.ref = "mulitplatformSwiftPackage" }
+gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
+
+compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+
+[libraries]
+#Kotlin Multiplatform Lib Dependencies
+kotlinX-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinX-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+kotlinX-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTime" }
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
+
+#Tests Lib Dependencies
+# kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }
+kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+mockative={module="io.mockative:mockative", version.ref="mockative"}

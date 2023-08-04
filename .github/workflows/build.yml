@@ -1,0 +1,53 @@
+name: Build and Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+
+  build:
+    name: 🔨 Build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Make gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Build with gradle
+        run: ./gradlew :daraja:build --stacktrace
+
+  unit-tests:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Make gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Execute unit tests
+        run: ./gradlew :daraja:check --stacktrace
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit_tests_report.html
+          path: daraja/build/reports/tests/testReleaseUnitTest/
