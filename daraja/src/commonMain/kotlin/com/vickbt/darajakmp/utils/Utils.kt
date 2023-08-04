@@ -36,7 +36,6 @@ internal fun Instant.getDarajaTimestamp(): String {
     return "$year$month$dayOfMonth$hour$minutes$seconds"
 }
 
-
 // Shortcode+Passkey+Timestamp
 /** Generates a base 64 string by encoding a combination of [shortCode], [passkey] and [timestamp]*/
 internal fun getDarajaPassword(shortCode: String, passkey: String, timestamp: String): String {
