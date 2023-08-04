@@ -25,11 +25,11 @@ plugins {
     alias(libs.plugins.kotlinX.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
+    alias(libs.plugins.gradleVersionUpdate)
 
     id("maven-publish")
     id("signing")
     alias(libs.plugins.multiplatformSwiftPackage)
-    alias(libs.plugins.gradleVersionUpdate)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -64,38 +64,43 @@ kotlin {
         sourceSets["commonMain"].dependencies {
             implementation(libs.kotlinX.coroutines)
 
-            implementation(Dependencies.ktorCore)
-            implementation(Dependencies.ktorContentNegotiation)
-            implementation(Dependencies.ktorJson)
-            implementation(Dependencies.ktorLogging)
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.contentNegotiation)
+            implementation(libs.ktor.json)
+            implementation(libs.ktor.logging)
 
             implementation(Dependencies.ktorCioEngine)
 
-            implementation(Dependencies.kotlinXSerialization)
+            implementation(libs.kotlinX.serializationJson)
+            implementation(libs.kotlinX.dateTime)
 
-            implementation(Dependencies.napier)
-
-            implementation(Dependencies.kotlinxDateTime)
+            implementation(libs.napier)
 
             // ToDo: Update to kotlin 1.8.20 which has base64 encoding in stdLib
             implementation(Dependencies.base64Encoding)
 
-            implementation(Dependencies.cache4k)
+            implementation(libs.cache4k)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
-            implementation(TestDependencies.kotlinxCoroutinesTest)
-            implementation(TestDependencies.mockative)
-            implementation(TestDependencies.ktorMock)
+            implementation(libs.kotlinX.coroutines.test)
+            implementation(libs.mockative)
+            implementation(libs.ktor.mock)
         }
 
-        sourceSets["androidMain"].dependencies {}
+        sourceSets["androidMain"].dependencies {
+            implementation(libs.ktor.android)
+        }
         sourceSets["androidUnitTest"].dependencies {}
 
-        sourceSets["iosMain"].dependencies {}
+        sourceSets["iosMain"].dependencies {
+            implementation(libs.ktor.darwin)
+        }
         sourceSets["iosTest"].dependencies {}
 
-        sourceSets["jvmMain"].dependencies {}
+        sourceSets["jvmMain"].dependencies {
+            implementation(libs.ktor.java)
+        }
         sourceSets["jvmTest"].dependencies {}
 
         // sourceSets["jsMain"].dependencies {}

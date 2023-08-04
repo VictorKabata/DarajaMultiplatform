@@ -31,7 +31,8 @@ buildKonfig = "0.13.3"
 mockk = "1.12.3"
 kotlinxTestResources = "0.2.2"
 composeMultiplatform = "1.5.0-beta01"
-
+cache4k = "0.9.0"
+mockative = "1.3.1"
 
 [plugins]
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
@@ -52,7 +53,6 @@ multiplatformSwiftPackage = { id = "io.github.luca992.multiplatform-swiftpackage
 gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
 
 
-
 [libraries]
 #Kotlin Multiplatform Lib Dependencies
 kotlinX-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
@@ -70,9 +70,11 @@ ktor-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 kotlinX-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTime" }
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 
 
 #Tests Lib Dependencies
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 # kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }
 kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+mockative={module="io.mockative:mockative", version.ref="mockative"}
