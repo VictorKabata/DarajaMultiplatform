@@ -54,9 +54,7 @@ kotlin {
         }
     }
 
-    jvm {
-        jvmToolchain(17)
-    }
+    jvm()
 
     // js()
 

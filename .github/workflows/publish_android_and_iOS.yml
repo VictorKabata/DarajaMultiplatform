@@ -53,7 +53,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute unit tests
-        run: ./gradlew :daraja:allTests --stacktrace
+        run: ./gradlew :daraja:check --stacktrace
 
   deploy-android:
     name: 🚀 Sign and Publish Android Library
