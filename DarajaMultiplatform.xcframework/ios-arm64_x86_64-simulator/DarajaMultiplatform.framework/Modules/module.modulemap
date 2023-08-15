@@ -1,6 +1,0 @@
-framework module DarajaMultiplatform {
-    umbrella header "DarajaMultiplatform.h"
-
-    export *
-    module * { export * }
-}
