@@ -230,6 +230,7 @@ afterEvaluate {
 }
 
 kmmbridge {
+    mavenPublishArtifacts()
     addGithubPackagesRepository()
     githubReleaseVersions()
     versionPrefix.set("0.1")
