@@ -1,0 +1,4 @@
+target 'app-iOS' do
+  use_frameworks!
+  platform :ios, '14.1'
+end
