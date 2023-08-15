@@ -231,9 +231,8 @@ afterEvaluate {
 kmmbridge {
     frameworkName.set("DarajaMultiplatform")
     mavenPublishArtifacts()
-    // addGithubPackagesRepository()
     githubReleaseVersions()
-    versionPrefix.set("0.1")
+    versionPrefix.set("0.2")
     spm()
 }
 
