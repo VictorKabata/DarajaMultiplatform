@@ -1,32 +1,11 @@
-name: Publish iOS Library # ToDo: Create GitHub release for SPM
+name: Publish iOS Library
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
-
-  build:
-    name: 🚀 Create Swift Package
-    runs-on: macos-latest
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Make gradle executable
-        run: chmod +x ./gradlew
-
-      - name: Create Swift Package
-        run: ./gradlew :daraja:createSwiftPackage --stacktrace
-
-      - name: Upload Daraja Multiplatform SP
-        uses: actions/upload-artifact@v3
-        with:
-          name: daraja-multiplatform-sp
-          path: /
+  call-kmmbridge-publish:
+    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.8

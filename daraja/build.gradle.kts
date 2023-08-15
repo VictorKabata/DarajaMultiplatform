@@ -28,7 +28,8 @@ plugins {
 
     id("maven-publish")
     id("signing")
-    alias(libs.plugins.multiplatformSwiftPackage)
+    id("co.touchlab.faktory.kmmbridge") version "0.3.7"
+    // alias(libs.plugins.multiplatformSwiftPackage)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -36,7 +37,7 @@ kotlin {
     targetHierarchy.default()
 
     android {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
     }
 
     iosX64()
@@ -229,16 +230,11 @@ afterEvaluate {
     }
 }
 
-multiplatformSwiftPackage {
-    packageName("DarajaMultiplatform")
-    zipFileName("DarajaMultiplatform")
-    swiftToolsVersion("5.3")
-    targetPlatforms {
-        iOS { v("13") }
-    }
-    outputDirectory(File(rootDir, "/"))
-
-    distributionMode { remote("https://github.com/VictorKabata/DarajaMultiplatform") }
+kmmbridge {
+    addGithubPackagesRepository()
+    githubReleaseVersions()
+    versionPrefix.set("0.1")
+    spm()
 }
 
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
