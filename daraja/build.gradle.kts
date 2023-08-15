@@ -63,7 +63,6 @@ kotlin {
         sourceSets["commonMain"].dependencies {
             implementation(libs.kotlinX.coroutines)
 
-            implementation(libs.ktor.core)
             implementation(libs.ktor.contentNegotiation)
             implementation(libs.ktor.json)
             implementation(libs.ktor.logging)
