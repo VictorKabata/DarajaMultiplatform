@@ -8,14 +8,54 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var amount: String = "1"
+    @FocusState private var isAmountTextFieldFocused: Bool
+    
+    @State private var phoneNumber: String = ""
+    @FocusState private var isPhoneTextFieldFocused: Bool
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+            
+            // Amount textfield
+            TextField("Amount", text: $amount)
+                .padding()
+                .background(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(isAmountTextFieldFocused ? Color.green: Color.gray.opacity(0.5), lineWidth: 1)
+                )
+                .cornerRadius(10)
+                .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+                .padding()
+                .focused($isAmountTextFieldFocused)
+            
+            // Phone Number textfield
+            TextField("Phone Number", text: $phoneNumber)
+                .padding()
+                .background(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(isPhoneTextFieldFocused ? Color.green:Color.gray.opacity(0.5), lineWidth: 1)
+                )
+                .cornerRadius(10)
+                .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+                .padding()
+                .focused($isPhoneTextFieldFocused)
+            
+            // Pay Button
+            Button(action: {
+                print("Button tapped")
+            }) {
+                Image(systemName: "plus")
+                    .padding(20)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .clipShape(Circle())
+            }
+        }.padding(.horizontal,24)
+        
     }
 }
 
