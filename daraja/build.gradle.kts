@@ -228,6 +228,7 @@ afterEvaluate {
     }
 }
 
+addGithubPackagesRepository()
 kmmbridge {
     frameworkName.set("DarajaMultiplatform")
     mavenPublishArtifacts()

@@ -1,10 +1,10 @@
-name: Publish KMMBridge
+name: Publish Swift Library
 
 on:
   workflow_dispatch:
   push:
     branches:
-      [main]
+      [ main ]
 
 env:
   MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
@@ -18,7 +18,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
+          distribution: 'adopt'
           java-version: 17
 
       - name: Setup Gradle
