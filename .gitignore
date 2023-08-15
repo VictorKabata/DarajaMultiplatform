@@ -9,3 +9,8 @@ captures
 .cxx
 local.properties
 xcuserdata
+app-iOS/*.lock
+app-iOS/Pods
+app-iOS/app-iOS.xcodeproj/*
+app-iOS/app-iOS.xcworkspace/*
+*.plist
