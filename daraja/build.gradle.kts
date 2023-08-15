@@ -29,7 +29,6 @@ plugins {
     id("maven-publish")
     id("signing")
     id("co.touchlab.faktory.kmmbridge") version "0.3.7"
-    // alias(libs.plugins.multiplatformSwiftPackage)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -230,7 +229,9 @@ afterEvaluate {
 }
 
 kmmbridge {
-    addGithubPackagesRepository()
+    frameworkName.set("DarajaMultiplatform")
+    mavenPublishArtifacts()
+    // addGithubPackagesRepository()
     githubReleaseVersions()
     versionPrefix.set("0.1")
     spm()
