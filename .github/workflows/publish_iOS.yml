@@ -1,4 +1,4 @@
-name: Publish iOS Library
+name: Publish Swift Package
 
 on:
   workflow_dispatch:
@@ -11,6 +11,5 @@ permissions:
   packages: write
 
 jobs:
-  publish-iOS:
-    - name: 🚀 Publish iOS Library
-      uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.8
+  call-kmmbridge-publish:
+    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.8
