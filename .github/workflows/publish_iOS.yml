@@ -9,5 +9,11 @@ permissions:
 
 jobs:
   publish-iOS:
-    name: 🚀 Publish iOS Library
-    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.8
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+
+    - name: 🚀 Publish iOS Library
+      uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.8
