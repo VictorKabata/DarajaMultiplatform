@@ -21,7 +21,9 @@ struct ContentView: View {
             // Amount textfield
             TextField("Amount", text: $amount)
                 .padding()
-                .background(Color.white)
+                .accentColor(.green)
+                .background(.white)
+                .keyboardType(.numberPad)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(isAmountTextFieldFocused ? Color.green: Color.gray.opacity(0.5), lineWidth: 1)
@@ -34,7 +36,9 @@ struct ContentView: View {
             // Phone Number textfield
             TextField("Phone Number", text: $phoneNumber)
                 .padding()
-                .background(Color.white)
+                .accentColor(.green)
+                .background(.white)
+                .keyboardType(.phonePad)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(isPhoneTextFieldFocused ? Color.green:Color.gray.opacity(0.5), lineWidth: 1)
