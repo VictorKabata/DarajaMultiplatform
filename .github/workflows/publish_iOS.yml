@@ -1,6 +1,9 @@
 name: Publish iOS Library
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    [iOS-support]
 
 permissions:
   contents: write
