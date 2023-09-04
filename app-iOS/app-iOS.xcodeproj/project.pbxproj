@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CA1D33F2AA6518300504805 /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1CA1D33E2AA6518300504805 /* DarajaMultiplatform */; };
 		1CDEAB762A8BC12A00EBC42E /* app_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDEAB752A8BC12A00EBC42E /* app_iOSApp.swift */; };
 		1CDEAB782A8BC12A00EBC42E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDEAB772A8BC12A00EBC42E /* ContentView.swift */; };
 		1CDEAB7A2A8BC12C00EBC42E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CDEAB792A8BC12C00EBC42E /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CA1D33F2AA6518300504805 /* DarajaMultiplatform in Frameworks */,
 				2F22CD940E774E4F0F3FFB25 /* Pods_app_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,7 +45,6 @@
 				965FE27CCADC2E0C3CD864CC /* Pods-app-iOS.debug.xcconfig */,
 				93C28A294DB1FFBA3DF573C6 /* Pods-app-iOS.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -109,6 +110,9 @@
 			dependencies = (
 			);
 			name = "app-iOS";
+			packageProductDependencies = (
+				1CA1D33E2AA6518300504805 /* DarajaMultiplatform */,
+			);
 			productName = "app-iOS";
 			productReference = 1CDEAB722A8BC12A00EBC42E /* app-iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -137,6 +141,9 @@
 				Base,
 			);
 			mainGroup = 1CDEAB692A8BC12A00EBC42E;
+			packageReferences = (
+				1CA1D33D2AA6518300504805 /* XCRemoteSwiftPackageReference "DarajaMultiplatformSwiftPackage" */,
+			);
 			productRefGroup = 1CDEAB732A8BC12A00EBC42E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -390,6 +397,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1CA1D33D2AA6518300504805 /* XCRemoteSwiftPackageReference "DarajaMultiplatformSwiftPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/VictorKabata/DarajaMultiplatformSwiftPackage.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1CA1D33E2AA6518300504805 /* DarajaMultiplatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1CA1D33D2AA6518300504805 /* XCRemoteSwiftPackageReference "DarajaMultiplatformSwiftPackage" */;
+			productName = DarajaMultiplatform;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1CDEAB6A2A8BC12A00EBC42E /* Project object */;
 }
