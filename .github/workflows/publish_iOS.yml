@@ -1,16 +1,12 @@
 name: Create and Publish Swift Package
 
 on:
-  push:
-    branches:
-      [ iOS-support ]
   workflow_dispatch:
     inputs:
       iOSBranchName:
-        description: 'Swift release branch name (eg. 0.9.0)'
+        description: 'Swift package release (eg. 0.9.0)'
         required: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     runs-on: macos-latest
@@ -59,4 +55,5 @@ jobs:
           source-directory: 'swiftpackage'
           destination-github-username: 'VictorKabata'
           destination-repository-name: 'DarajaMultiplatformSwiftPackage'
-          # target-branch: ${{ github.event.inputs.iOSBranchName }}
+          create-target-branch-if-needed: true
+          target-branch: ${{ github.event.inputs.iOSBranchName }}
