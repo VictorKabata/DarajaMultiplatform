@@ -50,16 +50,16 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Access tag name of current workflow
-        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+#      - name: Access tag name of current workflow
+#        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
-      - name: Create release branch on package repo
-        uses: GuillaumeFalourd/create-other-repo-branch-action@v1
-        with:
-          repository_owner: VictorKabata
-          repository_name: DarajaMultiplatformSwiftPackage
-          new_branch_name: ${{ env.TAG }}
-          access_token: ${{ secrets.API_TOKEN_GITHUB}}
+#      - name: Create release branch on package repo
+#        uses: GuillaumeFalourd/create-other-repo-branch-action@v1
+#        with:
+#          repository_owner: VictorKabata
+#          repository_name: DarajaMultiplatformSwiftPackage
+#          new_branch_name: ${{ env.TAG }}
+#          access_token: ${{ secrets.API_TOKEN_GITHUB}}
 
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@main
