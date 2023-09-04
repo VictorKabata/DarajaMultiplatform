@@ -1,17 +1,22 @@
-# Trigger on every tag creation
+name: Create and Publish Swift Package
+
 on:
   push:
-    tags:
-      - 'release-*'
     branches:
-      [ iOS-support ]
-
-  # Allows you to run this workflow manually from the Actions tab
+      [iOS-support]
   workflow_dispatch:
+    inputs:
+      iOSVersionName:
+        description: 'iOS Version Name (eg. 0.9.0)'
+        required: true
+      releaseNote:
+        description: 'Release note body (Optional)'
+        required: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
+    name: 🔨 Build
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -25,7 +30,7 @@ jobs:
 
       - name: Build iOS framework
         id: buildPackage
-        run: ./gradlew createSwiftPackage
+        run: ./gradlew createSwiftPackage --stacktrace
 
       - name: Upload Swift Package directory
         uses: actions/upload-artifact@v3
@@ -34,7 +39,8 @@ jobs:
           path: daraja/swiftpackage
           retention-days: 1
 
-  push:
+  publish:
+    name: 🚀 Publish Swift Package
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -50,22 +56,14 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-#      - name: Access tag name of current workflow
-#        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-
-#      - name: Create release branch on package repo
-#        uses: GuillaumeFalourd/create-other-repo-branch-action@v1
-#        with:
-#          repository_owner: VictorKabata
-#          repository_name: DarajaMultiplatformSwiftPackage
-#          new_branch_name: ${{ env.TAG }}
-#          access_token: ${{ secrets.API_TOKEN_GITHUB}}
-
-      - name: Push directory to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          source-directory: 'swiftpackage'
-          destination-github-username: 'VictorKabata'
-          destination-repository-name: 'DarajaMultiplatformSwiftPackage'
+          artifacts: "swiftpackage"
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          body: ""
+          draft: true
+          tag: ${{ secrets.TAG }}
+        env:
+          TAG: ${{ secrets.TAG }}
