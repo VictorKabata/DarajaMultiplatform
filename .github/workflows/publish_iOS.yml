@@ -1,31 +1,73 @@
-name: Publish Swift Library
-
+# Trigger on every tag creation
 on:
-  workflow_dispatch:
   push:
+    tags:
+      - 'release-*'
     branches:
-      [ main ]
+      [ iOS-support ]
 
-env:
-  MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-  MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  kmm-publish:
-    runs-on: macos-12
+  build:
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-java@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: 17
+          java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+      - name: Build iOS framework
+        id: buildPackage
+        run: ./gradlew createSwiftPackage
+
+      - name: Upload Swift Package directory
+        uses: actions/upload-artifact@v2
         with:
-          gradle-home-cache-cleanup: true
+          name: swiftpackage
+          path: shared/swiftpackage
+          retention-days: 1
 
-      - name: Build
-        run:
-          ./gradlew  -PENABLE_PUBLISHING=true -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} kmmBridgePublish
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download directory with swift package
+        uses: actions/download-artifact@v2
+        with:
+          name: swiftpackage
+          path: swiftpackage
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Access tag name of current workflow
+        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
+      - name: Create release branch on package repo
+        uses: GuillaumeFalourd/create-other-repo-branch-action@v1
+        with:
+          repository_owner: VictorKabata
+          repository_name: DarajaMultiplatformSwiftPackage
+          new_branch_name: ${{ env.TAG }}
+          access_token: ${{ secrets.API_TOKEN_GITHUB}}
+
+      - name: Push directory to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'swiftpackage'
+          destination-github-username: 'VictorKabata'
+          destination-repository-name: 'DarajaMultiplatformSwiftPackage'
+          user-email: victorbro14@gmail.com
+          target-branch: ${{ env.TAG }}
