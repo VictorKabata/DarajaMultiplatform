@@ -69,5 +69,3 @@ jobs:
           source-directory: 'swiftpackage'
           destination-github-username: 'VictorKabata'
           destination-repository-name: 'DarajaMultiplatformSwiftPackage'
-          user-email: victorbro14@gmail.com
-          target-branch: ${{ env.TAG }}
