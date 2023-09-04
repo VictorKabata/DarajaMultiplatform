@@ -3,20 +3,16 @@ name: Create and Publish Swift Package
 on:
   push:
     branches:
-      [iOS-support]
+      [ iOS-support ]
   workflow_dispatch:
     inputs:
-      iOSVersionName:
-        description: 'iOS Version Name (eg. 0.9.0)'
+      iOSBranchName:
+        description: 'Swift release branch name (eg. 0.9.0)'
         required: true
-      releaseNote:
-        description: 'Release note body (Optional)'
-        required: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    name: 🔨 Build
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -30,7 +26,7 @@ jobs:
 
       - name: Build iOS framework
         id: buildPackage
-        run: ./gradlew createSwiftPackage --stacktrace
+        run: ./gradlew createSwiftPackage
 
       - name: Upload Swift Package directory
         uses: actions/upload-artifact@v3
@@ -39,12 +35,9 @@ jobs:
           path: daraja/swiftpackage
           retention-days: 1
 
-  publish:
-    name: 🚀 Publish Swift Package
+  push:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -58,13 +51,12 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Create release
-        uses: ncipollo/release-action@v1
+      - name: Push directory to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          tag: "0.0.1" # ${{ github.event.inputs.iOSVersionName }}
-          artifacts: "swiftpackage/*"
-          body: ${{ github.event.inputs.releaseNote }}
-          makeLatest: true
-          allowUpdates: true
-          artifactErrorsFailBuild: true
-          draft: true
+          source-directory: 'swiftpackage'
+          destination-github-username: 'VictorKabata'
+          destination-repository-name: 'DarajaMultiplatformSwiftPackage'
+          target-branch: ${{ github.event.inputs.iOSBranchName }}
