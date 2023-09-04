@@ -28,7 +28,7 @@ plugins {
 
     id("maven-publish")
     id("signing")
-    id("co.touchlab.faktory.kmmbridge") version "0.3.7"
+    alias(libs.plugins.multiplatformSwiftPackage)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -225,13 +225,12 @@ publishing {
     }
 }
 
-addGithubPackagesRepository()
-kmmbridge {
-    frameworkName.set("DarajaMultiplatform")
-    mavenPublishArtifacts()
-    githubReleaseVersions()
-    versionPrefix.set("0.2")
-    spm()
+multiplatformSwiftPackage {
+    packageName("DarajaMultiplatform")
+    swiftToolsVersion("5.3")
+    targetPlatforms {
+        iOS { v("13") }
+    }
 }
 
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
