@@ -37,7 +37,7 @@ jobs:
         with:
           name: swiftpackage
           path: daraja/swiftpackage
-          retention-days: 1
+          retention-days: 2
 
   publish:
     name: 🚀 Publish Swift Package
