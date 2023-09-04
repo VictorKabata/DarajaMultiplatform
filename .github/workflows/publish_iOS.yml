@@ -37,7 +37,7 @@ jobs:
         with:
           name: swiftpackage
           path: daraja/swiftpackage
-          retention-days: 2
+          retention-days: 1
 
   publish:
     name: 🚀 Publish Swift Package
@@ -62,9 +62,9 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: "0.0.1" # ${{ github.event.inputs.iOSVersionName }}
-          artifacts: "swiftpackage/*"
+          artifacts: "swiftpackage"
+          body: ${{ github.event.inputs.releaseNote }}
+          makeLatest: true
           allowUpdates: true
           artifactErrorsFailBuild: true
-          body: ${{ github.event.inputs.releaseNote }}
           draft: true
-          makeLatest: true
