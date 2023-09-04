@@ -43,6 +43,8 @@ jobs:
     name: 🚀 Publish Swift Package
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -64,6 +66,7 @@ jobs:
           artifactErrorsFailBuild: true
           body: ""
           draft: true
-          tag: ${{ secrets.TAG }}
+          tag: "0.0.1"
         env:
-          TAG: ${{ secrets.TAG }}
+          TAG: ${{ github.event.inputs.iOSVersionName }}
+          RELEASE_NOTE: ${{ github.event.inputs.releaseNote }}
