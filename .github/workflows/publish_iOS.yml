@@ -61,12 +61,10 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "swiftpackage"
+          tag: "0.0.1" # ${{ github.event.inputs.iOSVersionName }}
+          artifacts: "swiftpackage/*"
           allowUpdates: true
           artifactErrorsFailBuild: true
-          body: ""
+          body: ${{ github.event.inputs.releaseNote }}
           draft: true
-          tag: "0.0.1"
-        env:
-          TAG: ${{ github.event.inputs.iOSVersionName }}
-          RELEASE_NOTE: ${{ github.event.inputs.releaseNote }}
+          makeLatest: true
