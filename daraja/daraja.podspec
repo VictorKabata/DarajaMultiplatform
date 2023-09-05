@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'daraja'
     spec.version                  = '1.0'
-    spec.homepage                 = 'Link to the Shared Module homepage'
+    spec.homepage                 = 'https://github.com/VictorKabata/DarajaMultiplatform.git'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Some description for the Shared Module'
+    spec.summary                  = 'Daraja API Swift Wrapper built using Kotlin Multiplatform'
     spec.vendored_frameworks      = 'build/cocoapods/framework/DarajaMultiplatform.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'
