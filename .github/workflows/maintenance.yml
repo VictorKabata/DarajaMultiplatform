@@ -24,10 +24,10 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Check for release dependencies
-        run: ./gradlew :daraja:dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependecies_report -DoutputDir=build/reports --stacktrace
+        run: ./gradlew :daraja:dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependencies_report -DoutputDir=build/reports --stacktrace
 
-      - name: Upload dependecies report artifact
+      - name: Upload dependencies report artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Dependecy Report
-          path: build/reports/dependecies_report.html
+          name: Dependency Report
+          path: build/reports/dependencies_report.html
