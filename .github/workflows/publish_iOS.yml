@@ -54,6 +54,6 @@ jobs:
         with:
           source-directory: 'swiftpackage'
           destination-github-username: 'VictorKabata'
-          destination-repository-name: 'DarajaMultiplatformSwiftPackage'
+          destination-repository-name: 'DarajaSwiftPackage'
           create-target-branch-if-needed: true
           target-branch: ${{ github.event.inputs.iOSBranchName }}
