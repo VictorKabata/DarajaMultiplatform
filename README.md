@@ -16,13 +16,16 @@
 
 - [Prerequisite](#prerequisite)
 - [Usage](#usage)
-  - [Android - Kotlin/Java](#android---kotlinjava)
+  - [Android - Kotlin](#android---kotlin)
     - [Setting Up](#setting-up)
     - [Request Access Token](#request-access-token)
     - [Initiate M-Pesa Express STK Request](#initiate-m-pesa-express-stk-request)
     - [Query M-Pesa Transaction](#query-m-pesa-transaction)
   - [iOS - Swift](#ios---swift)
     - [Setting Up](#setting-up-1)
+    - [Request Access Token](#request-access-token)
+    - [Initiate M-Pesa Express STK Request](#initiate-m-pesa-express-stk-request-1)
+    - [Query M-Pesa Transaction](#query-m-pesa-transaction-1)
 
 ## Prerequisite
 
