@@ -35,7 +35,7 @@ After successfully creating an account on the Daraja API portal and creating a n
 
 ## Usage
 
-# Android - Kotlin
+# Android - Kotlin   <img src="assets/kotlin_logo.png" width="34" />
 
 ### Setting Up
 
@@ -148,7 +148,7 @@ darajaTransactionResponse
         }
 ```
 
-# iOS - Swift
+# iOS - Swift  <img src="assets/swift_logo.png" width="40" />
 
 ### Setting Up
 
