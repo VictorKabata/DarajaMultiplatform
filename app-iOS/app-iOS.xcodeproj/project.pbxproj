@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1CA1D33F2AA6518300504805 /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1CA1D33E2AA6518300504805 /* DarajaMultiplatform */; };
+		1C89232D2AA7C1EF00700D4F /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1C89232C2AA7C1EF00700D4F /* DarajaMultiplatform */; };
 		1CDEAB762A8BC12A00EBC42E /* app_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDEAB752A8BC12A00EBC42E /* app_iOSApp.swift */; };
 		1CDEAB782A8BC12A00EBC42E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDEAB772A8BC12A00EBC42E /* ContentView.swift */; };
 		1CDEAB7A2A8BC12C00EBC42E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CDEAB792A8BC12C00EBC42E /* Assets.xcassets */; };
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CA1D33F2AA6518300504805 /* DarajaMultiplatform in Frameworks */,
+				1C89232D2AA7C1EF00700D4F /* DarajaMultiplatform in Frameworks */,
 				2F22CD940E774E4F0F3FFB25 /* Pods_app_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,7 +111,7 @@
 			);
 			name = "app-iOS";
 			packageProductDependencies = (
-				1CA1D33E2AA6518300504805 /* DarajaMultiplatform */,
+				1C89232C2AA7C1EF00700D4F /* DarajaMultiplatform */,
 			);
 			productName = "app-iOS";
 			productReference = 1CDEAB722A8BC12A00EBC42E /* app-iOS.app */;
@@ -142,7 +142,7 @@
 			);
 			mainGroup = 1CDEAB692A8BC12A00EBC42E;
 			packageReferences = (
-				1CA1D33D2AA6518300504805 /* XCRemoteSwiftPackageReference "DarajaMultiplatformSwiftPackage" */,
+				1C89232B2AA7C1EF00700D4F /* XCRemoteSwiftPackageReference "DarajaSwiftPackage" */,
 			);
 			productRefGroup = 1CDEAB732A8BC12A00EBC42E /* Products */;
 			projectDirPath = "";
@@ -328,6 +328,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"app-iOS/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Daraja Multiplatform iOS";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -357,6 +358,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"app-iOS/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Daraja Multiplatform iOS";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -399,20 +401,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1CA1D33D2AA6518300504805 /* XCRemoteSwiftPackageReference "DarajaMultiplatformSwiftPackage" */ = {
+		1C89232B2AA7C1EF00700D4F /* XCRemoteSwiftPackageReference "DarajaSwiftPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/VictorKabata/DarajaMultiplatformSwiftPackage.git";
+			repositoryURL = "https://github.com/VictorKabata/DarajaSwiftPackage.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1CA1D33E2AA6518300504805 /* DarajaMultiplatform */ = {
+		1C89232C2AA7C1EF00700D4F /* DarajaMultiplatform */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1CA1D33D2AA6518300504805 /* XCRemoteSwiftPackageReference "DarajaMultiplatformSwiftPackage" */;
+			package = 1C89232B2AA7C1EF00700D4F /* XCRemoteSwiftPackageReference "DarajaSwiftPackage" */;
 			productName = DarajaMultiplatform;
 		};
 /* End XCSwiftPackageProductDependency section */

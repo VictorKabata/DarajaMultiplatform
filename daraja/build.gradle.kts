@@ -44,8 +44,8 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
+        summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
+        homepage = "https://github.com/VictorKabata/DarajaMultiplatform.git"
         version = "1.0"
         ios.deploymentTarget = "14.1"
         framework {
@@ -229,7 +229,7 @@ multiplatformSwiftPackage {
     packageName("DarajaMultiplatform")
     swiftToolsVersion("5.3")
     targetPlatforms {
-        iOS { v("13") }
+        iOS { v("14.1") }
     }
 }
 
