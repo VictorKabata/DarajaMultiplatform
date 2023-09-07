@@ -166,7 +166,7 @@ class Daraja constructor(
             amount = amount.toString(),
             transactionType = transactionType.name,
             phoneNumber = phoneNumber.getDarajaPhoneNumber(),
-            callBackUrl = callbackUrl, // ToDo: Figure out how callback urls work
+            callBackUrl = callbackUrl,
             accountReference = accountReference ?: businessShortCode,
             partyA = phoneNumber,
             partyB = businessShortCode
