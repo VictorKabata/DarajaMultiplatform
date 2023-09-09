@@ -18,6 +18,7 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
+import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
@@ -122,6 +123,7 @@ class Daraja constructor(
      *
      * @return [DarajaToken]
      * */
+    @Throws(DarajaException::class)
     fun requestAccessToken(): DarajaResult<DarajaToken> = runBlocking {
         withContext(ioCoroutineContext) {
             return@withContext darajaApiService.fetchAccessToken()
@@ -141,6 +143,7 @@ class Daraja constructor(
      *
      * @return [DarajaPaymentResponse]
      * */
+    @Throws(DarajaException::class)
     fun initiateMpesaExpressPayment(
         businessShortCode: String,
         amount: Int,
@@ -184,6 +187,7 @@ class Daraja constructor(
      *
      * @return [DarajaTransactionResponse]
      * */
+    @Throws(DarajaException::class)
     fun queryMpesaTransaction(
         businessShortCode: String,
         checkoutRequestID: String
