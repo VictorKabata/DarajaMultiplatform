@@ -24,10 +24,11 @@ import kotlin.native.ObjCName
 @ObjCName(swiftName = "DarajaResult")
 sealed class DarajaResult<out T> {
     @ObjCName(swiftName = "Success")
-    data class Success<out T : Any>(val data: T) : DarajaResult<T>()
+    data class Success<out T : Any>(@ObjCName(swiftName = "data") val data: T) : DarajaResult<T>()
 
     @ObjCName(swiftName = "Error")
-    data class Failure(val exception: DarajaException) : DarajaResult<Nothing>()
+    data class Failure(@ObjCName(swiftName = "error") val exception: DarajaException) :
+        DarajaResult<Nothing>()
 
     // object Loading : DarajaResult<Nothing>() ToDo
 }
@@ -43,6 +44,7 @@ internal fun <T : Any> DarajaResult<T>.getOrNull(): T? {
 
 /**Returns exception of type [DarajaException] on failure
  *
+ * @throws DarajaException
  * @receiver [DarajaResult]
  * */
 internal fun <T : Any> DarajaResult<T>.throwOnFailure(): DarajaException {
