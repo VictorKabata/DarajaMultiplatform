@@ -15,6 +15,7 @@
 ## Table of Content
 
 - [Prerequisite](#prerequisite)
+- [Features](#features)
 - [Usage](#usage)
   - [Android - Kotlin](#android---kotlin)
     - [Setting Up](#setting-up)
@@ -32,6 +33,22 @@
 To get started, you’ll need to create an account on the Daraja API portal to use the Daraja API. [How to get started with Daraja API](https://developer.safaricom.co.ke/Documentation).
 
 After successfully creating an account on the Daraja API portal and creating a new Daraja app, you’ll need to add your ___consumer key___, ___consumer secret___ and ___pass key___ obtained from the Daraja API portal to your project.
+
+## Features
+
+The SDK offers the following functionalities from the Daraja API:
+
+- [x] Authorization - Gives you a time bound access token to call allowed APIs.
+- [x] M-Pesa Express - Merchant initiated online payments.
+- [ ] Customer To Business (C2B)
+- [ ] Business To Customer (B2C) - Transact between an M-Pesa short code to a phone number registered on M-Pesa. 
+- [x] Transaction Status - Check the status of a transaction.
+- [ ] Account Balanace - Enquire the balance on an M-Pesa BuyGoods (Till Number)
+- [ ] Reversal - Reverses an M-Pesa transaction.
+- [ ] Tax Remittance - This API enables businesses to remit tax to Kenya Revenue Authority (KRA).
+- [ ] Business Pay Bill - Pay bills directly from your business account to a pay bill number, or a paybill store.
+- [ ] Business Buy Goods - Pay for goods and services directly from your business account to a till number or merchant store number.
+
 
 ## Usage
 
