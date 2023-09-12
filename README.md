@@ -82,15 +82,7 @@ The SDK offers the following functionalities from the Daraja API:
 
 - Add your consumer secret, consumer key and pass key to your project. You can get them from the [Daraja API portal](https://developer.safaricom.co.ke/MyApps).
 
-```Kotlin
-object Constants {
-    const val CONSUMER_SECRET="your_consumer_secret"
-    const val CONSUMER_KEY="your_consumer_key"
-    const val PASS_KEY="your_pass_key"
-}
-```
-
-> You should not add your daraja API environment variables in a production application because it is a vulnerability to expose your environment secrets/variables in your version control system. Ideally, you should add them to your `Local.properties` files as demonstrated in the [sample](https://github.com/VictorKabata/DarajaMultiplatform/tree/main/app-android) android application.
+> You should not add your daraja API environment variables in a production application because it is a vulnerability to expose your environment secrets/variables in your version control system. Ideally, you should add them to your `local.properties` files as demonstrated in the [sample](https://github.com/VictorKabata/DarajaMultiplatform/tree/main/app-android) android application.
 
 - Create an instance of the Daraja object by passing the daraja environment variables. The daraja object provides functions to request for an access token and initiate M-Pesa express STK request.
 
@@ -105,7 +97,7 @@ val daraja: Daraja = Daraja.Builder()
 
 > Network logging is enabled by default when using Daraja Multiplatform. in sandbox/testing mode. The logs can be accessed from the logcat in Android Studio under the `Daraja Multiplatform` tag.
 
-> Network logs are strictly disabled in production mode.
+> Network logs are disabled in production mode.
 
 ### Request Access Token
 
