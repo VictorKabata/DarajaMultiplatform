@@ -56,7 +56,7 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
                 url { protocol = URLProtocol.HTTPS }
             }
         }
-        
+
         install(ContentNegotiation) {
             json(
                 Json {
