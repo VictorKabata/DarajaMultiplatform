@@ -62,6 +62,7 @@ internal class DarajaHttpClientFactory constructor(private val environment: Dara
         install(ContentNegotiation) {
             json(
                 Json {
+                    prettyPrint = true
                     ignoreUnknownKeys = true
                     isLenient = true
                 }
