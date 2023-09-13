@@ -50,7 +50,8 @@ internal class DarajaApiService constructor(
         .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS)).build()
 ) {
 
-    /**Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
+    /** ToDo: Handle daraja auth errors correctly
+     * Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
      * of type [DarajaToken]*/
     internal suspend fun fetchAccessToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
         val key = "$consumerKey:$consumerSecret"

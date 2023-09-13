@@ -40,7 +40,6 @@ import kotlin.test.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DarajaApiServiceTest {
 
     private val mockDarajaHttpClient = MockDarajaHttpClient()
