@@ -16,6 +16,7 @@
 
 package com.vickbt.app_android.ui.screens.home
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -164,6 +165,7 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
     }?.onFailure {
         Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
+        Log.e("VicKbt", "Error: $it")
     }
 }
 
