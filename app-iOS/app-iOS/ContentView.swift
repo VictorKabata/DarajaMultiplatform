@@ -81,16 +81,20 @@ func initiateMpesaPayment(daraja:Daraja,
                           transactionDesc: String,
                           callbackUrl: String,
                           accountReference: String){
-    let response=daraja.initiateMpesaExpressPayment(businessShortCode: businessShortCode, amount: amount, phoneNumber: phoneNumber,transactionType: DarajaTransactionType.customerpaybillonline, transactionDesc: "M-Pesa payment", callbackUrl: "https://mydomain.com/path", accountReference: "Daraja KMP iOS")
-    
-    response.onSuccess(action: {data in
-        print(data.self)
-    })
-    .onFailure(action: {error in
-        print(error)
-    })
-    
-    print(response)
+    do{
+        let response=try daraja.initiateMpesaExpressPayment(businessShortCode: businessShortCode, amount: amount, phoneNumber: phoneNumber,transactionType: DarajaTransactionType.customerpaybillonline, transactionDesc: "M-Pesa payment", callbackUrl: "https://mydomain.com/path", accountReference: "Daraja KMP iOS")
+        
+        response.onSuccess(action: {data in
+            print(data.self)
+        })
+        .onFailure(action: {error in
+            print(error)
+        })
+        
+        print(response)
+    }catch{
+        print("An error occured")
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

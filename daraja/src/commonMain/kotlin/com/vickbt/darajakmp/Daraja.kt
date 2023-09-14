@@ -18,6 +18,7 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
+import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
 import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
@@ -120,9 +121,11 @@ class Daraja constructor(
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
+     * @throws DarajaException
      * @return [DarajaToken]
      * */
-    fun requestAccessToken(): DarajaResult<DarajaToken> = runBlocking {
+    @ObjCName(swiftName = "authorization")
+    fun authorization(): DarajaResult<DarajaToken> = runBlocking {
         withContext(ioCoroutineContext) {
             return@withContext darajaApiService.fetchAccessToken()
         }
@@ -139,9 +142,11 @@ class Daraja constructor(
      * @param [callbackUrl] This is a valid secure URL that is used to receive notifications from M-Pesa API. It is the endpoint to which the results will be sent by M-Pesa API.
      * @param [accountReference] This is an alpha-numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type.
      *
+     * @throws DarajaException
      * @return [DarajaPaymentResponse]
      * */
-    fun initiateMpesaExpressPayment(
+    @ObjCName(swiftName = "mpesaExpress")
+    fun mpesaExpress(
         businessShortCode: String,
         amount: Int,
         phoneNumber: String,
@@ -166,7 +171,7 @@ class Daraja constructor(
             amount = amount.toString(),
             transactionType = transactionType.name,
             phoneNumber = phoneNumber.getDarajaPhoneNumber(),
-            callBackUrl = callbackUrl, // ToDo: Figure out how callback urls work
+            callBackUrl = callbackUrl,
             accountReference = accountReference ?: businessShortCode,
             partyA = phoneNumber,
             partyB = businessShortCode
@@ -182,9 +187,11 @@ class Daraja constructor(
      * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
      *
+     * @throws DarajaException
      * @return [DarajaTransactionResponse]
      * */
-    fun queryMpesaTransaction(
+    @ObjCName(swiftName = "transactionStatus")
+    fun transactionStatus(
         businessShortCode: String,
         checkoutRequestID: String
     ): DarajaResult<DarajaTransactionResponse> = runBlocking {

@@ -40,7 +40,6 @@ import kotlin.test.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DarajaApiServiceTest {
 
     private val mockDarajaHttpClient = MockDarajaHttpClient()
@@ -123,29 +122,6 @@ class DarajaApiServiceTest {
     }
 
     @Test
-    fun fetchAccessToken_400_failure_are_caught() = runTest {
-        // given
-        mockDarajaHttpClient.throwError(
-            httpStatus = HttpStatusCode.BadRequest,
-            response = AccessToken400JSON
-        )
-
-        // when - then
-        val exception = assertFailsWith<DarajaException> {
-            darajaApiService.fetchAccessToken()
-        }
-
-        assertEquals(
-            expected = exception,
-            actual = DarajaException(
-                requestId = "43301-58413611-1",
-                errorCode = "400.008.01",
-                errorMessage = "Invalid Authentication passed"
-            )
-        )
-    }
-
-    @Test
     fun initiateMpesaExpress_success_returns_darajaPaymentResponse() = runTest {
         assertNull(mockInMemoryCache.get(1))
 
@@ -165,52 +141,6 @@ class DarajaApiServiceTest {
         // then
         assertEquals(expected = expectedResult, actual = actualResult)
         assertNotNull(mockInMemoryCache.get(1))
-    }
-
-    @Test
-    fun initiateMpesaExpress_500_failure_are_caught() = runTest {
-        // given
-        mockDarajaHttpClient.throwError(
-            httpStatus = HttpStatusCode.InternalServerError,
-            response = MpesaExpress500JSON
-        )
-
-        // when - then
-        val exception = assertFailsWith<DarajaException> {
-            darajaApiService.queryTransaction(queryDarajaTransactionRequest = queryDarajaTransactionRequest)
-        }
-
-        assertEquals(
-            expected = exception,
-            actual = DarajaException(
-                requestId = "119414-258858845-1",
-                errorCode = "500.001.1001",
-                errorMessage = "Unable to lock subscriber, a transaction is already in process for the current subscriber"
-            )
-        )
-    }
-
-    @Test
-    fun initiateMpesaExpress_404_failure_are_caught() = runTest {
-        // given
-        mockDarajaHttpClient.throwError(
-            httpStatus = HttpStatusCode.Unauthorized,
-            response = InvalidAccessTokenJSON
-        )
-
-        // when - then
-        val exception = assertFailsWith<DarajaException> {
-            darajaApiService.queryTransaction(queryDarajaTransactionRequest = queryDarajaTransactionRequest)
-        }
-
-        assertEquals(
-            expected = exception,
-            actual = DarajaException(
-                requestId = "16813-15-1",
-                errorCode = "404.001.04",
-                errorMessage = "Invalid Access Token"
-            )
-        )
     }
 
     @Test

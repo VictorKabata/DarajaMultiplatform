@@ -59,6 +59,6 @@ internal suspend fun parseNetworkError(
     errorResponse: HttpResponse? = null,
     exception: Exception? = null
 ): DarajaException {
-    throw errorResponse?.body<DarajaException>()
+    return errorResponse?.body<DarajaException>()
         ?: DarajaException(requestId = "0", errorCode = "0", errorMessage = exception?.message)
 }
