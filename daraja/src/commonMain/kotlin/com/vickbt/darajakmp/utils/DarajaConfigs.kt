@@ -23,6 +23,7 @@ internal object DarajaEndpoints {
     const val REQUEST_ACCESS_TOKEN = "oauth/v1/generate?grant_type=client_credentials"
     const val INITIATE_MPESA_EXPRESS = "mpesa/stkpush/v1/processrequest"
     const val QUERY_MPESA_TRANSACTION = "mpesa/stkpushquery/v1/query"
+    const val INITIATE_C2B = "mpesa/c2b/v1/registerurl"
 }
 
 enum class DarajaTransactionType {
@@ -31,4 +32,8 @@ enum class DarajaTransactionType {
 
 enum class DarajaEnvironment {
     PRODUCTION_ENVIRONMENT, SANDBOX_ENVIRONMENT
+}
+
+enum class C2BResponseType(name: String) {
+    CANCELED("canceled"), COMPLETED("completed")
 }
