@@ -124,7 +124,6 @@ class Daraja constructor(
      * @throws DarajaException
      * @return [DarajaToken]
      * */
-    @Throws(DarajaException::class)
     @ObjCName(swiftName = "authorization")
     fun authorization(): DarajaResult<DarajaToken> = runBlocking {
         withContext(ioCoroutineContext) {
@@ -146,7 +145,6 @@ class Daraja constructor(
      * @throws DarajaException
      * @return [DarajaPaymentResponse]
      * */
-    @Throws(DarajaException::class)
     @ObjCName(swiftName = "mpesaExpress")
     fun mpesaExpress(
         businessShortCode: String,
@@ -192,7 +190,6 @@ class Daraja constructor(
      * @throws DarajaException
      * @return [DarajaTransactionResponse]
      * */
-    @Throws(DarajaException::class)
     @ObjCName(swiftName = "transactionStatus")
     fun transactionStatus(
         businessShortCode: String,
