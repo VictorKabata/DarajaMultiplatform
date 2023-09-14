@@ -19,7 +19,7 @@ package com.vickbt.app_android.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vickbt.darajakmp.Daraja
-import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.utils.DarajaResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
 
-    private val _mpesaResponse = MutableStateFlow<DarajaResult<DarajaPaymentResponse>?>(null)
+    private val _mpesaResponse = MutableStateFlow<DarajaResult<MpesaExpressResponse>?>(null)
     val mpesaResponse get() = _mpesaResponse.asStateFlow()
 
     fun initiateMpesaPayment(
