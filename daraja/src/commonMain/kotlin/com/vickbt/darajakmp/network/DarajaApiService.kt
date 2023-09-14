@@ -16,6 +16,8 @@
 
 package com.vickbt.darajakmp.network
 
+import com.vickbt.darajakmp.network.models.C2BRequest
+import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
@@ -69,7 +71,7 @@ internal class DarajaApiService constructor(
     }
 
     /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
-    internal suspend fun initiateMpesaStk(mpesaExpressRequest: MpesaExpressRequest): DarajaResult<MpesaExpressResponse> =
+    internal suspend fun initiateMpesaExpress(mpesaExpressRequest: MpesaExpressRequest): DarajaResult<MpesaExpressResponse> =
         darajaSafeApiCall {
             val accessToken = inMemoryCache.get(1) {
                 fetchAccessToken().getOrThrow()
@@ -92,4 +94,18 @@ internal class DarajaApiService constructor(
                 setBody(darajaTransactionRequest)
             }.body()
         }
+
+    internal suspend fun initiateC2B(c2BRequest: C2BRequest):DarajaResult<C2BResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_C2B){
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(c2BRequest)
+            }.body()
+        }
+
 }
+
