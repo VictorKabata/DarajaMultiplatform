@@ -18,12 +18,15 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
+import com.vickbt.darajakmp.network.models.C2BRequest
+import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
+import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
@@ -178,7 +181,7 @@ class Daraja constructor(
         )
 
         withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateMpesaStk(mpesaExpressRequest = mpesaExpressRequest)
+            return@withContext darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
         }
     }
 
@@ -211,6 +214,33 @@ class Daraja constructor(
 
         withContext(ioCoroutineContext) {
             return@withContext darajaApiService.queryTransaction(darajaTransactionRequest)
+        }
+    }
+
+    /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
+     *
+     * @param [shortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
+     * @param [confirmationURL] This is the URL that receives the confirmation request from API upon payment completion.
+     * @param [validationURL] This is the URL that receives the validation request from the API upon payment submission. The validation URL is only called if the external validation on the registered shortcode is enabled. (By default External Validation is disabled).
+     * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
+     *
+     * @return [C2BResponse]
+     * */
+    fun c2b(
+        shortCode: Int,
+        confirmationURL: String,
+        validationURL: String,
+        responseType: C2BResponseType = C2BResponseType.COMPLETED
+    ): DarajaResult<C2BResponse> = runBlocking {
+        val c2bRequest = C2BRequest(
+            confirmationURL = confirmationURL,
+            validationURL = validationURL,
+            responseType = responseType.name,
+            shortCode = shortCode
+        )
+
+        withContext(ioCoroutineContext) {
+            return@withContext darajaApiService.initiateC2B(c2BRequest = c2bRequest)
         }
     }
 }
