@@ -1,5 +1,6 @@
 package com.vickbt.darajakmp.network.models
 
+import com.vickbt.darajakmp.utils.C2BResponseType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.native.ObjCName
@@ -18,7 +19,7 @@ data class C2BRequest(
 
     /**This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.*/
     @SerialName("ResponseType")
-    val responseType: String,
+    val responseType: String? = C2BResponseType.COMPLETED.name,
 
     /**A unique number is tagged to an M-PESA pay bill/till number of the organization.*/
     @SerialName("ShortCode")

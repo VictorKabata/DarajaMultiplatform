@@ -124,7 +124,6 @@ class Daraja constructor(
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
-     * @throws DarajaException
      * @return [DarajaToken]
      * */
     @ObjCName(swiftName = "authorization")
@@ -145,7 +144,6 @@ class Daraja constructor(
      * @param [callbackUrl] This is a valid secure URL that is used to receive notifications from M-Pesa API. It is the endpoint to which the results will be sent by M-Pesa API.
      * @param [accountReference] This is an alpha-numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type.
      *
-     * @throws DarajaException
      * @return [MpesaExpressResponse]
      * */
     @ObjCName(swiftName = "mpesaExpress")
@@ -190,7 +188,6 @@ class Daraja constructor(
      * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
      *
-     * @throws DarajaException
      * @return [DarajaTransactionResponse]
      * */
     @ObjCName(swiftName = "transactionStatus")
@@ -229,13 +226,13 @@ class Daraja constructor(
     fun c2b(
         shortCode: Int,
         confirmationURL: String,
-        validationURL: String,
-        responseType: C2BResponseType = C2BResponseType.COMPLETED
+        validationURL: String?,
+        responseType: C2BResponseType? = C2BResponseType.COMPLETED
     ): DarajaResult<C2BResponse> = runBlocking {
         val c2bRequest = C2BRequest(
             confirmationURL = confirmationURL,
-            validationURL = validationURL,
-            responseType = responseType.name,
+            validationURL = validationURL ?: "",
+            responseType = responseType?.name,
             shortCode = shortCode
         )
 
