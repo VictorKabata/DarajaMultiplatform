@@ -20,12 +20,12 @@ import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@ObjCName(swiftName = "DarajaPaymentRequest")
+@ObjCName(swiftName = "MpesaExpressRequest")
 @Serializable
 /**
  * Request body sent to Daraja API to request Mpesa Express payment.
  * */
-data class DarajaPaymentRequest(
+data class MpesaExpressRequest(
 
     /**This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.*/
     @SerialName("BusinessShortCode")

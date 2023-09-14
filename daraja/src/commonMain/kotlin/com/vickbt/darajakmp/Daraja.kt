@@ -19,11 +19,11 @@ package com.vickbt.darajakmp
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickbt.darajakmp.network.models.DarajaException
-import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
-import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickbt.darajakmp.network.models.MpesaExpressRequest
+import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickbt.darajakmp.network.models.QueryDarajaTransactionRequest
+import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
@@ -143,7 +143,7 @@ class Daraja constructor(
      * @param [accountReference] This is an alpha-numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type.
      *
      * @throws DarajaException
-     * @return [DarajaPaymentResponse]
+     * @return [MpesaExpressResponse]
      * */
     @ObjCName(swiftName = "mpesaExpress")
     fun mpesaExpress(
@@ -154,7 +154,7 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ): DarajaResult<DarajaPaymentResponse> = runBlocking {
+    ): DarajaResult<MpesaExpressResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
@@ -163,7 +163,7 @@ class Daraja constructor(
             timestamp = timestamp
         )
 
-        val darajaPaymentRequest = DarajaPaymentRequest(
+        val mpesaExpressRequest = MpesaExpressRequest(
             businessShortCode = businessShortCode,
             password = darajaPassword,
             timestamp = timestamp,
@@ -178,7 +178,7 @@ class Daraja constructor(
         )
 
         withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+            return@withContext darajaApiService.initiateMpesaStk(mpesaExpressRequest = mpesaExpressRequest)
         }
     }
 
@@ -202,7 +202,7 @@ class Daraja constructor(
             timestamp = timestamp
         )
 
-        val queryDarajaTransactionRequest = QueryDarajaTransactionRequest(
+        val darajaTransactionRequest = DarajaTransactionRequest(
             businessShortCode = businessShortCode,
             password = darajaPassword,
             timestamp = timestamp,
@@ -210,7 +210,7 @@ class Daraja constructor(
         )
 
         withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.queryTransaction(queryDarajaTransactionRequest)
+            return@withContext darajaApiService.queryTransaction(darajaTransactionRequest)
         }
     }
 }

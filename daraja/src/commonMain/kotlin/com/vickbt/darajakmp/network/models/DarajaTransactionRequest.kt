@@ -20,9 +20,9 @@ import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@ObjCName(swiftName = "QueryDarajaTransactionRequest")
+@ObjCName(swiftName = "DarajaTransactionRequest")
 @Serializable
-data class QueryDarajaTransactionRequest(
+data class DarajaTransactionRequest(
     @SerialName("BusinessShortCode")
     val businessShortCode: String,
 

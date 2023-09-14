@@ -16,28 +16,21 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.AccessToken400JSON
-import com.vickbt.darajakmp.network.models.DarajaException
-import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
-import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickbt.darajakmp.network.models.MpesaExpressRequest
+import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickbt.darajakmp.network.models.InvalidAccessTokenJSON
-import com.vickbt.darajakmp.network.models.MpesaExpress500JSON
-import com.vickbt.darajakmp.network.models.QueryDarajaTransactionRequest
+import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
 import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
-import io.ktor.http.HttpStatusCode
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
 class DarajaApiServiceTest {
@@ -54,7 +47,7 @@ class DarajaApiServiceTest {
         accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ", expiresIn = "3599"
     )
 
-    private val darajaPaymentRequest = DarajaPaymentRequest(
+    private val mpesaExpressRequest = MpesaExpressRequest(
         businessShortCode = "654321",
         password = "password",
         phoneNumber = "254708374149",
@@ -68,7 +61,7 @@ class DarajaApiServiceTest {
         accountReference = "Account reference"
     )
 
-    private val queryDarajaTransactionRequest = QueryDarajaTransactionRequest(
+    private val darajaTransactionRequest = DarajaTransactionRequest(
         businessShortCode = "654321",
         password = "password",
         timestamp = "timestamp",
@@ -127,9 +120,9 @@ class DarajaApiServiceTest {
 
         // when
         val actualResult =
-            darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
+            darajaApiService.initiateMpesaStk(mpesaExpressRequest = mpesaExpressRequest)
         val expectedResult = DarajaResult.Success(
-            DarajaPaymentResponse(
+            MpesaExpressResponse(
                 merchantRequestID = "6093-85819535-1",
                 checkoutRequestID = "ws_CO_16122022001707470708374149",
                 responseCode = "0",
@@ -147,7 +140,7 @@ class DarajaApiServiceTest {
     fun queryTransaction_success_returns_darajaTransactionResponse() = runTest {
         // when
         val actualResult =
-            darajaApiService.queryTransaction(queryDarajaTransactionRequest = queryDarajaTransactionRequest)
+            darajaApiService.queryTransaction(darajaTransactionRequest = darajaTransactionRequest)
         val expectedResult = DarajaResult.Success(
             DarajaTransactionResponse(
                 responseCode = "0",
