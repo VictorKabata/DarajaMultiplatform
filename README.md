@@ -22,11 +22,14 @@
     - [Request Access Token](#request-access-token)
     - [Initiate M-Pesa Express STK Request](#initiate-m-pesa-express-stk-request)
     - [Query M-Pesa Transaction](#query-m-pesa-transaction)
+    - [Customer To Business(C2B)](#customer-to-businessc2b)
   - [iOS - Swift](#ios---swift)
     - [Setting Up](#setting-up-1)
     - [Request Access Token](#request-access-token)
     - [Initiate M-Pesa Express STK Request](#initiate-m-pesa-express-stk-request-1)
     - [Query M-Pesa Transaction](#query-m-pesa-transaction-1)
+    - [Customer To Business(C2B)](#customer-to-businessc2b)
+
 
 ## Prerequisite
 
@@ -166,11 +169,27 @@ val darajaC2BRegistrationResponse:DarajaResult<C2BResponse> = daraja.c2bRegistra
         )
 
 darajaC2BRegistrationResponse.onSuccess {
-  // Successfull registered  confirmation and validation URL
+  // Successfully registered  confirmation and validation URL
 }.onFailure{
   // Failure registering confirmation and validation URL
 }
 
+```
+- To initiate a Customer to Business paybill, invoke the `c2b` function:
+```kotlin
+val c2bResponse: DarajaResult<C2BResponse> = daraja.c2b(
+            amount = 1,
+            billReferenceNumber = "600977",
+            transactionType = DarajaTransactionType.CustomerBuyGoodsOnline, // DarajaTransactionType.CustomerPayBillOnline
+            phoneNumber = "0708374149",
+            businessShortCode = "600977" //Optional when using CustomerBuyGoodsOnline
+        )
+
+c2bResponse.onSuccess {
+  // Successfully invoked C2B request
+}.onFailure{
+  // Failure invoking C2B request
+}
 ```
 
 # iOS - Swift  <img src="assets/swift_logo.png" width="40" />
