@@ -18,9 +18,8 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.C2BRequest
-import com.vickbt.darajakmp.network.models.C2BResponse
-import com.vickbt.darajakmp.network.models.DarajaException
+import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
+import com.vickbt.darajakmp.network.models.C2BRegistrationResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
@@ -216,28 +215,28 @@ class Daraja constructor(
 
     /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
      *
-     * @param [shortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
+     * @param [businessShortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
      * @param [confirmationURL] This is the URL that receives the confirmation request from API upon payment completion.
      * @param [validationURL] This is the URL that receives the validation request from the API upon payment submission. The validation URL is only called if the external validation on the registered shortcode is enabled. (By default External Validation is disabled).
      * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
      *
-     * @return [C2BResponse]
+     * @return [C2BRegistrationResponse]
      * */
-    fun c2b(
-        shortCode: Int,
+    fun c2bRegistration(
+        businessShortCode: Int,
         confirmationURL: String,
         validationURL: String?,
         responseType: C2BResponseType? = C2BResponseType.COMPLETED
-    ): DarajaResult<C2BResponse> = runBlocking {
-        val c2bRequest = C2BRequest(
+    ): DarajaResult<C2BRegistrationResponse> = runBlocking {
+        val c2BRegistrationRequest = C2BRegistrationRequest(
             confirmationURL = confirmationURL,
             validationURL = validationURL ?: "",
             responseType = responseType?.name,
-            shortCode = shortCode
+            shortCode = businessShortCode
         )
 
         withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateC2B(c2BRequest = c2bRequest)
+            return@withContext darajaApiService.c2bRegistration(c2BRegistrationRequest = c2BRegistrationRequest)
         }
     }
 }
