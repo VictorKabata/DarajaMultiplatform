@@ -227,7 +227,7 @@ class Daraja constructor(
         val c2BRegistrationRequest = C2BRegistrationRequest(
             confirmationURL = confirmationURL,
             validationURL = validationURL,
-            responseType = responseType?.name,
+            responseType = responseType?.name?.lowercase(),
             shortCode = businessShortCode
         )
 

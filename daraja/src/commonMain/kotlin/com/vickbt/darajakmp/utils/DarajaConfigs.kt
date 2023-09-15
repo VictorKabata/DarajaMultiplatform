@@ -37,6 +37,6 @@ enum class DarajaEnvironment {
     PRODUCTION_ENVIRONMENT, SANDBOX_ENVIRONMENT
 }
 
-enum class C2BResponseType(name: String) {
-    CANCELED("canceled"), COMPLETED("completed")
+enum class C2BResponseType {
+    CANCELED, COMPLETED
 }
