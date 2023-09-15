@@ -159,9 +159,7 @@ class Daraja constructor(
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: "",
-            timestamp = timestamp
+            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
         )
 
         val mpesaExpressRequest = MpesaExpressRequest(
@@ -192,14 +190,11 @@ class Daraja constructor(
      * */
     @ObjCName(swiftName = "transactionStatus")
     fun transactionStatus(
-        businessShortCode: String,
-        checkoutRequestID: String
+        businessShortCode: String, checkoutRequestID: String
     ): DarajaResult<DarajaTransactionResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: "",
-            timestamp = timestamp
+            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
         )
 
         val darajaTransactionRequest = DarajaTransactionRequest(
@@ -244,16 +239,16 @@ class Daraja constructor(
     fun c2b(
         amount: Int,
         billReferenceNumber: String,
-        commandID: DarajaTransactionType,
-        msisdn: String,
+        transactionType: DarajaTransactionType,
+        phoneNumber: String,
         businessShortCode: String
     ): DarajaResult<C2BResponse> = runBlocking {
         val c2bRequest = C2BRequest(
             amount = amount,
             billReferenceNumber = billReferenceNumber,
-            commandID = commandID.name,
-            phoneNumber = msisdn.getDarajaPhoneNumber().toLong(),
-            shortCode = if (commandID.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else null
+            commandID = transactionType.name,
+            phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
+            shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
         )
 
         withContext(ioCoroutineContext) {
