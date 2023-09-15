@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
 
 @ObjCName(swiftName = "DarajaTransactionRequest")
 @Serializable
-data class DarajaTransactionRequest(
+internal data class DarajaTransactionRequest(
     @SerialName("BusinessShortCode")
     val businessShortCode: String,
 

@@ -16,6 +16,8 @@
 
 package com.vickbt.darajakmp.utils
 
+// ToDo: Add documentation
+
 internal object DarajaEndpoints {
     const val PROD_BASE_URL = "api.safaricom.co.ke"
     const val SANDBOX_BASE_URL = "sandbox.safaricom.co.ke"
