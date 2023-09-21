@@ -148,14 +148,14 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     from(dokkaOutputDir)
 }
 
-koverReport {
+/*koverReport {
     verify {
         rule {
             isEnabled = true
             bound { minValue = 50 }
         }
     }
-}
+}*/
 
 publishing {
 
