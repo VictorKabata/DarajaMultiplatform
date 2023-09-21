@@ -148,10 +148,10 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     from(dokkaOutputDir)
 }
 
-kover {
+koverReport {
     verify {
         rule {
-            name = "Minimal line coverage rate in percents"
+            isEnabled = true
             bound { minValue = 50 }
         }
     }
