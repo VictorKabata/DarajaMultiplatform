@@ -18,12 +18,15 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.DarajaException
+import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
+import com.vickbt.darajakmp.network.models.C2BRequest
+import com.vickbt.darajakmp.network.models.C2BResponse
+import com.vickbt.darajakmp.network.models.DarajaToken
+import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
+import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
-import com.vickbt.darajakmp.network.models.DarajaToken
-import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
+import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
@@ -121,7 +124,6 @@ class Daraja constructor(
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
-     * @throws DarajaException
      * @return [DarajaToken]
      * */
     @ObjCName(swiftName = "authorization")
@@ -142,7 +144,6 @@ class Daraja constructor(
      * @param [callbackUrl] This is a valid secure URL that is used to receive notifications from M-Pesa API. It is the endpoint to which the results will be sent by M-Pesa API.
      * @param [accountReference] This is an alpha-numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type.
      *
-     * @throws DarajaException
      * @return [MpesaExpressResponse]
      * */
     @ObjCName(swiftName = "mpesaExpress")
@@ -158,9 +159,7 @@ class Daraja constructor(
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: "",
-            timestamp = timestamp
+            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
         )
 
         val mpesaExpressRequest = MpesaExpressRequest(
@@ -178,7 +177,7 @@ class Daraja constructor(
         )
 
         withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateMpesaStk(mpesaExpressRequest = mpesaExpressRequest)
+            return@withContext darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
         }
     }
 
@@ -187,19 +186,15 @@ class Daraja constructor(
      * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
      *
-     * @throws DarajaException
      * @return [DarajaTransactionResponse]
      * */
     @ObjCName(swiftName = "transactionStatus")
     fun transactionStatus(
-        businessShortCode: String,
-        checkoutRequestID: String
+        businessShortCode: String, checkoutRequestID: String
     ): DarajaResult<DarajaTransactionResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: "",
-            timestamp = timestamp
+            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
         )
 
         val darajaTransactionRequest = DarajaTransactionRequest(
@@ -211,6 +206,53 @@ class Daraja constructor(
 
         withContext(ioCoroutineContext) {
             return@withContext darajaApiService.queryTransaction(darajaTransactionRequest)
+        }
+    }
+
+    /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
+     *
+     * @param [businessShortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
+     * @param [confirmationURL] This is the URL that receives the confirmation request from API upon payment completion.
+     * @param [validationURL] This is the URL that receives the validation request from the API upon payment submission. The validation URL is only called if the external validation on the registered shortcode is enabled. (By default External Validation is disabled).
+     * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
+     *
+     * @return [C2BResponse]
+     * */
+    fun c2bRegistration(
+        businessShortCode: Int,
+        confirmationURL: String,
+        validationURL: String? = null,
+        responseType: C2BResponseType? = C2BResponseType.COMPLETED
+    ): DarajaResult<C2BResponse> = runBlocking {
+        val c2BRegistrationRequest = C2BRegistrationRequest(
+            confirmationURL = confirmationURL,
+            validationURL = validationURL,
+            responseType = responseType?.name?.lowercase(),
+            shortCode = businessShortCode
+        )
+
+        withContext(ioCoroutineContext) {
+            return@withContext darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
+        }
+    }
+
+    fun c2b(
+        amount: Int,
+        billReferenceNumber: String,
+        transactionType: DarajaTransactionType,
+        phoneNumber: String,
+        businessShortCode: String
+    ): DarajaResult<C2BResponse> = runBlocking {
+        val c2bRequest = C2BRequest(
+            amount = amount,
+            billReferenceNumber = billReferenceNumber,
+            commandID = transactionType.name,
+            phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
+            shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
+        )
+
+        withContext(ioCoroutineContext) {
+            return@withContext darajaApiService.c2b(c2bRequest = c2bRequest)
         }
     }
 }

@@ -16,11 +16,14 @@
 
 package com.vickbt.darajakmp.network
 
+import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
+import com.vickbt.darajakmp.network.models.C2BRequest
+import com.vickbt.darajakmp.network.models.C2BResponse
+import com.vickbt.darajakmp.network.models.DarajaToken
+import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
+import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
-import com.vickbt.darajakmp.network.models.DarajaToken
-import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.getOrThrow
@@ -69,7 +72,7 @@ internal class DarajaApiService constructor(
     }
 
     /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
-    internal suspend fun initiateMpesaStk(mpesaExpressRequest: MpesaExpressRequest): DarajaResult<MpesaExpressResponse> =
+    internal suspend fun initiateMpesaExpress(mpesaExpressRequest: MpesaExpressRequest): DarajaResult<MpesaExpressResponse> =
         darajaSafeApiCall {
             val accessToken = inMemoryCache.get(1) {
                 fetchAccessToken().getOrThrow()
@@ -92,4 +95,30 @@ internal class DarajaApiService constructor(
                 setBody(darajaTransactionRequest)
             }.body()
         }
+
+    internal suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.C2B_REGISTRATION_URL) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(c2bRegistrationRequest)
+            }.body()
+        }
+
+    internal suspend fun c2b(c2bRequest: C2BRequest): DarajaResult<C2BResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_C2B) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(c2bRequest)
+            }.body()
+        }
+
 }
+

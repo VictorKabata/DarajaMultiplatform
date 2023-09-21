@@ -120,7 +120,7 @@ class DarajaApiServiceTest {
 
         // when
         val actualResult =
-            darajaApiService.initiateMpesaStk(mpesaExpressRequest = mpesaExpressRequest)
+            darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
         val expectedResult = DarajaResult.Success(
             MpesaExpressResponse(
                 merchantRequestID = "6093-85819535-1",
