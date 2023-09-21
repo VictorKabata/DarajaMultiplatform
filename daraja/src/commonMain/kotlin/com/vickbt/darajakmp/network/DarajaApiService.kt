@@ -49,7 +49,7 @@ internal class DarajaApiService constructor(
     private val httpClient: HttpClient,
     private val consumerKey: String,
     private val consumerSecret: String,
-    private val inMemoryCache: Cache<Long, DarajaToken> = Cache.Builder()
+    private val inMemoryCache: Cache<Long, DarajaToken> = Cache.Builder<Long, DarajaToken>()
         .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS)).build()
 ) {
 
