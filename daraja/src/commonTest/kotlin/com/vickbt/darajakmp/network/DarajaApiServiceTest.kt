@@ -16,22 +16,22 @@
 
 package com.vickbt.darajakmp.network
 
+import com.vickbt.darajakmp.network.models.DarajaToken
+import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
+import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
-import com.vickbt.darajakmp.network.models.DarajaToken
-import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
 import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlinx.coroutines.test.runTest
 
 class DarajaApiServiceTest {
 
@@ -72,7 +72,7 @@ class DarajaApiServiceTest {
     fun setup() {
         mockKtorHttpClient = mockDarajaHttpClient.mockDarajaHttpClient
 
-        mockInMemoryCache = Cache.Builder().build()
+        mockInMemoryCache = Cache.Builder<Long, DarajaToken>().build()
 
         darajaApiService = DarajaApiService(
             httpClient = mockKtorHttpClient,
