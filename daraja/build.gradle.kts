@@ -56,10 +56,10 @@ kotlin {
 
     jvm()
 
-    js(IR) {
+    /*js(IR) {
         nodejs()
         binaries.library()
-    }
+    }*/
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -98,10 +98,10 @@ kotlin {
         }
         sourceSets["jvmTest"].dependencies {}
 
-        sourceSets["jsMain"].dependencies {
+        /*sourceSets["jsMain"].dependencies {
             implementation(libs.ktor.js)
         }
-        sourceSets["jsTest"].dependencies {}
+        sourceSets["jsTest"].dependencies {}*/
     }
 }
 
