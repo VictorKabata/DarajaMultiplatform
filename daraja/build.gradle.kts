@@ -83,7 +83,7 @@ kotlin {
         sourceSets["androidMain"].dependencies {
             implementation(libs.ktor.android)
         }
-        sourceSets["androidTest"].dependencies {}
+        sourceSets["androidUnitTest"].dependencies {}
 
         sourceSets["iosMain"].dependencies {
             implementation(libs.ktor.darwin)
