@@ -89,7 +89,7 @@ class DarajaApiServiceTest {
     }
 
     @Test
-    fun fetchAccessToken_success_returns_darajaToken() = runTest {
+    fun `fetchAccessToken returns darajaToken on success`() = runTest {
         // when
         val actualResult = darajaApiService.fetchAccessToken()
 
@@ -101,7 +101,7 @@ class DarajaApiServiceTest {
     }
 
     @Test
-    fun fetchAccessToken_success_caches_darajaToken() = runTest {
+    fun `fetchAccessToken caches darajaToken on success`() = runTest {
         assertNull(mockInMemoryCache.get(1))
 
         // when
@@ -115,7 +115,7 @@ class DarajaApiServiceTest {
     }
 
     @Test
-    fun initiateMpesaExpress_success_returns_darajaPaymentResponse() = runTest {
+    fun `initiateMpesaExpress returns darajaPaymentResponse on success`() = runTest {
         assertNull(mockInMemoryCache.get(1))
 
         // when
@@ -137,10 +137,11 @@ class DarajaApiServiceTest {
     }
 
     @Test
-    fun queryTransaction_success_returns_darajaTransactionResponse() = runTest {
+    fun `queryTransaction returns darajaTransactionResponse on success`() = runTest {
         // when
         val actualResult =
             darajaApiService.queryTransaction(darajaTransactionRequest = darajaTransactionRequest)
+        
         val expectedResult = DarajaResult.Success(
             DarajaTransactionResponse(
                 responseCode = "0",
@@ -152,6 +153,7 @@ class DarajaApiServiceTest {
             )
         )
 
+        // then
         assertEquals(expected = expectedResult, actual = actualResult)
     }
 }
