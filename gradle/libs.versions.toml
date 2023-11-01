@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.8.20"
+kotlin = "1.9.20"
 gradle = "7.4.1"
 ktLint = "10.3.0"
 detekt = "1.19.0"
@@ -17,7 +17,7 @@ kotlinxDateTime = "0.4.1"
 napier = "2.6.1"
 ktor = "2.3.4"
 kotlinxTestResources = "0.2.2"
-composeMultiplatform = "1.5.0-beta01"
+composeMultiplatform = "1.5.10"
 cache4k = "0.11.0"
 mockative = "2.0.1"
 
