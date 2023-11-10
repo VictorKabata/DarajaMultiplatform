@@ -1,6 +1,7 @@
 name: Maintenance
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: 00 00 30 * * # At 00:00 on 30th every month
 
