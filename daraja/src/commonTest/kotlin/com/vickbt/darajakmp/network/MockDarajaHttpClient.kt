@@ -55,12 +55,16 @@ internal class MockDarajaHttpClient {
                 when (request.url.fullPath) {
                     "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
                         respond(
-                            responseContent ?: AccessToken200JSON, httpStatusCode, responseHeaders
+                            responseContent ?: AccessToken200JSON,
+                            httpStatusCode,
+                            responseHeaders
                         )
                     }
                     "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
                         respond(
-                            responseContent ?: MpesaExpress200JSON, httpStatusCode, responseHeaders
+                            responseContent ?: MpesaExpress200JSON,
+                            httpStatusCode,
+                            responseHeaders
                         )
                     }
                     "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {

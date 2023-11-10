@@ -8,7 +8,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-    ?: defaultValue
+        ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
@@ -162,8 +162,11 @@ publishing {
     repositories {
         maven {
             name = "Sonatype"
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
-            else releasesRepoUrl
+            url = if (version.toString().endsWith("SNAPSHOT")) {
+                snapshotsRepoUrl
+            } else {
+                releasesRepoUrl
+            }
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
@@ -219,7 +222,9 @@ publishing {
         val signingKey = project.get("SIGNING_PASSWORD")
 
         useInMemoryPgpKeys(
-            signingKeyId, signingKeyPassword, signingKey
+            signingKeyId,
+            signingKeyPassword,
+            signingKey
         )
         sign(publishing.publications)
     }

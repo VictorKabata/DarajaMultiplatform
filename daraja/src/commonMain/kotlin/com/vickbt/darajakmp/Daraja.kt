@@ -159,7 +159,9 @@ class Daraja constructor(
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
+            shortCode = businessShortCode,
+            passkey = passKey ?: "",
+            timestamp = timestamp
         )
 
         val mpesaExpressRequest = MpesaExpressRequest(
@@ -190,11 +192,14 @@ class Daraja constructor(
      * */
     @ObjCName(swiftName = "transactionStatus")
     fun transactionStatus(
-        businessShortCode: String, checkoutRequestID: String
+        businessShortCode: String,
+        checkoutRequestID: String
     ): DarajaResult<DarajaTransactionResponse> = runBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
+            shortCode = businessShortCode,
+            passkey = passKey ?: "",
+            timestamp = timestamp
         )
 
         val darajaTransactionRequest = DarajaTransactionRequest(

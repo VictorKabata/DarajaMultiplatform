@@ -39,5 +39,5 @@ internal data class C2BRegistrationRequest(
 
     /**A unique number is tagged to an M-PESA pay bill/till number of the organization.*/
     @SerialName("ShortCode")
-    val shortCode: Int,
+    val shortCode: Int
 )

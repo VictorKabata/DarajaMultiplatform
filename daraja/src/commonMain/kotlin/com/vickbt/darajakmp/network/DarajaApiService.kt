@@ -118,6 +118,4 @@ internal class DarajaApiService constructor(
                 setBody(c2bRequest)
             }.body()
         }
-
 }
-
