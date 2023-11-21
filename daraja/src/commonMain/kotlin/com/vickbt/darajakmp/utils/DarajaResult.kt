@@ -29,8 +29,6 @@ sealed class DarajaResult<out T> {
     @ObjCName(swiftName = "Error")
     data class Failure(@ObjCName(swiftName = "error") val exception: DarajaException) :
         DarajaResult<Nothing>()
-
-    // object Loading : DarajaResult<Nothing>() ToDo
 }
 
 /**Returns result of type [T] on success or null on failure
@@ -69,12 +67,6 @@ internal fun <T : Any> DarajaResult<T>.getOrThrow(): T {
         throw this.throwOnFailure()
     }
 }
-
-/* ToDo
-inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: (isLoading: Boolean) -> Unit): DarajaResult<T> {
-    if (this is DarajaResult.Loading) action(true) else action(false)
-    return this
-}*/
 
 /**Returns result of type [T] on success
  *
