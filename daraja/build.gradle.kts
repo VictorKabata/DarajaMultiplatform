@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import java.util.Locale
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
 
@@ -11,7 +12,9 @@ fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
         ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
+        version.uppercase(Locale.getDefault()).contains(it)
+    }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -33,7 +36,7 @@ plugins {
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishLibraryVariants("release", "debug")
