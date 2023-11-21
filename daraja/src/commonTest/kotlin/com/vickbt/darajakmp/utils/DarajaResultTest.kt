@@ -19,7 +19,6 @@ package com.vickbt.darajakmp.utils
 import com.vickbt.darajakmp.network.models.DarajaException
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
