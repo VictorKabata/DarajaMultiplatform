@@ -17,6 +17,7 @@
 package com.vickbt.darajakmp.network
 
 import com.vickbt.darajakmp.network.models.AccessToken200JSON
+import com.vickbt.darajakmp.network.models.C2BResponse200JSON
 import com.vickbt.darajakmp.network.models.MpesaExpress200JSON
 import com.vickbt.darajakmp.network.models.QueryTransaction200JSON
 import com.vickbt.darajakmp.utils.DarajaEndpoints
@@ -60,6 +61,7 @@ internal class MockDarajaHttpClient {
                             responseHeaders
                         )
                     }
+
                     "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
                         respond(
                             responseContent ?: MpesaExpress200JSON,
@@ -67,6 +69,7 @@ internal class MockDarajaHttpClient {
                             responseHeaders
                         )
                     }
+
                     "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {
                         respond(
                             responseContent ?: QueryTransaction200JSON,
@@ -74,6 +77,23 @@ internal class MockDarajaHttpClient {
                             responseHeaders
                         )
                     }
+
+                    "/${DarajaEndpoints.C2B_REGISTRATION_URL}" -> {
+                        respond(
+                            responseContent ?: C2BResponse200JSON,
+                            httpStatusCode,
+                            responseHeaders
+                        )
+                    }
+
+                    "/${DarajaEndpoints.INITIATE_C2B}" -> {
+                        respond(
+                            responseContent ?: C2BResponse200JSON,
+                            httpStatusCode,
+                            responseHeaders
+                        )
+                    }
+
                     else -> {
                         error("Unhandled ${request.url.encodedPathAndQuery}")
                     }

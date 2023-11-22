@@ -60,10 +60,18 @@ const val InvalidAccessTokenJSON = """
 const val QueryTransaction200JSON = """
 {
   "ResponseCode": "0",
-  "ResponseDescription": "The service request has been accepted successsfully",
+  "ResponseDescription": "The service request has been accepted successfully",
   "MerchantRequestID": "15386-269505584-1",
   "CheckoutRequestID": "ws_CO_07022023155508743714091304",
   "ResultCode": "0",
   "ResultDesc": "The service request is processed successfully."
+}
+"""
+
+const val C2BResponse200JSON = """   
+{
+  "OriginatorCoversationID": "98218-120846845-1",
+  "ResponseCode": "0",
+  "ResponseDescription": "Success"
 }
 """
