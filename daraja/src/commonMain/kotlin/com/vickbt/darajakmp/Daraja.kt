@@ -224,7 +224,7 @@ class Daraja constructor(
      * @return [C2BResponse]
      * */
     fun c2bRegistration(
-        businessShortCode: Int,
+        businessShortCode: String,
         confirmationURL: String,
         validationURL: String? = null,
         responseType: C2BResponseType? = C2BResponseType.COMPLETED
@@ -242,7 +242,7 @@ class Daraja constructor(
     }
 
     fun c2b(
-        amount: Int,
+        amount: String,
         billReferenceNumber: String,
         transactionType: DarajaTransactionType,
         phoneNumber: String,
@@ -252,7 +252,7 @@ class Daraja constructor(
             amount = amount,
             billReferenceNumber = billReferenceNumber,
             commandID = transactionType.name,
-            phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
+            phoneNumber = phoneNumber.getDarajaPhoneNumber(),
             shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
         )
 

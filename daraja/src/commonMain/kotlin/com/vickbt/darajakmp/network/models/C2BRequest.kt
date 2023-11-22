@@ -16,6 +16,7 @@
 
 package com.vickbt.darajakmp.network.models
 
+import com.vickbt.darajakmp.utils.DarajaTransactionType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.native.ObjCName
@@ -25,16 +26,16 @@ import kotlin.native.ObjCName
 /**Request C2B M-Pesa payment*/
 internal data class C2BRequest(
     @SerialName("Amount")
-    val amount: Int,
+    val amount: String,
 
     @SerialName("BillRefNumber")
     val billReferenceNumber: String,
 
     @SerialName("CommandID")
-    val commandID: String,
+    val commandID: String = DarajaTransactionType.CustomerPayBillOnline.name,
 
     @SerialName("Msisdn")
-    val phoneNumber: Long,
+    val phoneNumber: String,
 
     @SerialName("ShortCode")
     val shortCode: String?
