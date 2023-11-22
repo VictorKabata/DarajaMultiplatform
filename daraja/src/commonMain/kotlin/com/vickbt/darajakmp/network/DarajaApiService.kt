@@ -36,6 +36,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -50,7 +51,7 @@ internal class DarajaApiService constructor(
     private val consumerKey: String,
     private val consumerSecret: String,
     private val inMemoryCache: Cache<Long, DarajaToken> = Cache.Builder<Long, DarajaToken>()
-        .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS)).build()
+        .expireAfterWrite(3600.seconds).build()
 ) {
 
     /** Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
