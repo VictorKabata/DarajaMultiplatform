@@ -151,7 +151,7 @@ class UtilsTest {
     }
 
     @Test
-    fun time_units_with_value_less_than_ten_are_formatted_correctly() {
+    fun time_units_with_value_less_than_10_are_formatted_correctly() {
         val timeUnit = 1
         val expectedTimeUnit = "01"
 
@@ -159,7 +159,7 @@ class UtilsTest {
     }
 
     @Test
-    fun time_units_with_value_more_than_ten_retain_their_formatting() {
+    fun time_units_with_value_more_than_10_retain_their_formatting() {
         val timeUnit = 11
         val expectedTimeUnit = 11
 
