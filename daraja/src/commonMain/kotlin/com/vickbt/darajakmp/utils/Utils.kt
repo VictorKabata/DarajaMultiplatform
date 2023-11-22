@@ -65,8 +65,10 @@ internal fun String.getDarajaPhoneNumber(): String {
         phoneNumber.matches(Regex("^(?:254)?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) -> phoneNumber
         phoneNumber.matches(Regex("^0?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) ->
             phoneNumber.replaceFirst("0", "254")
+
         phoneNumber.matches(Regex("^(?:\\+254)?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) ->
             phoneNumber.replaceFirst("+", "")
+
         else -> throw DarajaException("Invalid phone number format provided: $this")
     }
 }

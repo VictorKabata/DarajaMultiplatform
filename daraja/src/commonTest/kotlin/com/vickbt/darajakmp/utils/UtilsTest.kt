@@ -77,21 +77,55 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_less_than_10_characters_throws_errors() {
-        val phoneNumbers = listOf("071409130", "+25471409130", "25471409130")
+    fun phone_number_starting_with_07_and_less_than_10_characters_throws_errors() {
+        val phoneNumber = "071409130"
 
         assertFailsWith<DarajaException> {
-            phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+            phoneNumber.getDarajaPhoneNumber()
         }
     }
 
     @Test
-    fun phone_number_more_than_10_characters_throws_errors() {
-        val phoneNumbers = listOf("07140913023", "+2547140913023", "2547140913023")
+    fun phone_number_starting_with_254_and_less_than_10_characters_throws_errors() {
+        val phoneNumber = "25471409130"
 
-        assertFailsWith<DarajaException> {
-            phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
-        }
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+    @Test
+    fun phone_number_starting_with_plus_254_and_less_than_10_characters_throws_errors() {
+        val phoneNumber = "+25471409130"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+
+    @Test
+    fun phone_number_starting_with_07_and_more_than_10_characters_throws_errors() {
+        val phoneNumber = "07140913023"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+    @Test
+    fun phone_number_starting_with_254_and_more_than_10_characters_throws_errors() {
+        val phoneNumber = "2547140913023"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+    @Test
+    fun phone_number_starting_with_plus_254_and_more_than_10_characters_throws_errors() {
+        val phoneNumber = "+2547140913023"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+    @Test
+    fun phone_number_more_than_10_characters_throws_errors() {
+        val phoneNumber = "07140913023"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
