@@ -122,8 +122,22 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_more_than_10_characters_throws_errors() {
-        val phoneNumber = "07140913023"
+    fun phone_number_starting_with_07_and_non_digit_characters_throws_errors() {
+        val phoneNumber = "071409130r"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+    @Test
+    fun phone_number_starting_with_254_and_non_digit_characters_throws_errors() {
+        val phoneNumber = "+25471401?023"
+
+        assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
+    }
+
+    @Test
+    fun phone_number_starting_with_plus_254_and_non_digit_characters_throws_errors() {
+        val phoneNumber = "25Z7140930."
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
