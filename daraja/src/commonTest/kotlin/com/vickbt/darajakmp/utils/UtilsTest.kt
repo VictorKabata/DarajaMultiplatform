@@ -99,7 +99,6 @@ class UtilsTest {
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
-
     @Test
     fun phone_number_starting_with_07_and_more_than_10_characters_throws_errors() {
         val phoneNumber = "07140913023"

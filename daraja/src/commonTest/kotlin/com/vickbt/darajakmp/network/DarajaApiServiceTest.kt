@@ -138,7 +138,8 @@ class DarajaApiServiceTest {
     @Test
     fun `fetchAccessToken returns exception on 400 error`() = runTest {
         mockDarajaHttpClient.throwError(
-            httpStatus = HttpStatusCode.BadRequest, response = AccessToken400JSON
+            httpStatus = HttpStatusCode.BadRequest,
+            response = AccessToken400JSON
         )
 
         val actualResult = darajaApiService.fetchAccessToken()
