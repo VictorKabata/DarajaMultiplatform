@@ -27,7 +27,7 @@ import kotlin.test.assertFailsWith
 class UtilsTest {
 
     @Test
-    fun getDarajaTimeStamp_returns_correct_timestamp_on_single_digit_values() {
+    fun `getDarajaTimeStamp returns correct timestamp on single digit values`() {
         val currentDateTime = "2022-01-01T01:01:01.694394300".toLocalDateTime()
             .toInstant(TimeZone.currentSystemDefault())
         val expectedResult = "20220101010101"
@@ -36,7 +36,7 @@ class UtilsTest {
     }
 
     @Test
-    fun getDarajaTimeStamp_returns_correct_timestamp_on_double_digit_values() {
+    fun `getDarajaTimeStamp returns correct timestamp on double digit values`() {
         val currentDateTime = "2022-12-12T12:12:12.694394300".toLocalDateTime()
             .toInstant(TimeZone.currentSystemDefault())
         val expectedResult = "20221212121212"
@@ -45,7 +45,7 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_starting_with_07_is_formatted_correctly() {
+    fun `phone number starting with 07 is formatted correctly`() {
         val phoneNumber = "0714021306"
         val expectedResult = "254714021306"
 
@@ -53,7 +53,7 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_starting_with_01_is_formatted_correctly() {
+    fun `phone number starting with 01 is formatted correctly`() {
         val phoneNumber = "0114624401"
         val expectedResult = "254114624401"
 
@@ -61,7 +61,7 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_starting_with_254_is_formatted_correctly() {
+    fun `phone number starting with 254 is formatted correctly`() {
         val phoneNumber = "254714091301"
         val expectedResult = "254714091301"
 
@@ -69,7 +69,7 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_starting_with_plus_254_is_formatted_correctly() {
+    fun `phone number starting with plus 254 is formatted correctly`() {
         val phoneNumber = "+254714091301"
         val expectedResult = "254714091301"
 
@@ -77,7 +77,7 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_starting_with_07_and_less_than_10_characters_throws_errors() {
+    fun `phone number starting with 07 and less than 10 characters throws errors`() {
         val phoneNumber = "071409130"
 
         assertFailsWith<DarajaException> {
@@ -86,63 +86,63 @@ class UtilsTest {
     }
 
     @Test
-    fun phone_number_starting_with_254_and_less_than_10_characters_throws_errors() {
+    fun `phone number starting with 254 and less than 10 characters throws errors`() {
         val phoneNumber = "25471409130"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_plus_254_and_less_than_10_characters_throws_errors() {
+    fun `phone number starting with plus 254 and less than 10 characters throws errors`() {
         val phoneNumber = "+25471409130"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_07_and_more_than_10_characters_throws_errors() {
+    fun `phone number starting with 07 and more than 10 characters throws errors`() {
         val phoneNumber = "07140913023"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_254_and_more_than_10_characters_throws_errors() {
+    fun `phone number starting with 254 and more than 10 characters throws errors`() {
         val phoneNumber = "2547140913023"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_plus_254_and_more_than_10_characters_throws_errors() {
+    fun `phone number starting with plus 254 and more than 10 characters throws errors`() {
         val phoneNumber = "+2547140913023"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_07_and_non_digit_characters_throws_errors() {
+    fun `phone number starting with 07 and non digit characters throws errors`() {
         val phoneNumber = "071409130r"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_254_and_non_digit_characters_throws_errors() {
+    fun `phone number starting with 254 and non digit characters throws errors`() {
         val phoneNumber = "+25471401?023"
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_starting_with_plus_254_and_non_digit_characters_throws_errors() {
+    fun `phone number starting with plus 254 and non digit characters throws errors`() {
         val phoneNumber = "25Z7140930."
 
         assertFailsWith<DarajaException> { phoneNumber.getDarajaPhoneNumber() }
     }
 
     @Test
-    fun phone_number_with_spaces_are_formatted_correctly() {
+    fun `phone number with spaces are formatted correctly`() {
         val phoneNumbers = listOf("0 714091 30  3", " + 2 547  140 913 03", "2 5 4714 091 30 3 ")
         val expectedPhoneNumbers = listOf("254714091303", "254714091303", "254714091303")
 
@@ -150,7 +150,7 @@ class UtilsTest {
     }
 
     @Test
-    fun time_units_with_value_less_than_10_are_formatted_correctly() {
+    fun `time units with value less than 10 are formatted correctly`() {
         val timeUnit = 1
         val expectedTimeUnit = "01"
 
@@ -158,7 +158,7 @@ class UtilsTest {
     }
 
     @Test
-    fun time_units_with_value_more_than_10_retain_their_formatting() {
+    fun `time units with value more than 10 retain their formatting`() {
         val timeUnit = 11
         val expectedTimeUnit = 11
 
