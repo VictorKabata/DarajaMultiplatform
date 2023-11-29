@@ -9,7 +9,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
@@ -39,12 +39,18 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
-        publishLibraryVariants("release", "debug")
+        publishAllLibraryVariants()
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "DarajaMultiplatform"
+        }
+    }
 
     cocoapods {
         summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
@@ -59,7 +65,10 @@ kotlin {
 
     jvm()
 
-    // js()
+    /*js(IR) {
+        browser()
+        binaries.library()
+    }*/
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
