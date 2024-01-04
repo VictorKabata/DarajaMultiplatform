@@ -12,7 +12,7 @@ gradleVersionUpdate = "0.50.0"
 
 # Kotlin Multiplatform Version
 kotlinxCoroutines = "1.7.3"
-kotlinxSerializationJson = "1.6.0"
+kotlinxSerializationJson = "1.6.2"
 kotlinxDateTime = "0.5.0"
 napier = "2.6.1"
 ktor = "2.3.7"
