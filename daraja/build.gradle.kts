@@ -133,7 +133,7 @@ tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
 
     outputFormatter = "html"
-    outputDir = "${project.rootDir}/build/reports"
+    outputDir = "${project.rootDir}/daraja/build/reports"
     reportfileName = "dependencies_report"
 }
 
