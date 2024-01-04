@@ -8,7 +8,7 @@ nativeCocoapod = "1.9.0"
 dokka = "1.9.10"
 kover = "0.7.5"
 mulitplatformSwiftPackage = "2.0.3"
-gradleVersionUpdate = "0.48.0"
+gradleVersionUpdate = "0.50.0"
 
 # Kotlin Multiplatform Version
 kotlinxCoroutines = "1.7.3"
