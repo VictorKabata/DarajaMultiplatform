@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.20"
+kotlin = "1.9.22"
 gradle = "7.4.1"
 ktLint = "11.6.0"
 detekt = "1.19.0"
