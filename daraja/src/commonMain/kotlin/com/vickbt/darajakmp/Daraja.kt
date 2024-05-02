@@ -38,7 +38,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlin.native.ObjCName
 
@@ -50,7 +49,7 @@ import kotlin.native.ObjCName
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
 @ObjCName(swiftName = "Daraja")
-class Daraja constructor(
+class Daraja(
     private val consumerKey: String?,
     private val consumerSecret: String?,
     private val passKey: String?,
@@ -127,10 +126,8 @@ class Daraja constructor(
      * @return [DarajaToken]
      * */
     @ObjCName(swiftName = "authorization")
-    fun authorization(): DarajaResult<DarajaToken> = runBlocking {
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.fetchAccessToken()
-        }
+    fun authorization(): DarajaResult<DarajaToken> = runBlocking(Dispatchers.IO) {
+        darajaApiService.fetchAccessToken()
     }
 
     /**Initiate Mpesa Express payment of value provided in [amount] to the [businessShortCode] from the the [phoneNumber].
@@ -155,7 +152,7 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ): DarajaResult<MpesaExpressResponse> = runBlocking {
+    ): DarajaResult<MpesaExpressResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
@@ -178,9 +175,7 @@ class Daraja constructor(
             partyB = businessShortCode
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
-        }
+        darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
     }
 
     /**Request the status of an Mpesa payment transaction
@@ -194,7 +189,7 @@ class Daraja constructor(
     fun transactionStatus(
         businessShortCode: String,
         checkoutRequestID: String
-    ): DarajaResult<DarajaTransactionResponse> = runBlocking {
+    ): DarajaResult<DarajaTransactionResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
@@ -209,9 +204,7 @@ class Daraja constructor(
             checkoutRequestID = checkoutRequestID
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.queryTransaction(darajaTransactionRequest)
-        }
+        darajaApiService.queryTransaction(darajaTransactionRequest)
     }
 
     /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
@@ -228,7 +221,7 @@ class Daraja constructor(
         confirmationURL: String,
         validationURL: String? = null,
         responseType: C2BResponseType? = C2BResponseType.COMPLETED
-    ): DarajaResult<C2BResponse> = runBlocking {
+    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
         val c2BRegistrationRequest = C2BRegistrationRequest(
             confirmationURL = confirmationURL,
             validationURL = validationURL,
@@ -236,9 +229,7 @@ class Daraja constructor(
             shortCode = businessShortCode
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
-        }
+        darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
     }
 
     fun c2b(
@@ -247,7 +238,7 @@ class Daraja constructor(
         transactionType: DarajaTransactionType,
         phoneNumber: String,
         businessShortCode: String
-    ): DarajaResult<C2BResponse> = runBlocking {
+    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
         val c2bRequest = C2BRequest(
             amount = amount,
             billReferenceNumber = billReferenceNumber,
@@ -256,8 +247,6 @@ class Daraja constructor(
             shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.c2b(c2bRequest = c2bRequest)
-        }
+        darajaApiService.c2b(c2bRequest = c2bRequest)
     }
 }
