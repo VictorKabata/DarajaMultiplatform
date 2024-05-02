@@ -18,11 +18,15 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.DarajaPaymentRequest
-import com.vickbt.darajakmp.network.models.DarajaPaymentResponse
+import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
+import com.vickbt.darajakmp.network.models.C2BRequest
+import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
+import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
-import com.vickbt.darajakmp.network.models.QueryDarajaTransactionRequest
+import com.vickbt.darajakmp.network.models.MpesaExpressRequest
+import com.vickbt.darajakmp.network.models.MpesaExpressResponse
+import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionType
@@ -34,7 +38,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlin.native.ObjCName
 
@@ -46,7 +49,7 @@ import kotlin.native.ObjCName
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
 @ObjCName(swiftName = "Daraja")
-class Daraja constructor(
+class Daraja(
     private val consumerKey: String?,
     private val consumerSecret: String?,
     private val passKey: String?,
@@ -122,10 +125,9 @@ class Daraja constructor(
      *
      * @return [DarajaToken]
      * */
-    fun requestAccessToken(): DarajaResult<DarajaToken> = runBlocking {
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.fetchAccessToken()
-        }
+    @ObjCName(swiftName = "authorization")
+    fun authorization(): DarajaResult<DarajaToken> = runBlocking(Dispatchers.IO) {
+        darajaApiService.fetchAccessToken()
     }
 
     /**Initiate Mpesa Express payment of value provided in [amount] to the [businessShortCode] from the the [phoneNumber].
@@ -139,9 +141,10 @@ class Daraja constructor(
      * @param [callbackUrl] This is a valid secure URL that is used to receive notifications from M-Pesa API. It is the endpoint to which the results will be sent by M-Pesa API.
      * @param [accountReference] This is an alpha-numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type.
      *
-     * @return [DarajaPaymentResponse]
+     * @return [MpesaExpressResponse]
      * */
-    fun initiateMpesaExpressPayment(
+    @ObjCName(swiftName = "mpesaExpress")
+    fun mpesaExpress(
         businessShortCode: String,
         amount: Int,
         phoneNumber: String,
@@ -149,7 +152,7 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ): DarajaResult<DarajaPaymentResponse> = runBlocking {
+    ): DarajaResult<MpesaExpressResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
@@ -158,7 +161,7 @@ class Daraja constructor(
             timestamp = timestamp
         )
 
-        val darajaPaymentRequest = DarajaPaymentRequest(
+        val mpesaExpressRequest = MpesaExpressRequest(
             businessShortCode = businessShortCode,
             password = darajaPassword,
             timestamp = timestamp,
@@ -166,15 +169,13 @@ class Daraja constructor(
             amount = amount.toString(),
             transactionType = transactionType.name,
             phoneNumber = phoneNumber.getDarajaPhoneNumber(),
-            callBackUrl = callbackUrl, // ToDo: Figure out how callback urls work
+            callBackUrl = callbackUrl,
             accountReference = accountReference ?: businessShortCode,
             partyA = phoneNumber,
             partyB = businessShortCode
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateMpesaStk(darajaPaymentRequest = darajaPaymentRequest)
-        }
+        darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
     }
 
     /**Request the status of an Mpesa payment transaction
@@ -184,10 +185,11 @@ class Daraja constructor(
      *
      * @return [DarajaTransactionResponse]
      * */
-    fun queryMpesaTransaction(
+    @ObjCName(swiftName = "transactionStatus")
+    fun transactionStatus(
         businessShortCode: String,
         checkoutRequestID: String
-    ): DarajaResult<DarajaTransactionResponse> = runBlocking {
+    ): DarajaResult<DarajaTransactionResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
@@ -195,15 +197,56 @@ class Daraja constructor(
             timestamp = timestamp
         )
 
-        val queryDarajaTransactionRequest = QueryDarajaTransactionRequest(
+        val darajaTransactionRequest = DarajaTransactionRequest(
             businessShortCode = businessShortCode,
             password = darajaPassword,
             timestamp = timestamp,
             checkoutRequestID = checkoutRequestID
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.queryTransaction(queryDarajaTransactionRequest)
-        }
+        darajaApiService.queryTransaction(darajaTransactionRequest)
+    }
+
+    /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
+     *
+     * @param [businessShortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
+     * @param [confirmationURL] This is the URL that receives the confirmation request from API upon payment completion.
+     * @param [validationURL] This is the URL that receives the validation request from the API upon payment submission. The validation URL is only called if the external validation on the registered shortcode is enabled. (By default External Validation is disabled).
+     * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
+     *
+     * @return [C2BResponse]
+     * */
+    fun c2bRegistration(
+        businessShortCode: Int,
+        confirmationURL: String,
+        validationURL: String? = null,
+        responseType: C2BResponseType? = C2BResponseType.COMPLETED
+    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
+        val c2BRegistrationRequest = C2BRegistrationRequest(
+            confirmationURL = confirmationURL,
+            validationURL = validationURL,
+            responseType = responseType?.name?.lowercase(),
+            shortCode = businessShortCode
+        )
+
+        darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
+    }
+
+    fun c2b(
+        amount: Int,
+        billReferenceNumber: String,
+        transactionType: DarajaTransactionType,
+        phoneNumber: String,
+        businessShortCode: String
+    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
+        val c2bRequest = C2BRequest(
+            amount = amount,
+            billReferenceNumber = billReferenceNumber,
+            commandID = transactionType.name,
+            phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
+            shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
+        )
+
+        darajaApiService.c2b(c2bRequest = c2bRequest)
     }
 }

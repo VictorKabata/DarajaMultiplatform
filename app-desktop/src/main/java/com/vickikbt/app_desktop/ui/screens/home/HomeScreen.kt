@@ -128,7 +128,7 @@ fun HomeScreen() {
 }
 
 fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumber: String) {
-    daraja.initiateMpesaExpressPayment(
+    daraja.mpesaExpress(
         businessShortCode = tillNumber,
         amount = amount,
         phoneNumber = phoneNumber,

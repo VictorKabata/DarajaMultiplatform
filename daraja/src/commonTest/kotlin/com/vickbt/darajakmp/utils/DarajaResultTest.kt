@@ -62,15 +62,6 @@ class DarajaResultTest {
         assertEquals(expected = "Success", actual = result)
     }
 
-    /*@Test
-    fun darajaResult_getOrThrow_returns_exception_on_error() {
-        val result = DarajaResult.Failure(DarajaException()).getOrThrow()
-
-        assertFailsWith<DarajaException> {
-            result
-        }
-    }*/
-
     @Test
     fun darajaResult_onSuccess_returns_data_on_success() {
         val result = DarajaResult.Success(data = "Success")
@@ -86,7 +77,7 @@ class DarajaResultTest {
         val result = DarajaResult.Failure(darajaException)
 
         result.onSuccess {
-            assertNull(it) // ToDo: Unreachable code
+            assertNull(it)
         }
     }
 
@@ -125,9 +116,7 @@ class DarajaResultTest {
     fun darajaResult_onSuccess_onFailure_on_error() {
         val result = DarajaResult.Failure(darajaException)
 
-        result.onSuccess {
-            assertNull(it) // ToDo: Unreachable code
-        }.onFailure {
+        result.onFailure {
             assertNotNull(it)
             assertEquals(expected = it, actual = darajaException)
         }

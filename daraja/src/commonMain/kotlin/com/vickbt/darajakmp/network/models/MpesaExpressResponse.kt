@@ -20,12 +20,12 @@ import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@ObjCName(swiftName = "DarajaPaymentResponse")
+@ObjCName(swiftName = "MpesaExpressResponse")
 @Serializable
 /**
  * Response returned by Daraja API on successful Mpesa Express payment initiation.
  * */
-data class DarajaPaymentResponse(
+data class MpesaExpressResponse(
     /**This is a global unique Identifier for any submitted payment request.*/
     @SerialName("MerchantRequestID")
     var merchantRequestID: String,

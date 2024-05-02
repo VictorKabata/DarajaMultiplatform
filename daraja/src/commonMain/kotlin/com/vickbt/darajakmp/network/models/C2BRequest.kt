@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Daraja Multiplatform
+ * Copyright 2023 Daraja Multiplatform
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,26 @@
 
 package com.vickbt.darajakmp.network.models
 
-import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.native.ObjCName
 
-@ObjCName(swiftName = "QueryDarajaTransactionRequest")
+@ObjCName(swiftName = "C2BRequest")
 @Serializable
-data class QueryDarajaTransactionRequest(
-    @SerialName("BusinessShortCode")
-    val businessShortCode: String,
+/**Request C2B M-Pesa payment*/
+internal data class C2BRequest(
+    @SerialName("Amount")
+    val amount: Int,
 
-    @SerialName("Password")
-    val password: String,
+    @SerialName("BillRefNumber")
+    val billReferenceNumber: String,
 
-    @SerialName("Timestamp")
-    val timestamp: String,
+    @SerialName("CommandID")
+    val commandID: String,
 
-    @SerialName("CheckoutRequestID")
-    val checkoutRequestID: String
+    @SerialName("Msisdn")
+    val phoneNumber: Long,
+
+    @SerialName("ShortCode")
+    val shortCode: String?
 )

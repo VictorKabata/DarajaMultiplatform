@@ -1,6 +1,7 @@
 name: Maintenance
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: 00 00 30 * * # At 00:00 on 30th every month
 
@@ -24,7 +25,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Check for release dependencies
-        run: ./gradlew :daraja:dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependencies_report -DoutputDir=build/reports --stacktrace
+        run: ./gradlew :daraja:dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependencies_report --stacktrace
 
       - name: Upload dependencies report artifact
         uses: actions/upload-artifact@v3

@@ -81,6 +81,7 @@ func initiateMpesaPayment(daraja:Daraja,
                           transactionDesc: String,
                           callbackUrl: String,
                           accountReference: String){
+    
     let response=daraja.initiateMpesaExpressPayment(businessShortCode: businessShortCode, amount: amount, phoneNumber: phoneNumber,transactionType: DarajaTransactionType.customerpaybillonline, transactionDesc: "M-Pesa payment", callbackUrl: "https://mydomain.com/path", accountReference: "Daraja KMP iOS")
     
     response.onSuccess(action: {data in
@@ -89,8 +90,6 @@ func initiateMpesaPayment(daraja:Daraja,
     .onFailure(action: {error in
         print(error)
     })
-    
-    print(response)
 }
 
 struct ContentView_Previews: PreviewProvider {
