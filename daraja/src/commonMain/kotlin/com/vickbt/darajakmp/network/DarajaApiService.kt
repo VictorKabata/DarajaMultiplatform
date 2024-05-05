@@ -144,12 +144,9 @@ internal class DarajaApiService(
                 fetchAccessToken().getOrThrow()
             }
 
-            val key = accountBalanceRequest.initiator + initiatorPassword
-            val securityCredential = key.encodeBase64()
-
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
-                setBody(accountBalanceRequest.copy(securityCredential = securityCredential))
+                setBody(accountBalanceRequest)
             }.body()
         }
 }
