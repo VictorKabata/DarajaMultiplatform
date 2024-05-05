@@ -27,6 +27,7 @@ supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applicat
         - [Dynamic QR](#generate-dynamic-qr-code)
         - [Query M-Pesa Transaction](#query-m-pesa-transaction)
         - [Customer To Business(C2B)](#customer-to-businessc2b)
+        - [Account Balance](#account-balance)
     - [iOS - Swift](#ios---swift)
         - [Setting Up](#setting-up-1)
         - [Request Access Token](#request-access-token)
@@ -34,6 +35,7 @@ supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applicat
         - [Dynamic QR](#generate-dynamic-qr-code)
         - [Query M-Pesa Transaction](#query-m-pesa-transaction-1)
         - [Customer To Business(C2B)](#customer-to-businessc2b)
+        - [Account Balance](#account-balance)
 
 ## Prerequisite
 
@@ -55,7 +57,7 @@ The SDK offers the following functionalities from the Daraja API:
 - [ ] Business To Customer (B2C) - Transact between an M-Pesa short code to a phone number
   registered on M-Pesa.
 - [x] Transaction Status - Check the status of a transaction.
-- [ ] Account Balanace - Enquire the balance on an M-Pesa BuyGoods (Till Number)
+- [x] Account Balance - Enquire the balance on an M-Pesa BuyGoods (Till Number)
 - [ ] Reversal - Reverses an M-Pesa transaction.
 - [ ] Tax Remittance - This API enables businesses to remit tax to Kenya Revenue Authority (KRA).
 - [ ] Business Pay Bill - Pay bills directly from your business account to a pay bill number, or a
@@ -234,6 +236,28 @@ c2bResponse.onSuccess {
 }
 ```
 
+### Account Balance
+
+Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill
+accounts.
+
+```kotlin
+    val accountBalanceResponse = daraja.accountBalance(
+    initiator = "testapi",
+    initiatorPassword = "Safaricom999!*!",
+    partyA = 600987,
+    identifierType = DarajaIdentifierType.TILL_NUMBER,
+    queueTimeOutURL = "https://mydomain.com/AccountBalance/queue/",
+    resultURL = "https://mydomain.com/AccountBalance/result/"
+)
+
+accountBalanceResponse.onSuccess {
+    // Successfully request account balance
+}.onFailure {
+    // Failed to request account balance
+}
+```
+
 # iOS - Swift  <img src="assets/swift_logo.png" width="40" />
 
 ### Setting Up
@@ -337,5 +361,26 @@ darajaTransactionResponse.onSuccess(action: { data in
 }).onFailure(action: { error in
   // Failure fetching M-pesa transaction status
 })
+```
 
+### Account Balance
+
+Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill
+accounts.
+
+```swift
+    var accountBalanceResponse = daraja.accountBalance(
+    initiator = "testapi",
+    initiatorPassword = "Safaricom999!*!",
+    partyA = 600987,
+    identifierType = DarajaIdentifierType.TILL_NUMBER,
+    queueTimeOutURL = "https://mydomain.com/AccountBalance/queue/",
+    resultURL = "https://mydomain.com/AccountBalance/result/"
+)
+
+accountBalanceResponse.onSuccess(action: { data in
+    // Successfully request account balance
+}).onFailure(action: { error in
+    // Failed to request account balance
+})
 ```
