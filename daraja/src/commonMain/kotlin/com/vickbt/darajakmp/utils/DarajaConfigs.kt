@@ -16,8 +16,6 @@
 
 package com.vickbt.darajakmp.utils
 
-// ToDo: Add documentation
-
 internal object DarajaEndpoints {
     const val PROD_BASE_URL = "api.safaricom.co.ke"
     const val SANDBOX_BASE_URL = "sandbox.safaricom.co.ke"
@@ -28,6 +26,7 @@ internal object DarajaEndpoints {
     const val C2B_REGISTRATION_URL = "mpesa/c2b/v1/registerurl"
     const val INITIATE_C2B = "mpesa/c2b/v1/simulate"
     const val DYNAMIC_QR = "mpesa/qrcode/v1/generate"
+    const val ACCOUNT_BALANCE = "mpesa/accountbalance/v1/query"
 }
 
 enum class DarajaTransactionType {
