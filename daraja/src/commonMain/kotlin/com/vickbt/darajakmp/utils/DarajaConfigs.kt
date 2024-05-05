@@ -42,15 +42,19 @@ enum class C2BResponseType {
 }
 
 /**
- * BG: Pay Merchant (Buy Goods).
+ * @param [BG] Pay Merchant (Buy Goods).
  *
- * WA: Withdraw Cash at Agent Till.
+ * @param [WA]: Withdraw Cash at Agent Till.
  *
- * PB: Paybill or Business number.
+ * @param [PB]: Paybill or Business number.
  *
- * SM: Send Money(Mobile number)
+ * @param [SM]: Send Money(Mobile number)
  *
- * SB: Sent to Business. Business number CPI in MSISDN format.*/
+ * @param [SB]: Sent to Business. Business number CPI in MSISDN format.*/
 enum class DarajaTransactionCode {
     BG, WA, PB, SM, SB
+}
+
+enum class DarajaIdentifierType {
+    TILL_NUMBER, SHORT_CODE
 }
