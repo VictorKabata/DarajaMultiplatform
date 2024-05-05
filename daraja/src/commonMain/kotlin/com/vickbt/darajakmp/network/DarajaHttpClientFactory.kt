@@ -37,8 +37,11 @@ import kotlinx.serialization.json.Json
 internal class DarajaHttpClientFactory(private val environment: DarajaEnvironment) {
 
     private val baseURL =
-        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) DarajaEndpoints.SANDBOX_BASE_URL
-        else DarajaEndpoints.PROD_BASE_URL
+        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+            DarajaEndpoints.SANDBOX_BASE_URL
+        } else {
+            DarajaEndpoints.PROD_BASE_URL
+        }
 
     /**Initialize Ktor Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient {
