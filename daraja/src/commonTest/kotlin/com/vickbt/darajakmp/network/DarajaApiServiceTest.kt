@@ -44,7 +44,8 @@ class DarajaApiServiceTest {
     private lateinit var darajaApiService: DarajaApiService
 
     private val darajaToken = DarajaToken(
-        accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ", expiresIn = "3599"
+        accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
+        expiresIn = "3599"
     )
 
     private val mpesaExpressRequest = MpesaExpressRequest(

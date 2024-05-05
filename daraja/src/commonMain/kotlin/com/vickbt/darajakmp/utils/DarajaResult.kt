@@ -38,8 +38,11 @@ sealed class DarajaResult<out T> {
  * @receiver [DarajaResult]
  * */
 internal fun <T : Any> DarajaResult<T>.getOrNull(): T? {
-    return if (this is DarajaResult.Success) this.data
-    else null
+    return if (this is DarajaResult.Success) {
+        this.data
+    } else {
+        null
+    }
 }
 
 /**Returns exception of type [DarajaException] on failure
@@ -48,8 +51,11 @@ internal fun <T : Any> DarajaResult<T>.getOrNull(): T? {
  * @receiver [DarajaResult]
  * */
 internal fun <T : Any> DarajaResult<T>.throwOnFailure(): DarajaException {
-    return if (this is DarajaResult.Failure) this.exception
-    else throw DarajaException()
+    return if (this is DarajaResult.Failure) {
+        this.exception
+    } else {
+        throw DarajaException()
+    }
 }
 
 /**Returns result of type [T] on success or exception of type [DarajaException] on failure
@@ -57,8 +63,11 @@ internal fun <T : Any> DarajaResult<T>.throwOnFailure(): DarajaException {
  * @receiver [DarajaResult]
  * */
 internal fun <T : Any> DarajaResult<T>.getOrThrow(): T {
-    return if (this is DarajaResult.Success) this.data
-    else throw this.throwOnFailure()
+    return if (this is DarajaResult.Success) {
+        this.data
+    } else {
+        throw this.throwOnFailure()
+    }
 }
 
 /* ToDo

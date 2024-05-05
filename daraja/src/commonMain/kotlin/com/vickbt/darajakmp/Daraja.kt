@@ -18,27 +18,32 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
+import com.vickbt.darajakmp.network.models.AccountBalanceRequest
+import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
+import com.vickbt.darajakmp.network.models.DynamicQrRequest
+import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
+import com.vickbt.darajakmp.utils.DarajaIdentifierType
 import com.vickbt.darajakmp.utils.DarajaResult
+import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.CoroutineScope
+import io.ktor.util.encodeBase64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlin.native.ObjCName
 
@@ -50,7 +55,7 @@ import kotlin.native.ObjCName
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
 @ObjCName(swiftName = "Daraja")
-class Daraja constructor(
+class Daraja(
     private val consumerKey: String?,
     private val consumerSecret: String?,
     private val passKey: String?,
@@ -120,17 +125,13 @@ class Daraja constructor(
         consumerSecret = consumerSecret ?: ""
     )
 
-    private val ioCoroutineContext = CoroutineScope(Dispatchers.IO).coroutineContext
-
     /**Request access token that is used to authenticate to Daraja APIs
      *
      * @return [DarajaToken]
      * */
     @ObjCName(swiftName = "authorization")
-    fun authorization(): DarajaResult<DarajaToken> = runBlocking {
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.fetchAccessToken()
-        }
+    fun authorization(): DarajaResult<DarajaToken> = runBlocking(Dispatchers.IO) {
+        darajaApiService.fetchAccessToken()
     }
 
     /**Initiate Mpesa Express payment of value provided in [amount] to the [businessShortCode] from the the [phoneNumber].
@@ -155,11 +156,13 @@ class Daraja constructor(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ): DarajaResult<MpesaExpressResponse> = runBlocking {
+    ): DarajaResult<MpesaExpressResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
+            shortCode = businessShortCode,
+            passkey = passKey ?: "",
+            timestamp = timestamp
         )
 
         val mpesaExpressRequest = MpesaExpressRequest(
@@ -176,9 +179,47 @@ class Daraja constructor(
             partyB = businessShortCode
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
-        }
+        darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
+    }
+
+    /**Generate a dynamic qr code to initiate payment
+     *
+     * @param [merchantName] Name of the company/M-Pesa merchant name
+     * @param referenceNumber Transaction reference
+     * @param amount The total amount for the sale/transaction.
+     * @param transactionCode Transaction Type. The supported types are:
+     * BG: Pay Merchant (Buy Goods).
+     *
+     * WA: Withdraw Cash at Agent Till.
+     *
+     * PB: Paybill or Business number.
+     *
+     * SM: Send Money(Mobile number)
+     *
+     * SB: Sent to Business. Business number CPI in MSISDN format.
+     * @param cpi Credit Party Identifier. Can be a mobile number, business number, agent till, paybill or business number, or merchant buy goods.
+     * @param size Size of the QR code image in pixels. QR code image will always be a square image.
+     *
+     * @return [DynamicQrResponse]
+     * */
+    fun generateDynamicQr(
+        merchantName: String,
+        referenceNumber: String,
+        amount: Int,
+        transactionCode: DarajaTransactionCode,
+        cpi: String,
+        size: Int
+    ): DarajaResult<DynamicQrResponse> = runBlocking(Dispatchers.IO) {
+        val dynamicQrRequest = DynamicQrRequest(
+            merchantName = merchantName,
+            referenceNumber = referenceNumber,
+            amount = amount,
+            transactionCode = transactionCode.name,
+            cpi = cpi,
+            size = size.toString()
+        )
+
+        darajaApiService.generateDynamicQr(dynamicQrRequest = dynamicQrRequest)
     }
 
     /**Request the status of an Mpesa payment transaction
@@ -190,11 +231,14 @@ class Daraja constructor(
      * */
     @ObjCName(swiftName = "transactionStatus")
     fun transactionStatus(
-        businessShortCode: String, checkoutRequestID: String
-    ): DarajaResult<DarajaTransactionResponse> = runBlocking {
+        businessShortCode: String,
+        checkoutRequestID: String
+    ): DarajaResult<DarajaTransactionResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode, passkey = passKey ?: "", timestamp = timestamp
+            shortCode = businessShortCode,
+            passkey = passKey ?: "",
+            timestamp = timestamp
         )
 
         val darajaTransactionRequest = DarajaTransactionRequest(
@@ -204,9 +248,7 @@ class Daraja constructor(
             checkoutRequestID = checkoutRequestID
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.queryTransaction(darajaTransactionRequest)
-        }
+        darajaApiService.queryTransaction(darajaTransactionRequest)
     }
 
     /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
@@ -223,7 +265,7 @@ class Daraja constructor(
         confirmationURL: String,
         validationURL: String? = null,
         responseType: C2BResponseType? = C2BResponseType.COMPLETED
-    ): DarajaResult<C2BResponse> = runBlocking {
+    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
         val c2BRegistrationRequest = C2BRegistrationRequest(
             confirmationURL = confirmationURL,
             validationURL = validationURL,
@@ -231,9 +273,7 @@ class Daraja constructor(
             shortCode = businessShortCode
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
-        }
+        darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
     }
 
     fun c2b(
@@ -242,7 +282,7 @@ class Daraja constructor(
         transactionType: DarajaTransactionType,
         phoneNumber: String,
         businessShortCode: String
-    ): DarajaResult<C2BResponse> = runBlocking {
+    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
         val c2bRequest = C2BRequest(
             amount = amount,
             billReferenceNumber = billReferenceNumber,
@@ -251,8 +291,46 @@ class Daraja constructor(
             shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
         )
 
-        withContext(ioCoroutineContext) {
-            return@withContext darajaApiService.c2b(c2bRequest = c2bRequest)
-        }
+        darajaApiService.c2b(c2bRequest = c2bRequest)
+    }
+
+    /**Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill accounts.
+     *
+     * @param [initiator] This is the credential/username used to authenticate the transaction request
+     * @param [initiatorPassword] This is the credential/password used to authenticate the account balance request
+     * @param [commandId] A unique command is passed to the M-PESA system. Max length is 64.
+     * @param [partyA] The shortcode of the organization querying for the account balance.
+     * @param [identifierType] Type of organization querying for the account balance.
+     * @param [remarks] Comments that are sent along with the transaction
+     * @param [queueTimeOutURL] The end-point that receives a timeout message.
+     * @param [resultURL] It indicates the destination URL which Daraja should send the result message to.
+     *
+     * @return [AccountBalanceResponse]
+     * */
+    fun accountBalance(
+        initiator: String,
+        initiatorPassword: String,
+        commandId: String = "AccountBalance",
+        partyA: Int,
+        identifierType: DarajaIdentifierType,
+        remarks: String = "Account balance request",
+        queueTimeOutURL: String,
+        resultURL: String
+    ): DarajaResult<AccountBalanceResponse> = runBlocking(Dispatchers.IO) {
+        val key = initiator + initiatorPassword
+        val securityCredential = key.encodeBase64()
+
+        val accountBalanceRequest = AccountBalanceRequest(
+            initiator = initiator,
+            securityCredential = securityCredential,
+            commandId = commandId,
+            partyA = partyA,
+            identifierType = if (identifierType == DarajaIdentifierType.TILL_NUMBER) 2 else 4,
+            remarks = remarks,
+            queueTimeOutURL = queueTimeOutURL,
+            resultURL = resultURL
+        )
+
+        darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
     }
 }

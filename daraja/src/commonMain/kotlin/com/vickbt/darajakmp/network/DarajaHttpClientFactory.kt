@@ -22,7 +22,6 @@ import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.addDefaultResponseValidation
-import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -35,13 +34,14 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 /**Initialize Ktor Http Client responsible for handling network operations*/
-internal class DarajaHttpClientFactory constructor(private val environment: DarajaEnvironment) {
+internal class DarajaHttpClientFactory(private val environment: DarajaEnvironment) {
 
-    private val baseURL = if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
-        DarajaEndpoints.SANDBOX_BASE_URL
-    } else {
-        DarajaEndpoints.PROD_BASE_URL
-    }
+    private val baseURL =
+        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+            DarajaEndpoints.SANDBOX_BASE_URL
+        } else {
+            DarajaEndpoints.PROD_BASE_URL
+        }
 
     /**Initialize Ktor Http Client responsible for handling network operations*/
     internal fun createDarajaHttpClient() = HttpClient {
