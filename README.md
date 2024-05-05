@@ -55,7 +55,7 @@ The SDK offers the following functionalities from the Daraja API:
 - [ ] Business To Customer (B2C) - Transact between an M-Pesa short code to a phone number
   registered on M-Pesa.
 - [x] Transaction Status - Check the status of a transaction.
-- [ ] Account Balanace - Enquire the balance on an M-Pesa BuyGoods (Till Number)
+- [ ] Account Balance - Enquire the balance on an M-Pesa BuyGoods (Till Number)
 - [ ] Reversal - Reverses an M-Pesa transaction.
 - [ ] Tax Remittance - This API enables businesses to remit tax to Kenya Revenue Authority (KRA).
 - [ ] Business Pay Bill - Pay bills directly from your business account to a pay bill number, or a
