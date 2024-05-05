@@ -199,6 +199,8 @@ class Daraja(
      * SB: Sent to Business. Business number CPI in MSISDN format.
      * @param cpi Credit Party Identifier. Can be a mobile number, business number, agent till, paybill or business number, or merchant buy goods.
      * @param size Size of the QR code image in pixels. QR code image will always be a square image.
+     *
+     * @return [DynamicQrResponse]
      * */
     fun generateDynamicQr(
         merchantName: String,
@@ -292,6 +294,19 @@ class Daraja(
         darajaApiService.c2b(c2bRequest = c2bRequest)
     }
 
+    /**Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill accounts.
+     *
+     * @param [initiator] This is the credential/username used to authenticate the transaction request
+     * @param [initiatorPassword] This is the credential/password used to authenticate the account balance request
+     * @param [commandId] A unique command is passed to the M-PESA system. Max length is 64.
+     * @param [partyA] The shortcode of the organization querying for the account balance.
+     * @param [identifierType] Type of organization querying for the account balance.
+     * @param [remarks] Comments that are sent along with the transaction
+     * @param [queueTimeOutURL] The end-point that receives a timeout message.
+     * @param [resultURL] It indicates the destination URL which Daraja should send the result message to.
+     *
+     * @return [AccountBalanceResponse]
+     * */
     fun accountBalance(
         initiator: String,
         initiatorPassword: String,
