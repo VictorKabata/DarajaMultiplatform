@@ -24,17 +24,19 @@ import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
+import com.vickbt.darajakmp.network.models.DynamicQrRequest
+import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
+import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
@@ -118,8 +120,6 @@ class Daraja(
         consumerKey = consumerKey ?: "",
         consumerSecret = consumerSecret ?: ""
     )
-
-    private val ioCoroutineContext = CoroutineScope(Dispatchers.IO).coroutineContext
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
@@ -248,5 +248,43 @@ class Daraja(
         )
 
         darajaApiService.c2b(c2bRequest = c2bRequest)
+    }
+
+    /**Generate a dynamic qr code to initiate payment
+     *
+     * @param [merchantName] Name of the company/M-Pesa merchant name
+     * @param referenceNumber Transaction reference
+     * @param amount The total amount for the sale/transaction.
+     * @param transactionCode Transaction Type. The supported types are:
+     * BG: Pay Merchant (Buy Goods).
+     *
+     * WA: Withdraw Cash at Agent Till.
+     *
+     * PB: Paybill or Business number.
+     *
+     * SM: Send Money(Mobile number)
+     *
+     * SB: Sent to Business. Business number CPI in MSISDN format.
+     * @param cpi Credit Party Identifier. Can be a mobile number, business number, agent till, paybill or business number, or merchant buy goods.
+     * @param size Size of the QR code image in pixels. QR code image will always be a square image.
+     * */
+    fun generateDynamicQr(
+        merchantName: String,
+        referenceNumber: String,
+        amount: Int,
+        transactionCode: DarajaTransactionCode,
+        cpi: String,
+        size: Int
+    ): DarajaResult<DynamicQrResponse> = runBlocking(Dispatchers.IO) {
+        val dynamicQrRequest = DynamicQrRequest(
+            merchantName = merchantName,
+            referenceNumber = referenceNumber,
+            amount = amount,
+            transactionCode = transactionCode.name,
+            cpi = cpi,
+            size = size.toString()
+        )
+
+        darajaApiService.generateDynamicQr(dynamicQrRequest = dynamicQrRequest)
     }
 }

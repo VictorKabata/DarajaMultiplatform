@@ -27,6 +27,7 @@ internal object DarajaEndpoints {
     const val QUERY_MPESA_TRANSACTION = "mpesa/stkpushquery/v1/query"
     const val C2B_REGISTRATION_URL = "mpesa/c2b/v1/registerurl"
     const val INITIATE_C2B = "mpesa/c2b/v1/simulate"
+    const val DYNAMIC_QR = "mpesa/qrcode/v1/generate"
 }
 
 enum class DarajaTransactionType {
@@ -39,4 +40,18 @@ enum class DarajaEnvironment {
 
 enum class C2BResponseType {
     CANCELED, COMPLETED
+}
+
+/**
+ * BG: Pay Merchant (Buy Goods).
+ *
+ * WA: Withdraw Cash at Agent Till.
+ *
+ * PB: Paybill or Business number.
+ *
+ * SM: Send Money(Mobile number)
+ *
+ * SB: Sent to Business. Business number CPI in MSISDN format.*/
+enum class DarajaTransactionCode {
+    BG, WA, PB, SM, SB
 }
