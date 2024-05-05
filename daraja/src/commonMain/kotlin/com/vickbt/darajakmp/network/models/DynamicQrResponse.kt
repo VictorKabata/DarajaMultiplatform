@@ -24,5 +24,5 @@ data class DynamicQrResponse(
     val responseDescription: String,
 
     @SerialName("QRCode")
-    val qrCode: String,
+    val qrCode: String
 )

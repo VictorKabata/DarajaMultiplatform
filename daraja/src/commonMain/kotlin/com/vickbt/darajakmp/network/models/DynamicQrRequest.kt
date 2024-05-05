@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.native.ObjCName
 
-
 @ObjCName(swiftName = "DynamicQrRequest")
 @Serializable
 /**Request body to generate dynamic qr code
