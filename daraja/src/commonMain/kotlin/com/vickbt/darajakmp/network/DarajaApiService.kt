@@ -16,6 +16,8 @@
 
 package com.vickbt.darajakmp.network
 
+import com.vickbt.darajakmp.network.models.AccountBalanceRequest
+import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -85,6 +87,18 @@ internal class DarajaApiService(
             }.body()
         }
 
+    internal suspend fun generateDynamicQr(dynamicQrRequest: DynamicQrRequest): DarajaResult<DynamicQrResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.DYNAMIC_QR) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(dynamicQrRequest)
+            }.body()
+        }
+
     /**Initiate API call using the [httpClient] provided by Ktor to query the status of an Mpesa Express payment transaction*/
     internal suspend fun queryTransaction(darajaTransactionRequest: DarajaTransactionRequest): DarajaResult<DarajaTransactionResponse> =
         darajaSafeApiCall {
@@ -121,15 +135,21 @@ internal class DarajaApiService(
             }.body()
         }
 
-    internal suspend fun generateDynamicQr(dynamicQrRequest: DynamicQrRequest): DarajaResult<DynamicQrResponse> =
+    internal suspend fun accountBalance(
+        accountBalanceRequest: AccountBalanceRequest,
+        initiatorPassword: String? = null
+    ): DarajaResult<AccountBalanceResponse> =
         darajaSafeApiCall {
             val accessToken = inMemoryCache.get(1) {
                 fetchAccessToken().getOrThrow()
             }
 
-            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.DYNAMIC_QR) {
+            val key = accountBalanceRequest.initiator + initiatorPassword
+            val securityCredential = key.encodeBase64()
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
-                setBody(dynamicQrRequest)
+                setBody(accountBalanceRequest.copy(securityCredential = securityCredential))
             }.body()
         }
 }
