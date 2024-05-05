@@ -135,10 +135,7 @@ internal class DarajaApiService(
             }.body()
         }
 
-    internal suspend fun accountBalance(
-        accountBalanceRequest: AccountBalanceRequest,
-        initiatorPassword: String? = null
-    ): DarajaResult<AccountBalanceResponse> =
+    internal suspend fun accountBalance(accountBalanceRequest: AccountBalanceRequest): DarajaResult<AccountBalanceResponse> =
         darajaSafeApiCall {
             val accessToken = inMemoryCache.get(1) {
                 fetchAccessToken().getOrThrow()

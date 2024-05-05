@@ -331,9 +331,6 @@ class Daraja(
             resultURL = resultURL
         )
 
-        darajaApiService.accountBalance(
-            accountBalanceRequest = accountBalanceRequest,
-            initiatorPassword = initiatorPassword
-        )
+        darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
     }
 }

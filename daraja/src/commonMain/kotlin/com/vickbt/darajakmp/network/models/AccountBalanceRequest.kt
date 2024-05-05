@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AccountBalanceRequest(
+internal data class AccountBalanceRequest(
     @SerialName("Initiator")
     val initiator: String,
 
