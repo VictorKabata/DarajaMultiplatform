@@ -43,6 +43,7 @@ import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
 import io.ktor.util.encodeBase64
 import kotlinx.datetime.Clock
+import kotlin.js.JsExport
 import kotlin.native.ObjCName
 
 /**Create an instance of [Daraja] object that acts as an interface to access Daraja API functionalities
@@ -52,6 +53,7 @@ import kotlin.native.ObjCName
  * @param passKey Daraja API passkey
  * @param environment Environment that Daraja API should use ie. Either [DarajaEnvironment.SANDBOX_ENVIRONMENT] (Sandbox Mode) or [DarajaEnvironment.PRODUCTION_ENVIRONMENT] (Production Mode)
  * */
+@JsExport
 @ObjCName(swiftName = "Daraja")
 class Daraja(
     private val consumerKey: String?,

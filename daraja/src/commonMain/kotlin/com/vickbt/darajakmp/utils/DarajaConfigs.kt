@@ -16,6 +16,8 @@
 
 package com.vickbt.darajakmp.utils
 
+import kotlin.js.JsExport
+
 internal object DarajaEndpoints {
     const val PROD_BASE_URL = "api.safaricom.co.ke"
     const val SANDBOX_BASE_URL = "sandbox.safaricom.co.ke"
@@ -29,14 +31,17 @@ internal object DarajaEndpoints {
     const val ACCOUNT_BALANCE = "mpesa/accountbalance/v1/query"
 }
 
+@JsExport
 enum class DarajaTransactionType {
     CustomerPayBillOnline, CustomerBuyGoodsOnline
 }
 
+@JsExport
 enum class DarajaEnvironment {
     PRODUCTION_ENVIRONMENT, SANDBOX_ENVIRONMENT
 }
 
+@JsExport
 enum class C2BResponseType {
     CANCELED, COMPLETED
 }
@@ -51,10 +56,12 @@ enum class C2BResponseType {
  * @param [SM]: Send Money(Mobile number)
  *
  * @param [SB]: Sent to Business. Business number CPI in MSISDN format.*/
+@JsExport
 enum class DarajaTransactionCode {
     BG, WA, PB, SM, SB
 }
 
+@JsExport
 enum class DarajaIdentifierType {
     TILL_NUMBER, SHORT_CODE
 }
