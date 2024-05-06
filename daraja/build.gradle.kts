@@ -23,7 +23,7 @@ fun isNonStable(version: String): Boolean {
 
 plugins {
     alias(libs.plugins.nativeCocoapod)
-    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinX.serialization)
     alias(libs.plugins.dokka)

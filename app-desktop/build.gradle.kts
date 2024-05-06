@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.jvm)
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.compose)
 }
 
