@@ -42,7 +42,6 @@ import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
 import io.ktor.util.encodeBase64
-import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
 import kotlin.native.ObjCName
 
@@ -129,7 +128,7 @@ class Daraja(
      * @return [DarajaToken]
      * */
     @ObjCName(swiftName = "authorization")
-    fun authorization(): DarajaResult<DarajaToken> = darajaRunBlocking(Dispatchers.Default) {
+    fun authorization(): DarajaResult<DarajaToken> = darajaRunBlocking {
         darajaApiService.fetchAccessToken()
     }
 
@@ -155,7 +154,7 @@ class Daraja(
         transactionDesc: String,
         callbackUrl: String,
         accountReference: String? = null
-    ): DarajaResult<MpesaExpressResponse> = darajaRunBlocking(Dispatchers.Default) {
+    ): DarajaResult<MpesaExpressResponse> = darajaRunBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
 
         val darajaPassword = getDarajaPassword(
@@ -208,7 +207,7 @@ class Daraja(
         transactionCode: DarajaTransactionCode,
         cpi: String,
         size: Int
-    ): DarajaResult<DynamicQrResponse> = darajaRunBlocking(Dispatchers.Default) {
+    ): DarajaResult<DynamicQrResponse> = darajaRunBlocking {
         val dynamicQrRequest = DynamicQrRequest(
             merchantName = merchantName,
             referenceNumber = referenceNumber,
@@ -232,7 +231,7 @@ class Daraja(
     fun transactionStatus(
         businessShortCode: String,
         checkoutRequestID: String
-    ): DarajaResult<DarajaTransactionResponse> = darajaRunBlocking(Dispatchers.Default) {
+    ): DarajaResult<DarajaTransactionResponse> = darajaRunBlocking {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
@@ -264,7 +263,7 @@ class Daraja(
         confirmationURL: String,
         validationURL: String? = null,
         responseType: C2BResponseType? = C2BResponseType.COMPLETED
-    ): DarajaResult<C2BResponse> = darajaRunBlocking(Dispatchers.Default) {
+    ): DarajaResult<C2BResponse> = darajaRunBlocking {
         val c2BRegistrationRequest = C2BRegistrationRequest(
             confirmationURL = confirmationURL,
             validationURL = validationURL,
@@ -281,7 +280,7 @@ class Daraja(
         transactionType: DarajaTransactionType,
         phoneNumber: String,
         businessShortCode: String
-    ): DarajaResult<C2BResponse> = darajaRunBlocking(Dispatchers.Default) {
+    ): DarajaResult<C2BResponse> = darajaRunBlocking {
         val c2bRequest = C2BRequest(
             amount = amount,
             billReferenceNumber = billReferenceNumber,
@@ -315,7 +314,7 @@ class Daraja(
         remarks: String = "Account balance request",
         queueTimeOutURL: String,
         resultURL: String
-    ): DarajaResult<AccountBalanceResponse> = darajaRunBlocking(Dispatchers.Default) {
+    ): DarajaResult<AccountBalanceResponse> = darajaRunBlocking {
         val key = initiator + initiatorPassword
         val securityCredential = key.encodeBase64()
 
