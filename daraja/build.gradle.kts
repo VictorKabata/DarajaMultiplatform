@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.util.Locale
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
@@ -9,7 +10,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
@@ -42,9 +43,13 @@ kotlin {
         publishLibraryVariants("release", "debug")
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
+        when {
+            System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+            System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+            else -> ::iosX64
+        }
+    iosTarget("ios") {}
 
     cocoapods {
         summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
@@ -59,10 +64,10 @@ kotlin {
 
     jvm()
 
-    /*js(IR) {
-        nodejs()
-        binaries.library()
-    }*/
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -101,15 +106,15 @@ kotlin {
         }
         sourceSets["jvmTest"].dependencies {}
 
-        /*sourceSets["jsMain"].dependencies {
+        sourceSets["jsMain"].dependencies {
             implementation(libs.ktor.js)
         }
-        sourceSets["jsTest"].dependencies {}*/
+        sourceSets["jsTest"].dependencies {}
     }
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 21
     }
