@@ -200,6 +200,10 @@ class Daraja(
      *
      * @return [DynamicQrResponse]
      * */
+    @Deprecated(
+        message = "The Daraja API endpoint behind this feature does not work",
+        level = DeprecationLevel.ERROR
+    )
     fun generateDynamicQr(
         merchantName: String,
         referenceNumber: String,
