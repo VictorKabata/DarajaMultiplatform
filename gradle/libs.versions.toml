@@ -9,6 +9,7 @@ dokka = "1.9.10"
 kover = "0.7.5"
 mulitplatformSwiftPackage = "2.0.3"
 gradleVersionUpdate = "0.50.0"
+npmPublish = "3.4.2"
 
 # Kotlin Multiplatform Version
 kotlinxCoroutines = "1.7.3"
@@ -37,6 +38,7 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 multiplatformSwiftPackage = { id = "com.chromaticnoise.multiplatform-swiftpackage", version.ref = "mulitplatformSwiftPackage" }
 gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
+npm-publish = { id = "dev.petuska.npm.publish", version.ref = "npmPublish" }
 
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 

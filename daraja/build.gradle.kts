@@ -10,7 +10,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
@@ -33,6 +33,7 @@ plugins {
     id("maven-publish")
     id("signing")
     alias(libs.plugins.multiplatformSwiftPackage)
+    alias(libs.plugins.npm.publish)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -65,8 +66,9 @@ kotlin {
     jvm()
 
     js(IR) {
+        binaries.library()
+        nodejs()
         browser()
-        binaries.executable()
     }
 
     sourceSets {
@@ -171,7 +173,6 @@ koverReport {
 }
 
 publishing {
-
     repositories {
         maven {
             name = "Sonatype"
@@ -248,6 +249,33 @@ multiplatformSwiftPackage {
     swiftToolsVersion("5.3")
     targetPlatforms {
         iOS { v("14.1") }
+    }
+}
+
+npmPublish {
+    organization.set(project.get("NPM_USERNAME"))
+    packages {
+        named("js") {
+            packageJson {
+                version.set(project.get("POM_VERSION"))
+                author {
+                    name.set(project.get("POM_DEVELOPER_NAME"))
+                    email.set(project.get("POM_DEVELOPER_EMAIL"))
+                }
+                repository {
+                    type.set("git")
+                    url.set(project.get("POM_URL"))
+                }
+                license.set(project.get("POM_LICENSE_NAME"))
+            }
+        }
+    }
+    registries {
+        register("npmjs") {
+            uri.set("https://registry.npmjs.org")
+            authToken.set(project.get("NPM_TOKEN"))
+        }
+        // github {}
     }
 }
 
