@@ -17,10 +17,12 @@
 package com.vickbt.darajakmp.utils
 
 import com.vickbt.darajakmp.network.models.DarajaException
+import kotlin.js.JsExport
 import kotlin.native.ObjCName
 
 /**Encapsulate success result in with value of type [T]
  * or a failure result of type [DarajaException]*/
+@JsExport
 @ObjCName(swiftName = "DarajaResult")
 sealed class DarajaResult<out T> {
     @ObjCName(swiftName = "Success")
@@ -80,6 +82,7 @@ inline fun <T : Any> DarajaResult<T>.isLoading(crossinline action: (isLoading: B
  *
  * @receiver [DarajaResult]
  * */
+@JsExport
 inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: (T) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Success) action(this.data)
     return this
@@ -89,6 +92,7 @@ inline fun <T : Any> DarajaResult<T>.onSuccess(crossinline action: (T) -> Unit):
  *
  * @receiver [DarajaResult]
  * */
+@JsExport
 inline fun <T : Any> DarajaResult<T>.onFailure(crossinline action: (exception: DarajaException) -> Unit): DarajaResult<T> {
     if (this is DarajaResult.Failure) action(this.exception)
     return this

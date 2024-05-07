@@ -18,7 +18,9 @@ package com.vickbt.darajakmp.network.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
+@JsExport
 @Serializable
 data class AccountBalanceResponse(
     @SerialName("OriginatorConversationID")

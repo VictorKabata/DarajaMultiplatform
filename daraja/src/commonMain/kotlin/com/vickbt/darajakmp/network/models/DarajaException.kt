@@ -19,7 +19,9 @@ package com.vickbt.darajakmp.network.models
 import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
+@JsExport
 @ObjCName(swiftName = "DarajaException")
 @Serializable
 /**

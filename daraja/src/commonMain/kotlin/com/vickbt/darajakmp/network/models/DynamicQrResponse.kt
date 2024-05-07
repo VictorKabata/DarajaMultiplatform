@@ -18,8 +18,10 @@ package com.vickbt.darajakmp.network.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 import kotlin.native.ObjCName
 
+@JsExport
 @ObjCName(swiftName = "DynamicQrResponse")
 @Serializable
 /**Response body for the generated QR code.
