@@ -10,7 +10,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
@@ -66,8 +66,10 @@ kotlin {
     jvm()
 
     js(IR) {
+        moduleName = "DarajaMultiplatform"
+
         binaries.library()
-        nodejs()
+        nodejs {}
         browser()
     }
 
@@ -254,10 +256,14 @@ multiplatformSwiftPackage {
 
 npmPublish {
     organization.set(project.get("NPM_USERNAME"))
+    readme.set(File("$rootDir/README.md"))
     packages {
         named("js") {
             packageJson {
+                name.set(project.get("POM_ARTIFACTID"))
                 version.set(project.get("POM_VERSION"))
+                homepage.set(project.get("POM_URL"))
+                description.set(project.get("POM_DESCRIPTION"))
                 author {
                     name.set(project.get("POM_DEVELOPER_NAME"))
                     email.set(project.get("POM_DEVELOPER_EMAIL"))
@@ -266,6 +272,7 @@ npmPublish {
                     type.set("git")
                     url.set(project.get("POM_URL"))
                 }
+                keywords.set(listOf("daraja", "m-pesa", "mpesa", "daraja api", "m-pesa api"))
                 license.set(project.get("POM_LICENSE_NAME"))
             }
         }
