@@ -264,6 +264,9 @@ npmPublish {
                 version.set(project.get("POM_VERSION"))
                 homepage.set(project.get("POM_URL"))
                 description.set(project.get("POM_DESCRIPTION"))
+                keywords.set(listOf("daraja", "m-pesa", "mpesa", "daraja api", "m-pesa api"))
+                license.set(project.get("POM_LICENSE_NAME"))
+
                 author {
                     name.set(project.get("POM_DEVELOPER_NAME"))
                     email.set(project.get("POM_DEVELOPER_EMAIL"))
@@ -272,8 +275,6 @@ npmPublish {
                     type.set("git")
                     url.set(project.get("POM_URL"))
                 }
-                keywords.set(listOf("daraja", "m-pesa", "mpesa", "daraja api", "m-pesa api"))
-                license.set(project.get("POM_LICENSE_NAME"))
             }
         }
     }
