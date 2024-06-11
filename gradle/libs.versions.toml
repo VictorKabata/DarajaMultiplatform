@@ -16,7 +16,7 @@ kotlinxDateTime = "0.6.0"
 napier = "2.6.1"
 ktor = "2.3.11"
 kotlinxTestResources = "0.2.2"
-composeMultiplatform = "1.5.11"
+composeMultiplatform = "1.6.11"
 cache4k = "0.13.0"
 mockative = "2.2.2"
 
