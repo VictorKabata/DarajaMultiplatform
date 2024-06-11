@@ -7,7 +7,7 @@ spotless = "6.2.2"
 dokka = "1.9.20"
 kover = "0.7.5"
 mulitplatformSwiftPackage = "2.0.3"
-gradleVersionUpdate = "0.50.0"
+gradleVersionUpdate = "0.51.0"
 
 # Kotlin Multiplatform Version
 kotlinxCoroutines = "1.7.3"
