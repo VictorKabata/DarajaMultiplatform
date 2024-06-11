@@ -104,7 +104,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 21
     }
@@ -121,12 +121,12 @@ android {
         getByName("debug") {}
 
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
 }
 
-tasks.withType<DependencyUpdatesTask> {
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     rejectVersionIf { isNonStable(candidate.version) && !isNonStable(currentVersion) }
 
     checkForGradleUpdate = true

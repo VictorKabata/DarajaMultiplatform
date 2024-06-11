@@ -1,10 +1,9 @@
 [versions]
 kotlin = "1.9.21"
-gradle = "7.4.1"
+agp = "7.4.2"
 ktLint = "11.6.0"
 detekt = "1.19.0"
 spotless = "6.2.2"
-nativeCocoapod = "1.9.0"
 dokka = "1.9.10"
 kover = "0.7.5"
 mulitplatformSwiftPackage = "2.0.3"
@@ -28,8 +27,8 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 nativeCocoapod = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version.ref = "gradle" }
-android-application = { id = "com.android.application", version.ref = "gradle" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinX-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
