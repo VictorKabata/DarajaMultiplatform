@@ -17,8 +17,8 @@ napier = "2.6.1"
 ktor = "2.3.11"
 kotlinxTestResources = "0.2.2"
 composeMultiplatform = "1.5.11"
-cache4k = "0.13.0" # 0.12.0 breaks build
-mockative = "2.0.1"
+cache4k = "0.13.0"
+mockative = "2.2.2"
 
 [plugins]
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
