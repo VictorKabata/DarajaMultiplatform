@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.21"
+kotlin = "2.0.0"
 agp = "7.4.2"
 ktLint = "11.6.0"
 detekt = "1.19.0"
@@ -37,6 +37,7 @@ multiplatformSwiftPackage = { id = "com.chromaticnoise.multiplatform-swiftpackag
 gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
 
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
 #Kotlin Multiplatform Lib Dependencies
@@ -58,4 +59,4 @@ cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "
 #Tests Lib Dependencies
 # kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }
 kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
-mockative={module="io.mockative:mockative", version.ref="mockative"}
+mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
