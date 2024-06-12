@@ -46,6 +46,10 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    jvm()
+
+    // js()
+
     cocoapods {
         summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
         homepage = "https://github.com/VictorKabata/DarajaMultiplatform.git"
@@ -56,10 +60,6 @@ kotlin {
             isStatic = true
         }
     }
-
-    jvm()
-
-    // js()
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -108,7 +108,7 @@ android {
     defaultConfig {
         minSdk = 21
     }
-    namespace = "com.vickikbt.darajakmp"
+    namespace = "com.vickikbt.darajamultiplatform"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
