@@ -106,7 +106,7 @@ kotlin {
 android {
     defaultConfig {
         minSdk = 21
-        compileSdk=34
+        compileSdk = 34
     }
     namespace = "com.vickikbt.darajakmp"
 
@@ -151,16 +151,16 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     from(dokkaOutputDir)
 }
 
-kover{
-    reports{
-        verify{
-            rule{
+kover {
+    reports {
+        verify {
+            rule {
                 minBound(30)
             }
         }
 
-        filters{
-            excludes{
+        filters {
+            excludes {
                 classes("*BuildConfig")
             }
         }
