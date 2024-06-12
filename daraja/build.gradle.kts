@@ -46,6 +46,10 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    jvm()
+
+    // js()
+
     cocoapods {
         summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
         homepage = "https://github.com/VictorKabata/DarajaMultiplatform.git"
@@ -56,10 +60,6 @@ kotlin {
             isStatic = true
         }
     }
-
-    jvm()
-
-    // js()
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -104,9 +104,9 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
     defaultConfig {
         minSdk = 21
+        compileSdk = 34
     }
     namespace = "com.vickikbt.darajakmp"
 
@@ -121,12 +121,12 @@ android {
         getByName("debug") {}
 
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
 }
 
-tasks.withType<DependencyUpdatesTask> {
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     rejectVersionIf { isNonStable(candidate.version) && !isNonStable(currentVersion) }
 
     checkForGradleUpdate = true
@@ -151,11 +151,18 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     from(dokkaOutputDir)
 }
 
-koverReport {
-    verify {
-        rule {
-            isEnabled = false
-            bound { minValue = 20 }
+kover {
+    reports {
+        verify {
+            rule {
+                minBound(30)
+            }
+        }
+
+        filters {
+            excludes {
+                classes("*BuildConfig")
+            }
         }
     }
 }
@@ -244,8 +251,4 @@ multiplatformSwiftPackage {
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
-}
-
-task("testClasses").doLast {
-    println("This is a dummy testClasses task")
 }
