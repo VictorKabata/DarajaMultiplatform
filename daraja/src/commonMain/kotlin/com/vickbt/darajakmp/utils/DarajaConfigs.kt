@@ -27,6 +27,7 @@ internal object DarajaEndpoints {
     const val INITIATE_C2B = "mpesa/c2b/v1/simulate"
     const val DYNAMIC_QR = "mpesa/qrcode/v1/generate"
     const val ACCOUNT_BALANCE = "mpesa/accountbalance/v1/query"
+    const val INITIATE_B2C = "mpesa/b2c/v3/paymentrequest"
 }
 
 enum class DarajaTransactionType {
