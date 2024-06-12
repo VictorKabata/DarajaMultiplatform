@@ -252,7 +252,3 @@ multiplatformSwiftPackage {
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
 }
-
-task("testClasses").doLast {
-    println("This is a dummy testClasses task")
-}
