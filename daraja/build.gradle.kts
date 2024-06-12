@@ -104,11 +104,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 34
     defaultConfig {
         minSdk = 21
+        compileSdk=34
     }
-    namespace = "com.vickikbt.darajamultiplatform"
+    namespace = "com.vickikbt.darajakmp"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -151,11 +151,18 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     from(dokkaOutputDir)
 }
 
-koverReport {
-    verify {
-        rule {
-            isEnabled = false
-            bound { minValue = 20 }
+kover{
+    reports{
+        verify{
+            rule{
+                minBound(30)
+            }
+        }
+
+        filters{
+            excludes{
+                classes("*BuildConfig")
+            }
         }
     }
 }
