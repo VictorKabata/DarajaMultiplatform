@@ -18,6 +18,8 @@ package com.vickbt.darajakmp.network
 
 import com.vickbt.darajakmp.network.models.AccountBalanceRequest
 import com.vickbt.darajakmp.network.models.AccountBalanceResponse
+import com.vickbt.darajakmp.network.models.B2CRequest
+import com.vickbt.darajakmp.network.models.B2CResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -144,6 +146,18 @@ internal class DarajaApiService(
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
                 setBody(accountBalanceRequest)
+            }.body()
+        }
+
+    internal suspend fun initiateB2C(b2cRequest: B2CRequest): DarajaResult<B2CResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.get(urlString = DarajaEndpoints.INITIATE_B2C) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(b2cRequest)
             }.body()
         }
 }
