@@ -59,3 +59,13 @@ enum class DarajaTransactionCode {
 enum class DarajaIdentifierType {
     TILL_NUMBER, SHORT_CODE
 }
+
+/**This is a unique command that specifies B2C transaction type.
+ *
+ * @param [SALARY_PAYMENT] This supports sending money to both registered and unregistered M-Pesa customers.
+ * @param [BUSSINESS_PAYMENT] This is a normal business to customer payment, supports only M-PESA registered customers.
+ * @param [PROMOTION_PAYMENT] This is a promotional payment to customers. The M-PESA notification message is a congratulatory message. Supports only M-PESA registered customers.
+ * */
+enum class B2CTransactionType(val value: String) {
+    SALARY_PAYMENT("SalaryPayment"), BUSSINESS_PAYMENT("BusinessPayment"), PROMOTION_PAYMENT("PromotionPayment")
+}
