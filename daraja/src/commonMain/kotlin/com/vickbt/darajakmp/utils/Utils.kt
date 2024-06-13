@@ -21,6 +21,7 @@ import io.ktor.util.encodeBase64
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.random.Random
 
 /**Format current timestamp to YYYYMMDDHHmmss format*/
 internal fun Instant.getDarajaTimestamp(): String {
@@ -69,4 +70,15 @@ internal fun String.getDarajaPhoneNumber(): String {
             phoneNumber.replaceFirst("+", "")
         else -> throw DarajaException("Invalid phone number format provided: $this")
     }
+}
+
+internal fun generateUUID(): String {
+    val hexChars = "0123456789abcdef"
+    var uuidString = ""
+
+    repeat(32) {
+        uuidString += hexChars[Random.nextInt(hexChars.length)]
+    }
+
+    return uuidString.chunked(4).joinToString("-") { it }
 }
