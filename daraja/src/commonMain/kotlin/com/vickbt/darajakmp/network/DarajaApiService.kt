@@ -40,7 +40,9 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.contentType
 import io.ktor.util.encodeBase64
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -151,12 +153,12 @@ internal class DarajaApiService(
 
     internal suspend fun initiateB2C(b2cRequest: B2CRequest): DarajaResult<B2CResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
+            val darajaToken = inMemoryCache.get(1) {
                 fetchAccessToken().getOrThrow()
             }
 
             return@darajaSafeApiCall httpClient.get(urlString = DarajaEndpoints.INITIATE_B2C) {
-                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                headers { append(HttpHeaders.Authorization, "Bearer ${darajaToken.accessToken}") }
                 setBody(b2cRequest)
             }.body()
         }
