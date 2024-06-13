@@ -23,6 +23,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.random.Random
 
+
 /**Format current timestamp to YYYYMMDDHHmmss format*/
 internal fun Instant.getDarajaTimestamp(): String {
     val currentDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
@@ -66,8 +67,10 @@ internal fun String.getDarajaPhoneNumber(): String {
         phoneNumber.matches(Regex("^(?:254)?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) -> phoneNumber
         phoneNumber.matches(Regex("^0?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) ->
             phoneNumber.replaceFirst("0", "254")
+
         phoneNumber.matches(Regex("^(?:\\+254)?[17](?:\\d\\d|0[0-8]|(9[0-2]))\\d{6}\$")) ->
             phoneNumber.replaceFirst("+", "")
+
         else -> throw DarajaException("Invalid phone number format provided: $this")
     }
 }
@@ -82,3 +85,5 @@ internal fun generateUUID(): String {
 
     return uuidString.chunked(4).joinToString("-") { it }
 }
+
+internal expect fun String.getFileFromPath(): String
