@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.util.Locale
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
@@ -42,9 +43,13 @@ kotlin {
         publishLibraryVariants("release", "debug")
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
+        when {
+            System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+            System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+            else -> ::iosX64
+        }
+    iosTarget("ios") {}
 
     jvm()
 
@@ -84,7 +89,8 @@ kotlin {
         }
 
         sourceSets["androidMain"].dependencies {
-            implementation(libs.ktor.android)
+            //implementation(libs.ktor.android)
+            implementation("io.ktor:ktor-client-cio:2.3.11")
         }
         sourceSets["androidUnitTest"].dependencies {}
 
