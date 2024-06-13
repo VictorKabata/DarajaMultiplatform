@@ -36,5 +36,5 @@ internal data class B2CRequest(
     val resultURL: String,
 
     @SerialName("Occassion")
-    val occassion: String
+    val occassion: String?
 )
