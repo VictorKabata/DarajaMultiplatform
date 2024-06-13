@@ -20,6 +20,8 @@ import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickbt.darajakmp.network.models.AccountBalanceRequest
 import com.vickbt.darajakmp.network.models.AccountBalanceResponse
+import com.vickbt.darajakmp.network.models.B2CRequest
+import com.vickbt.darajakmp.network.models.B2CResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -30,15 +32,18 @@ import com.vickbt.darajakmp.network.models.DynamicQrRequest
 import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
+import com.vickbt.darajakmp.utils.B2CTransactionType
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaIdentifierType
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
+import com.vickbt.darajakmp.utils.generateUUID
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.util.encodeBase64
 import kotlinx.coroutines.Dispatchers
@@ -332,5 +337,37 @@ class Daraja(
         )
 
         darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
+    }
+
+    fun b2c(
+        originatorConversationID: String = generateUUID(),
+        initiatorName: String,
+        securityCredential: String,
+        commandId: B2CTransactionType,
+        amount: Int,
+        partyA: String,
+        partyB: String,
+        remarks: String,
+        queueTimeOutURL: String,
+        resultURL: String,
+        occassion: String? = null
+    ): DarajaResult<B2CResponse> = runBlocking(Dispatchers.IO) {
+        val b2cRequest = B2CRequest(
+            originatorConversationID = originatorConversationID,
+            initiatorName = initiatorName,
+            securityCredential = securityCredential,
+            commandId = commandId.value,
+            amount = amount.toString().trim(),
+            partyA = partyA,
+            partyB = partyB.getDarajaPhoneNumber(),
+            remarks = remarks,
+            queueTimeOutURL = queueTimeOutURL,
+            resultURL = resultURL,
+            occassion = occassion
+        )
+
+        Napier.e(tag = "VicKbt", message = "$b2cRequest")
+
+        darajaApiService.initiateB2C(b2cRequest = b2cRequest)
     }
 }
