@@ -16,22 +16,23 @@
 
 package com.vickbt.darajakmp.network.models
 
-import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "DarajaToken")
 @Serializable
 /**
  * Response returned by Daraja API on successful access token request.
+ *
+ * @param [accessToken] Access token to access other Daraja APIs.
+ * @param [expiresIn] Token expiry time in seconds.
  * */
 data class DarajaToken(
 
-    /**Access token to access other Daraja APIs.*/
     @SerialName("access_token")
     val accessToken: String,
 
-    /**Token expiry time in seconds.*/
     @SerialName("expires_in")
     val expiresIn: String
 )

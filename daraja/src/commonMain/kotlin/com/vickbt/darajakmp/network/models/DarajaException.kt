@@ -16,25 +16,26 @@
 
 package com.vickbt.darajakmp.network.models
 
-import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "DarajaException")
 @Serializable
 /**
  * Error response from Daraja API.
+ *
+ * @param [requestId] This is a unique requestID for the payment request.
+ * @param [errorCode] This is a predefined code that indicates the reason for request failure.
+ * @param [errorMessage] This is a short descriptive message of the failure reason.
  * */
 data class DarajaException(
-    /**This is a unique requestID for the payment request.*/
     @SerialName("requestId")
     var requestId: String? = "0",
 
-    /**This is a predefined code that indicates the reason for request failure.*/
     @SerialName("errorCode")
     var errorCode: String? = "0",
 
-    /**This is a short descriptive message of the failure reason.*/
     @SerialName("errorMessage")
     var errorMessage: String? = null
 ) : Exception(errorMessage)
