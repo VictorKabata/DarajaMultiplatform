@@ -89,8 +89,7 @@ kotlin {
         }
 
         sourceSets["androidMain"].dependencies {
-            //implementation(libs.ktor.android)
-            implementation("io.ktor:ktor-client-cio:2.3.11")
+            implementation(libs.ktor.android)
         }
         sourceSets["androidUnitTest"].dependencies {}
 

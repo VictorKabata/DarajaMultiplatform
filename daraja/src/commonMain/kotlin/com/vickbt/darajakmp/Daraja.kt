@@ -106,7 +106,7 @@ class Daraja(
         @ObjCName(swiftName = "withPassKey")
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
-        fun setEnvironment(environment: DarajaEnvironment=DarajaEnvironment.SANDBOX_ENVIRONMENT) = apply { this.environment = environment }
+        fun setEnvironment(environment: DarajaEnvironment = DarajaEnvironment.SANDBOX_ENVIRONMENT) = apply { this.environment = environment }
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         @ObjCName(swiftName = "init")

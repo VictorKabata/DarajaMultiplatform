@@ -23,7 +23,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.random.Random
 
-
 /**Format current timestamp to YYYYMMDDHHmmss format*/
 internal fun Instant.getDarajaTimestamp(): String {
     val currentDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
