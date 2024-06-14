@@ -18,6 +18,7 @@ package com.vickbt.app_android.di
 
 import com.vickbt.app_android.ui.screens.home.HomeViewModel
 import com.vickbt.darajakmp.Daraja
+import com.vickbt.darajakmp.utils.DarajaEnvironment
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -28,7 +29,7 @@ val presentationModule = module {
             .setConsumerKey("zg1m1CbMGx8E2BqVThHIJHFMWSnVJ4XA")
             .setConsumerSecret("z4CAY2TUw6rprEvy")
             .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
-            .isSandbox()
+            .setEnvironment(environment = DarajaEnvironment.SANDBOX_ENVIRONMENT)
             .build()
     }
 

@@ -43,7 +43,6 @@ import com.vickbt.darajakmp.utils.generateUUID
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.util.encodeBase64
 import kotlinx.coroutines.Dispatchers
@@ -107,11 +106,7 @@ class Daraja(
         @ObjCName(swiftName = "withPassKey")
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
-        /**Set Daraja API environment to Sandbox/Testing mode*/
-        fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
-
-        /**Set Daraja API environment to Production/Live mode*/
-        fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
+        fun setEnvironment(environment: DarajaEnvironment=DarajaEnvironment.SANDBOX_ENVIRONMENT) = apply { this.environment = environment }
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         @ObjCName(swiftName = "init")
