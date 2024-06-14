@@ -339,6 +339,19 @@ class Daraja(
         darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
     }
 
+    /**Make payments from a Business to Customers (Pay Outs), also known as Bulk Disbursements.
+     *
+     * @param[originatorConversationID] This is a unique string you specify for every API request you simulate. Defaults to a random UUID string.
+     * @param [securityCredential] This is the value obtained after encrypting the API initiator password.
+     * @param [commandId] This is a unique command that specifies B2C transaction type. See more [B2CTransactionType].
+     * @param [amount] The amount of money being sent to the customer.
+     * @param [partyA] This is the B2C organization shortcode from which the money is sent from.
+     * @param [partyB] This is the customer mobile number to receive the amount.
+     * @param [remarks] Any additional information to be associated with the transaction.
+     * @param [queueTimeOutURL] This is the URL to be specified in your request that will be used by API Proxy to send notification in case the payment request is timed out while awaiting processing in the queue.
+     * @param [resultURL] This is the URL to be specified in your request that will be used by M-PESA to send notification upon processing of the payment request.
+     * @param [occassion] Any additional information to be associated with the transaction.
+     * */
     fun b2c(
         originatorConversationID: String = generateUUID(),
         initiatorName: String,
@@ -365,8 +378,6 @@ class Daraja(
             resultURL = resultURL,
             occassion = occassion
         )
-
-        Napier.e(tag = "VicKbt", message = "$b2cRequest")
 
         darajaApiService.initiateB2C(b2cRequest = b2cRequest)
     }
