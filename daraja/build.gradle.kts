@@ -114,7 +114,7 @@ android {
         minSdk = 21
         compileSdk = 34
     }
-    namespace = "com.vickikbt.darajakmp"
+    namespace = "com.vickbt.darajakmp"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
