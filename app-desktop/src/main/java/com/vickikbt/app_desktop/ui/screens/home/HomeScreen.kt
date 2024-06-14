@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickbt.darajakmp.Daraja
+import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.onFailure
 import com.vickbt.darajakmp.utils.onSuccess
 import com.vickikbt.app_android.ui.theme.DarajaKmpTheme
@@ -59,7 +60,7 @@ fun HomeScreen() {
                 .setConsumerKey("zg1m1CbMGx8E2BqVThHIJHFMWSnVJ4XA")
                 .setConsumerSecret("z4CAY2TUw6rprEvy")
                 .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
-                .isSandbox()
+                .setEnvironment(environment = DarajaEnvironment.SANDBOX_ENVIRONMENT)
                 .build()
         )
     }
