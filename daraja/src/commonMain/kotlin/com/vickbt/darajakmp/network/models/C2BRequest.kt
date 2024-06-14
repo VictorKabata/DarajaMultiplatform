@@ -22,7 +22,6 @@ import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "C2BRequest")
 @Serializable
-/**Request C2B M-Pesa payment*/
 internal data class C2BRequest(
     @SerialName("Amount")
     val amount: Int,
