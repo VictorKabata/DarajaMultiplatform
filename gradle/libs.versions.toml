@@ -18,6 +18,7 @@ ktor = "2.3.11"
 kotlinxTestResources = "0.2.2"
 composeMultiplatform = "1.6.11"
 cache4k = "0.13.0"
+okio = "3.9.0"
 mockative = "2.2.2"
 
 [plugins]
@@ -35,7 +36,6 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 multiplatformSwiftPackage = { id = "com.chromaticnoise.multiplatform-swiftpackage", version.ref = "mulitplatformSwiftPackage" }
 gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
-
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
@@ -55,6 +55,7 @@ ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 kotlinX-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTime" }
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
 #Tests Lib Dependencies
 # kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }

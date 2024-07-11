@@ -10,7 +10,7 @@ val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/sn
 
 fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
     gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
@@ -80,6 +80,8 @@ kotlin {
             implementation(libs.napier)
 
             implementation(libs.cache4k)
+
+            implementation(libs.okio)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))
