@@ -82,6 +82,8 @@ kotlin {
             implementation(libs.cache4k)
 
             implementation(libs.okio)
+
+            implementation(libs.asitplusCrypto)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test"))

@@ -19,6 +19,7 @@ kotlinxTestResources = "0.2.2"
 composeMultiplatform = "1.6.11"
 cache4k = "0.13.0"
 okio = "3.9.0"
+asitplusCrypto="3.2.1"
 mockative = "2.2.2"
 
 [plugins]
@@ -56,6 +57,7 @@ napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 kotlinX-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTime" }
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+asitplusCrypto={module="at.asitplus.crypto:datatypes", version.ref="asitplusCrypto"}
 
 #Tests Lib Dependencies
 # kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }
