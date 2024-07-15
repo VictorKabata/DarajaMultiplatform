@@ -58,13 +58,14 @@ internal class DarajaHttpClientFactory(private val environment: DarajaEnvironmen
         }
 
         install(ContentNegotiation) {
-            json(
+            // ToDo: Fix this
+            /*json(
                 Json {
                     prettyPrint = true
                     ignoreUnknownKeys = true
                     isLenient = true
                 }
-            )
+            )*/
         }
 
         if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {

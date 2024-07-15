@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickbt.darajakmp.Daraja
+import com.vickbt.darajakmp.utils.B2CTransactionType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.onFailure
 import com.vickbt.darajakmp.utils.onSuccess
@@ -121,7 +122,8 @@ fun HomeScreen() {
 
         Button(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onClick = { initiateMpesaStk(daraja, tillNumber, amount, phoneNumber) }
+            onClick = { daraja.getFile(filePath = "certificates/SandboxCertificate.cer") }
+            //onClick = { initiateMpesaStk(daraja, tillNumber, amount, phoneNumber) }
         ) {
             Text(text = "Make Payment", fontSize = 20.sp)
         }
@@ -141,6 +143,10 @@ fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumbe
     }.onFailure {
         println(message = "On failure block called: $it")
     }
+}
+
+fun b2c(daraja: Daraja){
+    daraja.b2c("","","certificates/SandboxCertificate.cer",B2CTransactionType.BUSSINESS_PAYMENT,10,"","","","","","")
 }
 
 @Preview

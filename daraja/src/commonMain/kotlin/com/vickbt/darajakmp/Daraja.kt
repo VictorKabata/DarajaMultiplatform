@@ -40,6 +40,7 @@ import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
 import com.vickbt.darajakmp.utils.generateUUID
+import com.vickbt.darajakmp.utils.getCertCredentials
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
@@ -350,7 +351,7 @@ class Daraja(
     fun b2c(
         originatorConversationID: String = generateUUID(),
         initiatorName: String,
-        securityCredential: String,
+        certPath: String,
         commandId: B2CTransactionType,
         amount: Int,
         partyA: String,
@@ -360,10 +361,11 @@ class Daraja(
         resultURL: String,
         occassion: String? = null
     ): DarajaResult<B2CResponse> = runBlocking(Dispatchers.IO) {
+
         val b2cRequest = B2CRequest(
             originatorConversationID = originatorConversationID,
             initiatorName = initiatorName,
-            securityCredential = securityCredential,
+            securityCredential = certPath,
             commandId = commandId.value,
             amount = amount.toString().trim(),
             partyA = partyA,
@@ -375,5 +377,9 @@ class Daraja(
         )
 
         darajaApiService.initiateB2C(b2cRequest = b2cRequest)
+    }
+
+    fun getFile(filePath:String){
+        getCertCredentials(filePath=filePath)
     }
 }

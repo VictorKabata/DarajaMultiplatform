@@ -39,9 +39,7 @@ plugins {
 kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
-    androidTarget {
-        publishLibraryVariants("release", "debug")
-    }
+    androidTarget()
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
         when {

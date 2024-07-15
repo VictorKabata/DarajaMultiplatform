@@ -17,7 +17,10 @@
 package com.vickbt.darajakmp.utils
 
 import java.io.File
+import javax.crypto.Cipher
 
 internal actual fun String.getFileFromPath(): String {
     return File(this).readText()
 }
+
+val some = Cipher.getInstance("RSA/ECB/PKCS1Padding")
