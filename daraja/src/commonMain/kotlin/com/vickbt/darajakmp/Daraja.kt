@@ -193,7 +193,7 @@ class Daraja(
         businessShortCode: String,
         timestamp: String,
         checkoutRequestID: String
-    ):DarajaResult<QueryMpesaExpressResponse> = runBlocking(Dispatchers.IO) {
+    ): DarajaResult<QueryMpesaExpressResponse> = runBlocking(Dispatchers.IO) {
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
             passkey = passKey ?: "",
