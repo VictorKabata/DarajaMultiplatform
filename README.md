@@ -1,4 +1,4 @@
-# __Daraja Multiplatform__
+# **Daraja Multiplatform**
 
 <p align="left">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=kotlin&logoColor=white&style=for-the-badge">
@@ -12,6 +12,7 @@
 [Kotlin multiplatform](https://kotlinlang.org/docs/multiplatform.html) wrapper for Mpesa API
 dubbed [_Daraja API_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that
 supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
+
 > M-PESA is a mobile money transfer service in Kenya that allows users to store and transfer money
 > through their mobile phones.
 
@@ -43,7 +44,7 @@ To get started, you’ll need to create an account on the Daraja API portal to u
 API. [How to get started with Daraja API](https://developer.safaricom.co.ke/Documentation).
 
 After successfully creating an account on the Daraja API portal and creating a new Daraja app,
-you’ll need to add your ___consumer key___, ___consumer secret___ and ___pass key___ obtained from
+you’ll need to add your **_consumer key_**, **_consumer secret_** and **_pass key_** obtained from
 the Daraja API portal to your project.
 
 ## Features
@@ -52,6 +53,7 @@ The SDK offers the following functionalities from the Daraja API:
 
 - [x] Authorization - Gives you a time bound access token to call allowed APIs.
 - [x] M-Pesa Express - Merchant initiated online payments.
+- [x] M-Pesa Express Query - Check the status of a Lipa Na M-Pesa Online Payment(M-Pesa Express).
 - [x] Dynamic QR - Generates a dynamic M-PESA QR code.
 - [x] Customer To Business (C2B)
 - [ ] Business To Customer (B2C) - Transact between an M-Pesa short code to a phone number
@@ -67,7 +69,7 @@ The SDK offers the following functionalities from the Daraja API:
 
 ## Usage
 
-# Android - Kotlin   <img src="assets/kotlin_logo.png" width="34" />
+# Android - Kotlin <img src="assets/kotlin_logo.png" width="34" />
 
 ### Setting Up
 
@@ -91,7 +93,7 @@ The SDK offers the following functionalities from the Daraja API:
   dependencies {
     implementation 'io.github.victorkabata:daraja-multiplatform:0.9.3'
 }
- ```
+```
 
  </details>
 
@@ -141,8 +143,8 @@ accessTokenResult
 
 - To initiate M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `mpesaExpress` function:
 
-```Kotlin
-val darajaPaymentResponse: DarajaResult<DarajaPaymentResponse> = daraja.mpesaExpress(
+```kotlin
+val darajaPaymentResponse: DarajaResult<MpesaExpressResponse> = daraja.mpesaExpress(
     businessShortCode = "174379",
     amount = 1,
     phoneNumber = "07xxxxxxxx",
@@ -151,12 +153,29 @@ val darajaPaymentResponse: DarajaResult<DarajaPaymentResponse> = daraja.mpesaExp
     accountReference = "CompanyName"
 )
 
-darajaPaymentResponse
-    .onSuccess { paymentResponse ->
-        // Successfully requested M-Pesa STK request
-    }.onFailure { error ->
-        // Failed to request M-Pesa STK
-    }
+darajaPaymentResponse.onSuccess { paymentResponse ->
+    // Successfully requested M-Pesa STK request
+}.onFailure { error ->
+    // Failed to request M-Pesa STK
+}
+```
+
+### Query M-Pesa Express STK
+
+- To check the status of M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `mpesaExpressQuery` function:
+
+```kotlin
+val darajaMpesaExpressQuery:DarajaResult<QueryMpesaExpressResponse> = daraja.mpesaExpressQuery(
+    businessShortCode = "174379",
+    timeStamp = "20160216165627",
+    checkOutRequestID = "ws_CO_260520211133524545"
+)
+
+darajaMpesaExpressQuery.onSuccess{ mpesaExpressQuery->
+    // Successfully request M-Pesa STK request status
+}.onFailure{ error->
+    // Failed to request M-Pesa STK status
+}
 ```
 
 ### Generate Dynamic QR Code
@@ -258,13 +277,13 @@ accountBalanceResponse.onSuccess {
 }
 ```
 
-# iOS - Swift  <img src="assets/swift_logo.png" width="40" />
+# iOS - Swift <img src="assets/swift_logo.png" width="40" />
 
 ### Setting Up
 
-- To add ___DarajaMultiplatform___ package to your Xcode Project, open your Xcode project, navigate
-  to the File tab within the macOS bar and click __Select Packages__ then __Add Package Dependency
-  __. Enter the package name ie. DarajaMultiplatform or the URL package GitHub URL:
+- To add **_DarajaMultiplatform_** package to your Xcode Project, open your Xcode project, navigate
+  to the File tab within the macOS bar and click **Select Packages** then **Add Package Dependency
+  **. Enter the package name ie. DarajaMultiplatform or the URL package GitHub URL:
 
 ```curl
 https://github.com/VictorKabata/DarajaSwiftPackage.git
@@ -326,6 +345,25 @@ var darajaResponse = daraja.mpesaExpress(
 
 ```
 
+### Query M-Pesa Express STK
+
+- To check the status of M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `mpesaExpressQuery` function:
+
+```swift
+var mpesaExpressQuery = daraja.mpesaExpressQuery(
+    businessShortCode: "174379",
+    timestamp: "20160216165627",
+    checkoutRequestID: "ws_CO_260520211133524545"
+)
+
+mpesaExpressQuery.onSuccess(action:{ data in
+// Successfully requested M-Pesa STK request status
+})
+.onFailure(action: {error in
+// Failed to request M-Pesa STK status
+})
+```
+
 ### Generate Dynamic QR Code
 
 - Generate a dynamic m-pesa qr code
@@ -340,10 +378,10 @@ var darajaQrCode= daraja.generateDynamicQr(
     size = 400
 )
 
-darajaQrCode.onSuccess(action:{data in 
+darajaQrCode.onSuccess(action:{data in
 // Successfully generated a QR code in base64 string format
 })
-.onFailure(action: {error in 
+.onFailure(action: {error in
 // Failed to generate a QR code
 })
 ```

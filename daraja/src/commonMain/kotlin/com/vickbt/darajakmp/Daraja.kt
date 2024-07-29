@@ -31,6 +31,7 @@ import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaIdentifierType
@@ -192,7 +193,7 @@ class Daraja(
         businessShortCode: String,
         timestamp: String,
         checkoutRequestID: String
-    ) = runBlocking(Dispatchers.IO) {
+    ):DarajaResult<QueryMpesaExpressResponse> = runBlocking(Dispatchers.IO) {
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
             passkey = passKey ?: "",
