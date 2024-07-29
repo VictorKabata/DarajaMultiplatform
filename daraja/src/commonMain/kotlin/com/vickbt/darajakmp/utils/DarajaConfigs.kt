@@ -22,6 +22,7 @@ internal object DarajaEndpoints {
 
     const val REQUEST_ACCESS_TOKEN = "oauth/v1/generate?grant_type=client_credentials"
     const val INITIATE_MPESA_EXPRESS = "mpesa/stkpush/v1/processrequest"
+    const val QUERY_MPESA_EXPRESS = "mpesa/stkpushquery/v1/query"
     const val QUERY_MPESA_TRANSACTION = "mpesa/stkpushquery/v1/query"
     const val C2B_REGISTRATION_URL = "mpesa/c2b/v1/registerurl"
     const val INITIATE_C2B = "mpesa/c2b/v1/simulate"

@@ -28,6 +28,8 @@ import com.vickbt.darajakmp.network.models.DynamicQrRequest
 import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.getOrThrow
@@ -84,6 +86,18 @@ internal class DarajaApiService(
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_MPESA_EXPRESS) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
                 setBody(mpesaExpressRequest)
+            }.body()
+        }
+
+    internal suspend fun queryMpesaExpress(queryMpesaExpressRequest: QueryMpesaExpressRequest): DarajaResult<QueryMpesaExpressResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.QUERY_MPESA_EXPRESS) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(queryMpesaExpressRequest)
             }.body()
         }
 

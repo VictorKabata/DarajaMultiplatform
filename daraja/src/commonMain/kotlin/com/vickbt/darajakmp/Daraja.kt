@@ -30,6 +30,8 @@ import com.vickbt.darajakmp.network.models.DynamicQrRequest
 import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaIdentifierType
@@ -180,6 +182,32 @@ class Daraja(
         )
 
         darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
+    }
+
+    /**
+     * @param [businessShortCode] - This is the organization's shortcode (Paybill or Buy Goods) used to identify an organization and receive the transaction.
+     * @param [timestamp] - This is the timestamp of the transaction, normally in the format of Year+Month+Date+Hour+Minute+Second(YYYYMMDDHHmmss)
+     * @param [checkoutRequestID] - This is a global unique identifier of the processed checkout transaction request.
+     * */
+    fun mpesaExpressQuery(
+        businessShortCode: String,
+        timestamp: String,
+        checkoutRequestID: String
+    ): DarajaResult<QueryMpesaExpressResponse> = runBlocking(Dispatchers.IO) {
+        val darajaPassword = getDarajaPassword(
+            shortCode = businessShortCode,
+            passkey = passKey ?: "",
+            timestamp = timestamp
+        )
+
+        val queryMpesaExpressRequest = QueryMpesaExpressRequest(
+            businessShortCode = businessShortCode,
+            password = darajaPassword,
+            timestamp = timestamp,
+            checkoutRequestID = checkoutRequestID
+        )
+
+        darajaApiService.queryMpesaExpress(queryMpesaExpressRequest = queryMpesaExpressRequest)
     }
 
     /**Generate a dynamic qr code to initiate payment
