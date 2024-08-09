@@ -4,9 +4,6 @@
 ### Issue
 <!-- Link to the related issue(s) if applicable. -->
 
-### Changes Made
-<!-- List the main changes made in this pull request. -->
-
 ### Screenshots / GIFs
 <!-- Add any relevant screenshots or GIFs showcasing the changes (if applicable). -->
 

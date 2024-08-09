@@ -16,14 +16,20 @@
 
 package com.vickbt.darajakmp.network
 
+import com.vickbt.darajakmp.network.models.AccountBalanceRequest
+import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
+import com.vickbt.darajakmp.network.models.DynamicQrRequest
+import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
+import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.getOrThrow
@@ -45,7 +51,7 @@ import kotlin.time.toDuration
  * @param[consumerKey] Daraja API consumer key
  * @param [consumerSecret] Daraja API consumer secret
  * */
-internal class DarajaApiService constructor(
+internal class DarajaApiService(
     private val httpClient: HttpClient,
     private val consumerKey: String,
     private val consumerSecret: String,
@@ -83,6 +89,30 @@ internal class DarajaApiService constructor(
             }.body()
         }
 
+    internal suspend fun queryMpesaExpress(queryMpesaExpressRequest: QueryMpesaExpressRequest): DarajaResult<QueryMpesaExpressResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.QUERY_MPESA_EXPRESS) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(queryMpesaExpressRequest)
+            }.body()
+        }
+
+    internal suspend fun generateDynamicQr(dynamicQrRequest: DynamicQrRequest): DarajaResult<DynamicQrResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.DYNAMIC_QR) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(dynamicQrRequest)
+            }.body()
+        }
+
     /**Initiate API call using the [httpClient] provided by Ktor to query the status of an Mpesa Express payment transaction*/
     internal suspend fun queryTransaction(darajaTransactionRequest: DarajaTransactionRequest): DarajaResult<DarajaTransactionResponse> =
         darajaSafeApiCall {
@@ -116,6 +146,18 @@ internal class DarajaApiService constructor(
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_C2B) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
                 setBody(c2bRequest)
+            }.body()
+        }
+
+    internal suspend fun accountBalance(accountBalanceRequest: AccountBalanceRequest): DarajaResult<AccountBalanceResponse> =
+        darajaSafeApiCall {
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
+
+            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
+                setBody(accountBalanceRequest)
             }.body()
         }
 }
