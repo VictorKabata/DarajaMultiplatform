@@ -54,12 +54,12 @@ The SDK offers the following functionalities from the Daraja API:
 - [x] Authorization - Gives you a time bound access token to call allowed APIs.
 - [x] M-Pesa Express - Merchant initiated online payments.
 - [x] M-Pesa Express Query - Check the status of a Lipa Na M-Pesa Online Payment(M-Pesa Express).
-- [x] Dynamic QR - Generates a dynamic M-PESA QR code.
-- [x] Customer To Business (C2B)
+- [ ] Dynamic QR - Generates a dynamic M-PESA QR code.
+- [ ] Customer To Business (C2B)
 - [ ] Business To Customer (B2C) - Transact between an M-Pesa short code to a phone number
   registered on M-Pesa.
-- [x] Transaction Status - Check the status of a transaction.
-- [x] Account Balance - Enquire the balance on an M-Pesa BuyGoods (Till Number)
+- [ ] Transaction Status - Check the status of a transaction.
+- [ ] Account Balance - Enquire the balance on an M-Pesa BuyGoods (Till Number)
 - [ ] Reversal - Reverses an M-Pesa transaction.
 - [ ] Tax Remittance - This API enables businesses to remit tax to Kenya Revenue Authority (KRA).
 - [ ] Business Pay Bill - Pay bills directly from your business account to a pay bill number, or a
@@ -178,7 +178,7 @@ darajaMpesaExpressQuery.onSuccess{ mpesaExpressQuery->
 }
 ```
 
-### Generate Dynamic QR Code
+<!-- ### Generate Dynamic QR Code
 
 - Generate a dynamic m-pesa qr code
 
@@ -197,9 +197,9 @@ darajaQrCode.onSuccess {
 }.onFailure {
     // Failed to generate a QR code
 }
-```
+``` -->
 
-### Query M-Pesa Transaction
+<!-- ### Query M-Pesa Transaction
 
 - To check the status of an M-pesa transaction, invoke the `transactionStatus` function:
 
@@ -215,7 +215,7 @@ darajaTransactionResponse
     }.onFailure { error ->
         // Failure fetching M-pesa transaction status
     }
-```
+``` -->
 
 ### Customer To Business(C2B)
 
@@ -364,7 +364,7 @@ mpesaExpressQuery.onSuccess(action:{ data in
 })
 ```
 
-### Generate Dynamic QR Code
+<!-- ### Generate Dynamic QR Code
 
 - Generate a dynamic m-pesa qr code
 
@@ -384,9 +384,9 @@ darajaQrCode.onSuccess(action:{data in
 .onFailure(action: {error in
 // Failed to generate a QR code
 })
-```
+``` -->
 
-### Query M-Pesa Transaction
+<!-- ### Query M-Pesa Transaction
 
 - To check the status of an M-pesa transaction, invoke the `transactionStatus` function:
 
@@ -399,9 +399,9 @@ darajaTransactionResponse.onSuccess(action: { data in
 }).onFailure(action: { error in
   // Failure fetching M-pesa transaction status
 })
-```
+``` -->
 
-### Account Balance
+<!-- ### Account Balance
 
 Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill
 accounts.
@@ -421,4 +421,4 @@ accountBalanceResponse.onSuccess(action: { data in
 }).onFailure(action: { error in
     // Failed to request account balance
 })
-```
+``` -->
