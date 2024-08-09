@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Locale
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
@@ -39,6 +40,10 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+
         publishLibraryVariants("release", "debug")
     }
 
@@ -57,7 +62,7 @@ kotlin {
         }
     }
 
-    jvm()
+    // jvm()
 
     // js()
 
@@ -93,10 +98,10 @@ kotlin {
         }
         sourceSets["iosTest"].dependencies {}
 
-        sourceSets["jvmMain"].dependencies {
+        /*sourceSets["jvmMain"].dependencies {
             implementation(libs.ktor.java)
         }
-        sourceSets["jvmTest"].dependencies {}
+        sourceSets["jvmTest"].dependencies {}*/
 
         // sourceSets["jsMain"].dependencies {}
         // sourceSets["jsTest"].dependencies {}
@@ -104,15 +109,15 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
     defaultConfig {
         minSdk = 21
+        compileSdk = 34
     }
-    namespace = "com.vickikbt.darajakmp"
+    namespace = "com.vickbt.darajamultiplatform"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -121,12 +126,12 @@ android {
         getByName("debug") {}
 
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
 }
 
-tasks.withType<DependencyUpdatesTask> {
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     rejectVersionIf { isNonStable(candidate.version) && !isNonStable(currentVersion) }
 
     checkForGradleUpdate = true
@@ -151,11 +156,18 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     from(dokkaOutputDir)
 }
 
-koverReport {
-    verify {
-        rule {
-            isEnabled = false
-            bound { minValue = 20 }
+kover {
+    reports {
+        verify {
+            rule {
+                minBound(20)
+            }
+        }
+
+        filters {
+            excludes {
+                classes("*BuildConfig")
+            }
         }
     }
 }
@@ -244,8 +256,4 @@ multiplatformSwiftPackage {
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
-}
-
-task("testClasses").doLast {
-    println("This is a dummy testClasses task")
 }

@@ -1,25 +1,24 @@
 [versions]
-kotlin = "1.9.21"
-gradle = "7.4.1"
+kotlin = "2.0.0"
+agp = "7.4.2"
 ktLint = "11.6.0"
 detekt = "1.19.0"
 spotless = "6.2.2"
-nativeCocoapod = "1.9.0"
-dokka = "1.9.10"
-kover = "0.7.5"
+dokka = "1.9.20"
+kover = "0.8.1"
 mulitplatformSwiftPackage = "2.0.3"
-gradleVersionUpdate = "0.50.0"
+gradleVersionUpdate = "0.51.0"
 
 # Kotlin Multiplatform Version
-kotlinxCoroutines = "1.7.3"
-kotlinxSerializationJson = "1.6.2"
-kotlinxDateTime = "0.5.0"
-napier = "2.6.1"
-ktor = "2.3.7"
+kotlinxCoroutines = "1.9.0-RC"
+kotlinxSerializationJson = "1.7.0"
+kotlinxDateTime = "0.6.0"
+napier = "2.7.1"
+ktor = "2.3.11"
 kotlinxTestResources = "0.2.2"
-composeMultiplatform = "1.5.11"
-cache4k = "0.11.0" # 0.12.0 breaks build
-mockative = "2.0.1"
+composeMultiplatform = "1.6.11"
+cache4k = "0.13.0"
+mockative = "2.2.2"
 
 [plugins]
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
@@ -28,8 +27,8 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 nativeCocoapod = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version.ref = "gradle" }
-android-application = { id = "com.android.application", version.ref = "gradle" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinX-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
@@ -38,6 +37,7 @@ multiplatformSwiftPackage = { id = "com.chromaticnoise.multiplatform-swiftpackag
 gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
 
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
 #Kotlin Multiplatform Lib Dependencies
@@ -59,4 +59,4 @@ cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "
 #Tests Lib Dependencies
 # kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }
 kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
-mockative={module="io.mockative:mockative", version.ref="mockative"}
+mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
