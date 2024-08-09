@@ -57,7 +57,7 @@ kotlin {
         }
     }
 
-    jvm()
+    // jvm()
 
     // js()
 
@@ -93,10 +93,10 @@ kotlin {
         }
         sourceSets["iosTest"].dependencies {}
 
-        sourceSets["jvmMain"].dependencies {
+        /*sourceSets["jvmMain"].dependencies {
             implementation(libs.ktor.java)
         }
-        sourceSets["jvmTest"].dependencies {}
+        sourceSets["jvmTest"].dependencies {}*/
 
         // sourceSets["jsMain"].dependencies {}
         // sourceSets["jsTest"].dependencies {}

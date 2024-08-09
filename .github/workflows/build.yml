@@ -50,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: unit_tests_report.html
-          path: daraja/build/reports/tests/testReleaseUnitTest/
+          path: daraja/build/reports/tests/testDebugUnitTest/

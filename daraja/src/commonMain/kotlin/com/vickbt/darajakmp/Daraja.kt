@@ -21,6 +21,7 @@ import com.vickbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
+import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
@@ -115,11 +116,10 @@ class Daraja(
     /**Create instance of [DarajaApiService]*/
     private val darajaApiService: DarajaApiService = DarajaApiService(
         httpClient = darajaHttpClientFactory,
-        consumerKey = consumerKey ?: "",
-        consumerSecret = consumerSecret ?: ""
+        consumerKey = consumerKey ?: throw DarajaException(errorMessage = "Consumer key is null"),
+        consumerSecret = consumerSecret
+            ?: throw DarajaException(errorMessage = "Consumer secret is null")
     )
-
-    private val ioCoroutineContext = CoroutineScope(Dispatchers.IO).coroutineContext
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
@@ -157,7 +157,7 @@ class Daraja(
 
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
-            passkey = passKey ?: "",
+            passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
             timestamp = timestamp
         )
 
@@ -178,9 +178,9 @@ class Daraja(
         darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
     }
 
-    /**Request the status of an Mpesa payment transaction
+    /**Request the status of an M-Pesa payment transaction
      *
-     * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
+     * @param [businessShortCode] This is organizations shortcode (Paybill or Buy Goods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
      *
      * @return [DarajaTransactionResponse]
@@ -193,7 +193,7 @@ class Daraja(
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
-            passkey = passKey ?: "",
+            passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
             timestamp = timestamp
         )
 
