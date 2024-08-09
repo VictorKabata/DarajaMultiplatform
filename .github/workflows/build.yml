@@ -44,7 +44,10 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute unit tests
-        run: ./gradlew :daraja:check --stacktrace
+        run: ./gradlew :daraja:allTests --stacktrace
+
+      - name: Generate test report
+        run: ./gradlew :daraja:koverHtmlReport --stacktrace
 
       - name: Upload test report
         uses: actions/upload-artifact@v3
