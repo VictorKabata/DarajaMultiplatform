@@ -232,7 +232,7 @@ class Daraja(
      *
      * @return [DynamicQrResponse]
      * */
-    fun generateDynamicQr(
+    internal fun generateDynamicQr(
         merchantName: String,
         referenceNumber: String,
         amount: Int,
@@ -260,7 +260,7 @@ class Daraja(
      * @return [DarajaTransactionResponse]
      * */
     @ObjCName(swiftName = "transactionStatus")
-    fun transactionStatus(
+    internal fun transactionStatus(
         businessShortCode: String,
         checkoutRequestID: String
     ): DarajaResult<DarajaTransactionResponse> = runBlocking(Dispatchers.IO) {
@@ -290,7 +290,7 @@ class Daraja(
      *
      * @return [C2BResponse]
      * */
-    fun c2bRegistration(
+    internal fun c2bRegistration(
         businessShortCode: Int,
         confirmationURL: String,
         validationURL: String? = null,
@@ -306,7 +306,7 @@ class Daraja(
         darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
     }
 
-    fun c2b(
+    internal fun c2b(
         amount: Int,
         billReferenceNumber: String,
         transactionType: DarajaTransactionType,
@@ -337,7 +337,7 @@ class Daraja(
      *
      * @return [AccountBalanceResponse]
      * */
-    fun accountBalance(
+    internal fun accountBalance(
         initiator: String,
         initiatorPassword: String,
         commandId: String = "AccountBalance",
