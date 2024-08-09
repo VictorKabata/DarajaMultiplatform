@@ -23,6 +23,7 @@ import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
+import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
@@ -123,8 +124,9 @@ class Daraja(
     /**Create instance of [DarajaApiService]*/
     private val darajaApiService: DarajaApiService = DarajaApiService(
         httpClient = darajaHttpClientFactory,
-        consumerKey = consumerKey ?: "",
-        consumerSecret = consumerSecret ?: ""
+        consumerKey = consumerKey ?: throw DarajaException(errorMessage = "Consumer key is null"),
+        consumerSecret = consumerSecret
+            ?: throw DarajaException(errorMessage = "Consumer secret is null")
     )
 
     /**Request access token that is used to authenticate to Daraja APIs
@@ -139,7 +141,7 @@ class Daraja(
     /**Initiate Mpesa Express payment of value provided in [amount] to the [businessShortCode] from the the [phoneNumber].
      * The response of the payment status will be sent to the [callbackUrl] provided.
      *
-     * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
+     * @param [businessShortCode] This is organizations shortcode (Paybill or Buy Goods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [amount] Money that customer pays to the [businessShortCode]
      * @param [phoneNumber] The mobile number to receive the STK pin prompt.
      * @param [transactionType] This is the transaction type that is used to identify the transaction when sending the request to M-Pesa.
@@ -163,7 +165,7 @@ class Daraja(
 
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
-            passkey = passKey ?: "",
+            passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
             timestamp = timestamp
         )
 
@@ -230,7 +232,7 @@ class Daraja(
      *
      * @return [DynamicQrResponse]
      * */
-    fun generateDynamicQr(
+    internal fun generateDynamicQr(
         merchantName: String,
         referenceNumber: String,
         amount: Int,
@@ -252,20 +254,20 @@ class Daraja(
 
     /**Request the status of an Mpesa payment transaction
      *
-     * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
+     * @param [businessShortCode] This is organizations shortcode (Paybill or Buy Goods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
      *
      * @return [DarajaTransactionResponse]
      * */
     @ObjCName(swiftName = "transactionStatus")
-    fun transactionStatus(
+    internal fun transactionStatus(
         businessShortCode: String,
         checkoutRequestID: String
     ): DarajaResult<DarajaTransactionResponse> = runBlocking(Dispatchers.IO) {
         val timestamp = Clock.System.now().getDarajaTimestamp()
         val darajaPassword = getDarajaPassword(
             shortCode = businessShortCode,
-            passkey = passKey ?: "",
+            passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
             timestamp = timestamp
         )
 
@@ -288,7 +290,7 @@ class Daraja(
      *
      * @return [C2BResponse]
      * */
-    fun c2bRegistration(
+    internal fun c2bRegistration(
         businessShortCode: Int,
         confirmationURL: String,
         validationURL: String? = null,
@@ -304,7 +306,7 @@ class Daraja(
         darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
     }
 
-    fun c2b(
+    internal fun c2b(
         amount: Int,
         billReferenceNumber: String,
         transactionType: DarajaTransactionType,
@@ -335,7 +337,7 @@ class Daraja(
      *
      * @return [AccountBalanceResponse]
      * */
-    fun accountBalance(
+    internal fun accountBalance(
         initiator: String,
         initiatorPassword: String,
         commandId: String = "AccountBalance",

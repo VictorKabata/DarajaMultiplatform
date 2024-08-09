@@ -46,10 +46,6 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    jvm()
-
-    // js()
-
     cocoapods {
         summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
         homepage = "https://github.com/VictorKabata/DarajaMultiplatform.git"
@@ -60,6 +56,10 @@ kotlin {
             isStatic = true
         }
     }
+
+    // jvm()
+
+    // js()
 
     sourceSets {
         sourceSets["commonMain"].dependencies {
@@ -93,10 +93,10 @@ kotlin {
         }
         sourceSets["iosTest"].dependencies {}
 
-        sourceSets["jvmMain"].dependencies {
+        /*sourceSets["jvmMain"].dependencies {
             implementation(libs.ktor.java)
         }
-        sourceSets["jvmTest"].dependencies {}
+        sourceSets["jvmTest"].dependencies {}*/
 
         // sourceSets["jsMain"].dependencies {}
         // sourceSets["jsTest"].dependencies {}
