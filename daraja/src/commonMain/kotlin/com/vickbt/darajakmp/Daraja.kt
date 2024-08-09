@@ -141,7 +141,7 @@ class Daraja(
     /**Initiate Mpesa Express payment of value provided in [amount] to the [businessShortCode] from the the [phoneNumber].
      * The response of the payment status will be sent to the [callbackUrl] provided.
      *
-     * @param [businessShortCode] This is organizations shortcode (Paybill or Buygoods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
+     * @param [businessShortCode] This is organizations shortcode (Paybill or Buy Goods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
      * @param [amount] Money that customer pays to the [businessShortCode]
      * @param [phoneNumber] The mobile number to receive the STK pin prompt.
      * @param [transactionType] This is the transaction type that is used to identify the transaction when sending the request to M-Pesa.
