@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Locale
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
@@ -39,6 +40,10 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+
         publishLibraryVariants("release", "debug")
     }
 
@@ -108,11 +113,11 @@ android {
         minSdk = 21
         compileSdk = 34
     }
-    namespace = "com.vickikbt.darajakmp"
+    namespace = "com.vickbt.darajamultiplatform"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
