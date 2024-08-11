@@ -66,6 +66,9 @@ jobs:
       - name: Make gradle executable
         run: chmod +x ./gradlew
 
+      - name: Clean & Build
+        run: ./gradlew :daraja:clean :daraja:build --stacktrace
+
       - name: Sign and Publish Android Library
         run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 --stacktrace
         env:
@@ -74,6 +77,7 @@ jobs:
           POM_VERSION: ${{ github.event.inputs.androidVersionName }}
           POM_NAME: ${{ secrets.POM_NAME }}
           POM_DESCRIPTION: ${{ secrets.POM_DESCRIPTION }}
+          POM_GROUPID: ${{ secrets.POM_GROUPID }}
           POM_URL: ${{ secrets.POM_URL }}
           POM_DEVELOPER_ID: ${{ secrets.POM_DEVELOPER_ID }}
           POM_DEVELOPER_NAME: ${{ secrets.POM_DEVELOPER_NAME }}
