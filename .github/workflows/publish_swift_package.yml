@@ -2,6 +2,10 @@ name: Create and Publish Swift Package
 
 on:
   workflow_dispatch:
+    inputs:
+      iOSVersionName:
+        description: 'iOS Version Name (eg. 0.9.0)'
+        required: true
 
 jobs:
   build:
@@ -18,7 +22,7 @@ jobs:
 
       - name: Build iOS framework
         id: buildPackage
-        run: ./gradlew createSwiftPackage
+        run: ./gradlew createSwiftPackage --stacktrace
 
       - name: Upload Swift Package directory
         uses: actions/upload-artifact@v3
@@ -52,4 +56,4 @@ jobs:
           destination-github-username: 'VictorKabata'
           destination-repository-name: 'DarajaSwiftPackage'
           create-target-branch-if-needed: true
-          target-branch: ${{ github.event.inputs.iOSBranchName }}
+          target-branch: ${{ github.event.inputs.iOSVersionName }}
