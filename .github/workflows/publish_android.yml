@@ -66,9 +66,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Clean & Build
-        run: ./gradlew :daraja:clean :daraja:build --stacktrace
-
       - name: Sign and Publish Android Library
         run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 --stacktrace
         env:

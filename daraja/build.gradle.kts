@@ -31,6 +31,7 @@ plugins {
     alias(libs.plugins.gradleVersionUpdate)
 
     id("maven-publish")
+    // id("com.vanniktech.maven.publish") version "0.29.0"
     id("signing")
     alias(libs.plugins.multiplatformSwiftPackage)
 }
