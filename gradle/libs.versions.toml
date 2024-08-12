@@ -2,7 +2,7 @@
 kotlin = "2.0.0"
 agp = "8.1.4"
 ktLint = "12.1.1"
-detekt = "1.19.0"
+detekt = "1.23.6"
 spotless = "6.2.2"
 dokka = "1.9.20"
 kover = "0.8.1"
