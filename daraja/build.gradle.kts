@@ -178,11 +178,8 @@ publishing {
     repositories {
         maven {
             name = "Sonatype"
-            url = if (version.toString().endsWith("SNAPSHOT")) {
-                snapshotsRepoUrl
-            } else {
-                releasesRepoUrl
-            }
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
+            else releasesRepoUrl
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
