@@ -25,11 +25,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class UtilsTest {
-
     @Test
     fun getDarajaTimeStamp_returns_correct_timestamp_on_single_digit_values() {
-        val currentDateTime = "2022-01-01T01:01:01.694394300".toLocalDateTime()
-            .toInstant(TimeZone.currentSystemDefault())
+        val currentDateTime =
+            "2022-01-01T01:01:01.694394300".toLocalDateTime()
+                .toInstant(TimeZone.currentSystemDefault())
         val expectedResult = "20220101010101"
 
         assertEquals(expected = expectedResult, actual = currentDateTime.getDarajaTimestamp())
@@ -37,8 +37,9 @@ class UtilsTest {
 
     @Test
     fun getDarajaTimeStamp_returns_correct_timestamp_on_double_digit_values() {
-        val currentDateTime = "2022-12-12T12:12:12.694394300".toLocalDateTime()
-            .toInstant(TimeZone.currentSystemDefault())
+        val currentDateTime =
+            "2022-12-12T12:12:12.694394300".toLocalDateTime()
+                .toInstant(TimeZone.currentSystemDefault())
         val expectedResult = "20221212121212"
 
         assertEquals(expected = expectedResult, actual = currentDateTime.getDarajaTimestamp())

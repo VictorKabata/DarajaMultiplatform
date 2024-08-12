@@ -60,32 +60,35 @@ fun HomeScreen() {
                 .setConsumerSecret("z4CAY2TUw6rprEvy")
                 .setPassKey("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
                 .isSandbox()
-                .build()
+                .build(),
         )
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 16.dp, horizontal = 8.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(vertical = 16.dp, horizontal = 8.dp),
     ) {
         Text(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(horizontal = 2.dp),
+            modifier =
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(horizontal = 2.dp),
             text = "Daraja Multiplatform Desktop",
             fontWeight = FontWeight.ExtraBold,
             fontSize = 32.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                space = 42.dp,
-                alignment = Alignment.CenterVertically
-            )
+            verticalArrangement =
+                Arrangement.spacedBy(
+                    space = 42.dp,
+                    alignment = Alignment.CenterVertically,
+                ),
         ) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(.8f),
@@ -93,13 +96,14 @@ fun HomeScreen() {
                 onValueChange = { amount = it.toInt() },
                 singleLine = true,
                 maxLines = 1,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                    color = MaterialTheme.colors.onBackground
-                ),
+                textStyle =
+                    TextStyle(
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colors.onBackground,
+                    ),
                 label = { Text(text = "Amount") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
 
             OutlinedTextField(
@@ -108,33 +112,39 @@ fun HomeScreen() {
                 onValueChange = { phoneNumber = it },
                 singleLine = true,
                 maxLines = 1,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                    color = MaterialTheme.colors.onBackground
-                ),
+                textStyle =
+                    TextStyle(
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colors.onBackground,
+                    ),
                 label = { Text(text = "Phone Number") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
             )
         }
 
         Button(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onClick = { initiateMpesaStk(daraja, tillNumber, amount, phoneNumber) }
+            onClick = { initiateMpesaStk(daraja, tillNumber, amount, phoneNumber) },
         ) {
             Text(text = "Make Payment", fontSize = 20.sp)
         }
     }
 }
 
-fun initiateMpesaStk(daraja: Daraja, tillNumber: String, amount: Int, phoneNumber: String) {
+fun initiateMpesaStk(
+    daraja: Daraja,
+    tillNumber: String,
+    amount: Int,
+    phoneNumber: String,
+) {
     daraja.mpesaExpress(
         businessShortCode = tillNumber,
         amount = amount,
         phoneNumber = phoneNumber,
         transactionDesc = "Mpesa payment",
         callbackUrl = "https://mydomain.com/path",
-        accountReference = "Daraja KMP Android"
+        accountReference = "Daraja KMP Android",
     ).onSuccess {
         println(message = "On success block called: $it")
     }.onFailure {

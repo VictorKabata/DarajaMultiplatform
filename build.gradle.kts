@@ -39,7 +39,7 @@ subprojects {
             target("**/*.kt")
             licenseHeaderFile(
                 rootProject.file("${project.rootDir}/spotless/copyright.kt"),
-                "^(package|object|import|interface)"
+                "^(package|object|import|interface)",
             )
         }
     }

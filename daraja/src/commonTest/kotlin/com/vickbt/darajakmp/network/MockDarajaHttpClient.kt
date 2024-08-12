@@ -39,69 +39,74 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 internal class MockDarajaHttpClient {
-
     private var httpStatusCode: HttpStatusCode = HttpStatusCode.OK
     private var responseContent: String? = null
-    fun throwError(httpStatus: HttpStatusCode, response: String) {
+
+    fun throwError(
+        httpStatus: HttpStatusCode,
+        response: String,
+    ) {
         httpStatusCode = httpStatus
         responseContent = response
     }
 
     private val responseHeaders = headersOf(HttpHeaders.ContentType, "application/json")
 
-    val mockDarajaHttpClient = HttpClient(MockEngine) {
-        engine {
-            addHandler { request ->
-                when (request.url.fullPath) {
-                    "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
-                        respond(
-                            responseContent ?: AccessToken200JSON,
-                            httpStatusCode,
-                            responseHeaders
-                        )
-                    }
-                    "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
-                        respond(
-                            responseContent ?: MpesaExpress200JSON,
-                            httpStatusCode,
-                            responseHeaders
-                        )
-                    }
-                    "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {
-                        respond(
-                            responseContent ?: QueryTransaction200JSON,
-                            httpStatusCode,
-                            responseHeaders
-                        )
-                    }
-                    else -> {
-                        error("Unhandled ${request.url.encodedPathAndQuery}")
+    val mockDarajaHttpClient =
+        HttpClient(MockEngine) {
+            engine {
+                addHandler { request ->
+                    when (request.url.fullPath) {
+                        "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
+                            respond(
+                                responseContent ?: AccessToken200JSON,
+                                httpStatusCode,
+                                responseHeaders,
+                            )
+                        }
+                        "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
+                            respond(
+                                responseContent ?: MpesaExpress200JSON,
+                                httpStatusCode,
+                                responseHeaders,
+                            )
+                        }
+                        "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {
+                            respond(
+                                responseContent ?: QueryTransaction200JSON,
+                                httpStatusCode,
+                                responseHeaders,
+                            )
+                        }
+                        else -> {
+                            error("Unhandled ${request.url.encodedPathAndQuery}")
+                        }
                     }
                 }
             }
-        }
 
-        expectSuccess = true
-        addDefaultResponseValidation()
+            expectSuccess = true
+            addDefaultResponseValidation()
 
-        defaultRequest { contentType(ContentType.Application.Json) }
+            defaultRequest { contentType(ContentType.Application.Json) }
 
-        install(ContentNegotiation) {
-            json(
-                Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                }
-            )
-        }
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                    },
+                )
+            }
 
-        install(Logging) {
-            level = LogLevel.ALL
-            logger = object : Logger {
-                override fun log(message: String) {
-                    println("Http Logs: $message")
-                }
+            install(Logging) {
+                level = LogLevel.ALL
+                logger =
+                    object : Logger {
+                        override fun log(message: String) {
+                            println("Http Logs: $message")
+                        }
+                    }
             }
         }
-    }
 }

@@ -8,14 +8,17 @@ val dokkaOutputDir = buildDir.resolve("reports/dokka")
 val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
-fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+fun Project.get(
+    key: String,
+    defaultValue: String = "Invalid value $key",
+) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
-        version.uppercase(Locale.getDefault()).contains(it)
-    }
+    val stableKeyword =
+        listOf("RELEASE", "FINAL", "GA").any {
+            version.uppercase(Locale.getDefault()).contains(it)
+        }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -151,11 +154,12 @@ val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory")
     delete(dokkaOutputDir)
 }
 
-val javadocJar = tasks.register<Jar>("javadocJar") {
-    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-    archiveClassifier.set("javadoc")
-    from(dokkaOutputDir)
-}
+val javadocJar =
+    tasks.register<Jar>("javadocJar") {
+        dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+        archiveClassifier.set("javadoc")
+        from(dokkaOutputDir)
+    }
 
 kover {
     reports {
@@ -178,8 +182,12 @@ publishing {
     repositories {
         maven {
             name = "Sonatype"
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl
-            else releasesRepoUrl
+            url =
+                if (version.toString().endsWith("SNAPSHOT")) {
+                    snapshotsRepoUrl
+                } else {
+                    releasesRepoUrl
+                }
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
@@ -237,7 +245,7 @@ publishing {
         useInMemoryPgpKeys(
             signingKeyId,
             signingKeyPassword,
-            signingKey
+            signingKey,
         )
         sign(publishing.publications)
     }

@@ -62,12 +62,12 @@ class Daraja(
     private val consumerKey: String?,
     private val consumerSecret: String?,
     private val passKey: String?,
-    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT
+    private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT,
 ) {
-
-    private val darajaHttpClientFactory: HttpClient = DarajaHttpClientFactory(
-        environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT
-    ).createDarajaHttpClient()
+    private val darajaHttpClientFactory: HttpClient =
+        DarajaHttpClientFactory(
+            environment = environment ?: DarajaEnvironment.SANDBOX_ENVIRONMENT,
+        ).createDarajaHttpClient()
 
     /**Creates instance of [Daraja]
      *
@@ -80,9 +80,8 @@ class Daraja(
         @ObjCName(swiftName = "consumerKey") private var consumerKey: String? = null,
         @ObjCName(swiftName = "consumerSecret") private var consumerSecret: String? = null,
         @ObjCName(swiftName = "passKey") private var passKey: String? = null,
-        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment? = null
+        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment? = null,
     ) {
-
         /**Provides [consumerKey] provided by Daraja API
          *
          * @param consumerKey Daraja API consumer key
@@ -95,8 +94,7 @@ class Daraja(
          * @param consumerSecret Daraja API consumer secret
          * */
         @ObjCName(swiftName = "withConsumerSecret")
-        fun setConsumerSecret(consumerSecret: String) =
-            apply { this.consumerSecret = consumerSecret }
+        fun setConsumerSecret(consumerSecret: String) = apply { this.consumerSecret = consumerSecret }
 
         /**Provides [passKey] provided by Daraja API
          *
@@ -113,30 +111,34 @@ class Daraja(
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         @ObjCName(swiftName = "init")
-        fun build(): Daraja = Daraja(
-            consumerKey = consumerKey,
-            consumerSecret = consumerSecret,
-            passKey = passKey,
-            environment = environment
-        )
+        fun build(): Daraja =
+            Daraja(
+                consumerKey = consumerKey,
+                consumerSecret = consumerSecret,
+                passKey = passKey,
+                environment = environment,
+            )
     }
 
     /**Create instance of [DarajaApiService]*/
-    private val darajaApiService: DarajaApiService = DarajaApiService(
-        httpClient = darajaHttpClientFactory,
-        consumerKey = consumerKey ?: throw DarajaException(errorMessage = "Consumer key is null"),
-        consumerSecret = consumerSecret
-            ?: throw DarajaException(errorMessage = "Consumer secret is null")
-    )
+    private val darajaApiService: DarajaApiService =
+        DarajaApiService(
+            httpClient = darajaHttpClientFactory,
+            consumerKey = consumerKey ?: throw DarajaException(errorMessage = "Consumer key is null"),
+            consumerSecret =
+                consumerSecret
+                    ?: throw DarajaException(errorMessage = "Consumer secret is null"),
+        )
 
     /**Request access token that is used to authenticate to Daraja APIs
      *
      * @return [DarajaToken]
      * */
     @ObjCName(swiftName = "authorization")
-    fun authorization(): DarajaResult<DarajaToken> = runBlocking(Dispatchers.IO) {
-        darajaApiService.fetchAccessToken()
-    }
+    fun authorization(): DarajaResult<DarajaToken> =
+        runBlocking(Dispatchers.IO) {
+            darajaApiService.fetchAccessToken()
+        }
 
     /**Initiate Mpesa Express payment of value provided in [amount] to the [businessShortCode] from the the [phoneNumber].
      * The response of the payment status will be sent to the [callbackUrl] provided.
@@ -159,32 +161,35 @@ class Daraja(
         transactionType: DarajaTransactionType = DarajaTransactionType.CustomerPayBillOnline,
         transactionDesc: String,
         callbackUrl: String,
-        accountReference: String? = null
-    ): DarajaResult<MpesaExpressResponse> = runBlocking(Dispatchers.IO) {
-        val timestamp = Clock.System.now().getDarajaTimestamp()
+        accountReference: String? = null,
+    ): DarajaResult<MpesaExpressResponse> =
+        runBlocking(Dispatchers.IO) {
+            val timestamp = Clock.System.now().getDarajaTimestamp()
 
-        val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
-            timestamp = timestamp
-        )
+            val darajaPassword =
+                getDarajaPassword(
+                    shortCode = businessShortCode,
+                    passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
+                    timestamp = timestamp,
+                )
 
-        val mpesaExpressRequest = MpesaExpressRequest(
-            businessShortCode = businessShortCode,
-            password = darajaPassword,
-            timestamp = timestamp,
-            transactionDesc = transactionDesc,
-            amount = amount.toString(),
-            transactionType = transactionType.name,
-            phoneNumber = phoneNumber.getDarajaPhoneNumber(),
-            callBackUrl = callbackUrl,
-            accountReference = accountReference ?: businessShortCode,
-            partyA = phoneNumber,
-            partyB = businessShortCode
-        )
+            val mpesaExpressRequest =
+                MpesaExpressRequest(
+                    businessShortCode = businessShortCode,
+                    password = darajaPassword,
+                    timestamp = timestamp,
+                    transactionDesc = transactionDesc,
+                    amount = amount.toString(),
+                    transactionType = transactionType.name,
+                    phoneNumber = phoneNumber.getDarajaPhoneNumber(),
+                    callBackUrl = callbackUrl,
+                    accountReference = accountReference ?: businessShortCode,
+                    partyA = phoneNumber,
+                    partyB = businessShortCode,
+                )
 
-        darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
-    }
+            darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
+        }
 
     /**
      * @param [businessShortCode] - This is the organization's shortcode (Paybill or Buy Goods) used to identify an organization and receive the transaction.
@@ -194,23 +199,26 @@ class Daraja(
     fun mpesaExpressQuery(
         businessShortCode: String,
         timestamp: String,
-        checkoutRequestID: String
-    ): DarajaResult<QueryMpesaExpressResponse> = runBlocking(Dispatchers.IO) {
-        val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: "",
-            timestamp = timestamp
-        )
+        checkoutRequestID: String,
+    ): DarajaResult<QueryMpesaExpressResponse> =
+        runBlocking(Dispatchers.IO) {
+            val darajaPassword =
+                getDarajaPassword(
+                    shortCode = businessShortCode,
+                    passkey = passKey ?: "",
+                    timestamp = timestamp,
+                )
 
-        val queryMpesaExpressRequest = QueryMpesaExpressRequest(
-            businessShortCode = businessShortCode,
-            password = darajaPassword,
-            timestamp = timestamp,
-            checkoutRequestID = checkoutRequestID
-        )
+            val queryMpesaExpressRequest =
+                QueryMpesaExpressRequest(
+                    businessShortCode = businessShortCode,
+                    password = darajaPassword,
+                    timestamp = timestamp,
+                    checkoutRequestID = checkoutRequestID,
+                )
 
-        darajaApiService.queryMpesaExpress(queryMpesaExpressRequest = queryMpesaExpressRequest)
-    }
+            darajaApiService.queryMpesaExpress(queryMpesaExpressRequest = queryMpesaExpressRequest)
+        }
 
     /**Generate a dynamic qr code to initiate payment
      *
@@ -238,19 +246,21 @@ class Daraja(
         amount: Int,
         transactionCode: DarajaTransactionCode,
         cpi: String,
-        size: Int
-    ): DarajaResult<DynamicQrResponse> = runBlocking(Dispatchers.IO) {
-        val dynamicQrRequest = DynamicQrRequest(
-            merchantName = merchantName,
-            referenceNumber = referenceNumber,
-            amount = amount,
-            transactionCode = transactionCode.name,
-            cpi = cpi,
-            size = size.toString()
-        )
+        size: Int,
+    ): DarajaResult<DynamicQrResponse> =
+        runBlocking(Dispatchers.IO) {
+            val dynamicQrRequest =
+                DynamicQrRequest(
+                    merchantName = merchantName,
+                    referenceNumber = referenceNumber,
+                    amount = amount,
+                    transactionCode = transactionCode.name,
+                    cpi = cpi,
+                    size = size.toString(),
+                )
 
-        darajaApiService.generateDynamicQr(dynamicQrRequest = dynamicQrRequest)
-    }
+            darajaApiService.generateDynamicQr(dynamicQrRequest = dynamicQrRequest)
+        }
 
     /**Request the status of an Mpesa payment transaction
      *
@@ -262,24 +272,27 @@ class Daraja(
     @ObjCName(swiftName = "transactionStatus")
     internal fun transactionStatus(
         businessShortCode: String,
-        checkoutRequestID: String
-    ): DarajaResult<DarajaTransactionResponse> = runBlocking(Dispatchers.IO) {
-        val timestamp = Clock.System.now().getDarajaTimestamp()
-        val darajaPassword = getDarajaPassword(
-            shortCode = businessShortCode,
-            passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
-            timestamp = timestamp
-        )
+        checkoutRequestID: String,
+    ): DarajaResult<DarajaTransactionResponse> =
+        runBlocking(Dispatchers.IO) {
+            val timestamp = Clock.System.now().getDarajaTimestamp()
+            val darajaPassword =
+                getDarajaPassword(
+                    shortCode = businessShortCode,
+                    passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
+                    timestamp = timestamp,
+                )
 
-        val darajaTransactionRequest = DarajaTransactionRequest(
-            businessShortCode = businessShortCode,
-            password = darajaPassword,
-            timestamp = timestamp,
-            checkoutRequestID = checkoutRequestID
-        )
+            val darajaTransactionRequest =
+                DarajaTransactionRequest(
+                    businessShortCode = businessShortCode,
+                    password = darajaPassword,
+                    timestamp = timestamp,
+                    checkoutRequestID = checkoutRequestID,
+                )
 
-        darajaApiService.queryTransaction(darajaTransactionRequest)
-    }
+            darajaApiService.queryTransaction(darajaTransactionRequest)
+        }
 
     /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
      *
@@ -294,35 +307,39 @@ class Daraja(
         businessShortCode: Int,
         confirmationURL: String,
         validationURL: String? = null,
-        responseType: C2BResponseType? = C2BResponseType.COMPLETED
-    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
-        val c2BRegistrationRequest = C2BRegistrationRequest(
-            confirmationURL = confirmationURL,
-            validationURL = validationURL,
-            responseType = responseType?.name?.lowercase(),
-            shortCode = businessShortCode
-        )
+        responseType: C2BResponseType? = C2BResponseType.COMPLETED,
+    ): DarajaResult<C2BResponse> =
+        runBlocking(Dispatchers.IO) {
+            val c2BRegistrationRequest =
+                C2BRegistrationRequest(
+                    confirmationURL = confirmationURL,
+                    validationURL = validationURL,
+                    responseType = responseType?.name?.lowercase(),
+                    shortCode = businessShortCode,
+                )
 
-        darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
-    }
+            darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
+        }
 
     internal fun c2b(
         amount: Int,
         billReferenceNumber: String,
         transactionType: DarajaTransactionType,
         phoneNumber: String,
-        businessShortCode: String
-    ): DarajaResult<C2BResponse> = runBlocking(Dispatchers.IO) {
-        val c2bRequest = C2BRequest(
-            amount = amount,
-            billReferenceNumber = billReferenceNumber,
-            commandID = transactionType.name,
-            phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
-            shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber
-        )
+        businessShortCode: String,
+    ): DarajaResult<C2BResponse> =
+        runBlocking(Dispatchers.IO) {
+            val c2bRequest =
+                C2BRequest(
+                    amount = amount,
+                    billReferenceNumber = billReferenceNumber,
+                    commandID = transactionType.name,
+                    phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
+                    shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber,
+                )
 
-        darajaApiService.c2b(c2bRequest = c2bRequest)
-    }
+            darajaApiService.c2b(c2bRequest = c2bRequest)
+        }
 
     /**Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill accounts.
      *
@@ -345,22 +362,24 @@ class Daraja(
         identifierType: DarajaIdentifierType,
         remarks: String = "Account balance request",
         queueTimeOutURL: String,
-        resultURL: String
-    ): DarajaResult<AccountBalanceResponse> = runBlocking(Dispatchers.IO) {
-        val key = initiator + initiatorPassword
-        val securityCredential = key.encodeBase64()
+        resultURL: String,
+    ): DarajaResult<AccountBalanceResponse> =
+        runBlocking(Dispatchers.IO) {
+            val key = initiator + initiatorPassword
+            val securityCredential = key.encodeBase64()
 
-        val accountBalanceRequest = AccountBalanceRequest(
-            initiator = initiator,
-            securityCredential = securityCredential,
-            commandId = commandId,
-            partyA = partyA,
-            identifierType = if (identifierType == DarajaIdentifierType.TILL_NUMBER) 2 else 4,
-            remarks = remarks,
-            queueTimeOutURL = queueTimeOutURL,
-            resultURL = resultURL
-        )
+            val accountBalanceRequest =
+                AccountBalanceRequest(
+                    initiator = initiator,
+                    securityCredential = securityCredential,
+                    commandId = commandId,
+                    partyA = partyA,
+                    identifierType = if (identifierType == DarajaIdentifierType.TILL_NUMBER) 2 else 4,
+                    remarks = remarks,
+                    queueTimeOutURL = queueTimeOutURL,
+                    resultURL = resultURL,
+                )
 
-        darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
-    }
+            darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
+        }
 }

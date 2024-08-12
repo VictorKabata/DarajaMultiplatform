@@ -34,7 +34,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class DarajaApiServiceTest {
-
     private val mockDarajaHttpClient = MockDarajaHttpClient()
 
     private lateinit var mockKtorHttpClient: HttpClient
@@ -43,31 +42,34 @@ class DarajaApiServiceTest {
     // Subject under test
     private lateinit var darajaApiService: DarajaApiService
 
-    private val darajaToken = DarajaToken(
-        accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
-        expiresIn = "3599"
-    )
+    private val darajaToken =
+        DarajaToken(
+            accessToken = "wWAHdtiE4GCSGv2ocfzQ0WHefwAJ",
+            expiresIn = "3599",
+        )
 
-    private val mpesaExpressRequest = MpesaExpressRequest(
-        businessShortCode = "654321",
-        password = "password",
-        phoneNumber = "254708374149",
-        timestamp = "timestamp",
-        transactionType = DarajaTransactionType.CustomerPayBillOnline.name,
-        transactionDesc = "Transaction description",
-        amount = "1",
-        partyA = "254708374149",
-        partyB = "654321",
-        callBackUrl = "https://mydomain.com/path",
-        accountReference = "Account reference"
-    )
+    private val mpesaExpressRequest =
+        MpesaExpressRequest(
+            businessShortCode = "654321",
+            password = "password",
+            phoneNumber = "254708374149",
+            timestamp = "timestamp",
+            transactionType = DarajaTransactionType.CustomerPayBillOnline.name,
+            transactionDesc = "Transaction description",
+            amount = "1",
+            partyA = "254708374149",
+            partyB = "654321",
+            callBackUrl = "https://mydomain.com/path",
+            accountReference = "Account reference",
+        )
 
-    private val darajaTransactionRequest = DarajaTransactionRequest(
-        businessShortCode = "654321",
-        password = "password",
-        timestamp = "timestamp",
-        checkoutRequestID = "ws_CO_07022023155508743714091304"
-    )
+    private val darajaTransactionRequest =
+        DarajaTransactionRequest(
+            businessShortCode = "654321",
+            password = "password",
+            timestamp = "timestamp",
+            checkoutRequestID = "ws_CO_07022023155508743714091304",
+        )
 
     @BeforeTest
     fun setup() {
@@ -75,12 +77,13 @@ class DarajaApiServiceTest {
 
         mockInMemoryCache = Cache.Builder<Long, DarajaToken>().build()
 
-        darajaApiService = DarajaApiService(
-            httpClient = mockKtorHttpClient,
-            consumerKey = "consumerKey",
-            consumerSecret = "consumerSecret",
-            inMemoryCache = mockInMemoryCache
-        )
+        darajaApiService =
+            DarajaApiService(
+                httpClient = mockKtorHttpClient,
+                consumerKey = "consumerKey",
+                consumerSecret = "consumerSecret",
+                inMemoryCache = mockInMemoryCache,
+            )
     }
 
     @AfterTest
@@ -90,69 +93,75 @@ class DarajaApiServiceTest {
     }
 
     @Test
-    fun fetchAccessToken_success_returns_darajaToken() = runTest {
-        // when
-        val actualResult = darajaApiService.fetchAccessToken()
+    fun fetchAccessToken_success_returns_darajaToken() =
+        runTest {
+            // when
+            val actualResult = darajaApiService.fetchAccessToken()
 
-        // then
-        assertEquals(
-            expected = DarajaResult.Success(darajaToken),
-            actual = actualResult
-        )
-    }
-
-    @Test
-    fun fetchAccessToken_success_caches_darajaToken() = runTest {
-        assertNull(mockInMemoryCache.get(1))
-
-        // when
-        darajaApiService.fetchAccessToken()
-
-        // then
-        val cachedToken = mockInMemoryCache.get(1)
-
-        assertNotNull(cachedToken)
-        assertEquals(expected = darajaToken, actual = cachedToken)
-    }
-
-    @Test
-    fun initiateMpesaExpress_success_returns_darajaPaymentResponse() = runTest {
-        assertNull(mockInMemoryCache.get(1))
-
-        // when
-        val actualResult =
-            darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
-        val expectedResult = DarajaResult.Success(
-            MpesaExpressResponse(
-                merchantRequestID = "6093-85819535-1",
-                checkoutRequestID = "ws_CO_16122022001707470708374149",
-                responseCode = "0",
-                responseDescription = "Success. Request accepted for processing",
-                customerMessage = "Success. Request accepted for processing"
+            // then
+            assertEquals(
+                expected = DarajaResult.Success(darajaToken),
+                actual = actualResult,
             )
-        )
-
-        // then
-        assertEquals(expected = expectedResult, actual = actualResult)
-        assertNotNull(mockInMemoryCache.get(1))
-    }
+        }
 
     @Test
-    fun queryTransaction_success_returns_darajaTransactionResponse() = runTest {
-        // when
-        val actualResult =
-            darajaApiService.queryTransaction(darajaTransactionRequest = darajaTransactionRequest)
-        val expectedResult = DarajaResult.Success(
-            DarajaTransactionResponse(
-                responseCode = "0",
-                responseDescription = "The service request has been accepted successsfully",
-                merchantRequestID = "15386-269505584-1",
-                checkoutRequestID = "ws_CO_07022023155508743714091304",
-                resultCode = "0",
-                resultDescription = "The service request is processed successfully."
-            )
-        )
+    fun fetchAccessToken_success_caches_darajaToken() =
+        runTest {
+            assertNull(mockInMemoryCache.get(1))
 
-        assertEquals(expected = expectedResult, actual = actualResult)
-    }
+            // when
+            darajaApiService.fetchAccessToken()
+
+            // then
+            val cachedToken = mockInMemoryCache.get(1)
+
+            assertNotNull(cachedToken)
+            assertEquals(expected = darajaToken, actual = cachedToken)
+        }
+
+    @Test
+    fun initiateMpesaExpress_success_returns_darajaPaymentResponse() =
+        runTest {
+            assertNull(mockInMemoryCache.get(1))
+
+            // when
+            val actualResult =
+                darajaApiService.initiateMpesaExpress(mpesaExpressRequest = mpesaExpressRequest)
+            val expectedResult =
+                DarajaResult.Success(
+                    MpesaExpressResponse(
+                        merchantRequestID = "6093-85819535-1",
+                        checkoutRequestID = "ws_CO_16122022001707470708374149",
+                        responseCode = "0",
+                        responseDescription = "Success. Request accepted for processing",
+                        customerMessage = "Success. Request accepted for processing",
+                    ),
+                )
+
+            // then
+            assertEquals(expected = expectedResult, actual = actualResult)
+            assertNotNull(mockInMemoryCache.get(1))
+        }
+
+    @Test
+    fun queryTransaction_success_returns_darajaTransactionResponse() =
+        runTest {
+            // when
+            val actualResult =
+                darajaApiService.queryTransaction(darajaTransactionRequest = darajaTransactionRequest)
+            val expectedResult =
+                DarajaResult.Success(
+                    DarajaTransactionResponse(
+                        responseCode = "0",
+                        responseDescription = "The service request has been accepted successsfully",
+                        merchantRequestID = "15386-269505584-1",
+                        checkoutRequestID = "ws_CO_07022023155508743714091304",
+                        resultCode = "0",
+                        resultDescription = "The service request is processed successfully.",
+                    ),
+                )
+
+            assertEquals(expected = expectedResult, actual = actualResult)
+        }
 }

@@ -76,26 +76,29 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
         val (card, button) = createRefs()
 
         ElevatedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(.35f)
-                .padding(horizontal = 24.dp)
-                .constrainAs(card) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                },
-            shape = RoundedCornerShape(6.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(.35f)
+                    .padding(horizontal = 24.dp)
+                    .constrainAs(card) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+            shape = RoundedCornerShape(6.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 24.dp,
-                    alignment = Alignment.CenterVertically
-                )
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp),
+                verticalArrangement =
+                    Arrangement.spacedBy(
+                        space = 24.dp,
+                        alignment = Alignment.CenterVertically,
+                    ),
             ) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
@@ -103,13 +106,14 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     onValueChange = { amount = it.toInt() },
                     singleLine = true,
                     maxLines = 1,
-                    textStyle = TextStyle(
-                        fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ),
+                    textStyle =
+                        TextStyle(
+                            fontSize = 20.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        ),
                     label = { Text(text = "Amount") },
                     colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 )
 
                 OutlinedTextField(
@@ -118,26 +122,28 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     onValueChange = { it.let { phoneNumber = it } },
                     singleLine = true,
                     maxLines = 1,
-                    textStyle = TextStyle(
-                        fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ),
+                    textStyle =
+                        TextStyle(
+                            fontSize = 20.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        ),
                     label = { Text(text = "Phone Number") },
                     colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
                 )
             }
         }
 
         FloatingActionButton(
-            modifier = Modifier
-                .size(64.dp)
-                .constrainAs(button) {
-                    top.linkTo(card.bottom)
-                    bottom.linkTo(card.bottom)
-                    start.linkTo(card.start)
-                    end.linkTo(card.end)
-                },
+            modifier =
+                Modifier
+                    .size(64.dp)
+                    .constrainAs(button) {
+                        top.linkTo(card.bottom)
+                        bottom.linkTo(card.bottom)
+                        start.linkTo(card.start)
+                        end.linkTo(card.end)
+                    },
             shape = CircleShape,
             containerColor = colorResource(id = R.color.theme_color),
             contentColor = Color.White,
@@ -149,14 +155,14 @@ fun HomeScreen(viewModel: HomeViewModel = get()) {
                     phoneNumber = phoneNumber,
                     transactionDesc = "Mpesa payment",
                     callbackUrl = "https://mydomain.com/path",
-                    accountReference = "Daraja KMP Android"
+                    accountReference = "Daraja KMP Android",
                 )
-            }
+            },
         ) {
             Icon(
                 modifier = Modifier.size(28.dp),
                 painter = painterResource(id = R.drawable.ic_payment),
-                contentDescription = "Pay"
+                contentDescription = "Pay",
             )
         }
     }
