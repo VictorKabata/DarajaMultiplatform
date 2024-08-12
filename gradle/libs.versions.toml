@@ -14,8 +14,7 @@ kotlinxCoroutines = "1.9.0-RC"
 kotlinxSerializationJson = "1.7.0"
 kotlinxDateTime = "0.6.0"
 napier = "2.7.1"
-ktor = "2.3.11"
-kotlinxTestResources = "0.2.2"
+ktor = "2.3.12"
 composeMultiplatform = "1.6.11"
 cache4k = "0.13.0"
 mockative = "2.2.2"
@@ -57,6 +56,5 @@ kotlinX-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 
 #Tests Lib Dependencies
-# kotlinX-testResources = { module = "com.goncalossilva:resources", version.ref = "kotlinxTestResources" }
 kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
