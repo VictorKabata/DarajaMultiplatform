@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.0.0"
-agp = "7.4.2"
+agp = "8.1.4"
 ktLint = "11.6.0"
 detekt = "1.19.0"
 spotless = "6.2.2"
