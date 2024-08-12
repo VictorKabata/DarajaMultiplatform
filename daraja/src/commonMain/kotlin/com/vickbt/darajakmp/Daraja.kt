@@ -124,7 +124,9 @@ class Daraja(
     private val darajaApiService: DarajaApiService =
         DarajaApiService(
             httpClient = darajaHttpClientFactory,
-            consumerKey = consumerKey ?: throw DarajaException(errorMessage = "Consumer key is null"),
+            consumerKey =
+                consumerKey
+                    ?: throw DarajaException(errorMessage = "Consumer key is null"),
             consumerSecret =
                 consumerSecret
                     ?: throw DarajaException(errorMessage = "Consumer secret is null"),
@@ -335,7 +337,12 @@ class Daraja(
                     billReferenceNumber = billReferenceNumber,
                     commandID = transactionType.name,
                     phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
-                    shortCode = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) businessShortCode else billReferenceNumber,
+                    shortCode =
+                        if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
+                            businessShortCode
+                        } else {
+                            billReferenceNumber
+                        },
                 )
 
             darajaApiService.c2b(c2bRequest = c2bRequest)

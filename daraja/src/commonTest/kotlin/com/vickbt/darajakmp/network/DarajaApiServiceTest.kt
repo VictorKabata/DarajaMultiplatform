@@ -54,7 +54,7 @@ class DarajaApiServiceTest {
             password = "password",
             phoneNumber = "254708374149",
             timestamp = "timestamp",
-            transactionType = DarajaTransactionType.CustomerPayBillOnline.name,
+            transactionType = DarajaTransactionType.PayBill.name,
             transactionDesc = "Transaction description",
             amount = "1",
             partyA = "254708374149",

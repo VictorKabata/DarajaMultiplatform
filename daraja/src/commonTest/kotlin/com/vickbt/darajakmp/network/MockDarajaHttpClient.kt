@@ -16,9 +16,9 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.AccessToken200JSON
-import com.vickbt.darajakmp.network.models.MpesaExpress200JSON
-import com.vickbt.darajakmp.network.models.QueryTransaction200JSON
+import com.vickbt.darajakmp.network.models.ACCESS_TOKEN_200_JSON
+import com.vickbt.darajakmp.network.models.MPESA_EXPRESS_200_JSON
+import com.vickbt.darajakmp.network.models.QUERY_TRANSACTION_200_JSON
 import com.vickbt.darajakmp.utils.DarajaEndpoints
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -59,21 +59,21 @@ internal class MockDarajaHttpClient {
                     when (request.url.fullPath) {
                         "/${DarajaEndpoints.REQUEST_ACCESS_TOKEN}" -> {
                             respond(
-                                responseContent ?: AccessToken200JSON,
+                                responseContent ?: ACCESS_TOKEN_200_JSON,
                                 httpStatusCode,
                                 responseHeaders,
                             )
                         }
                         "/${DarajaEndpoints.INITIATE_MPESA_EXPRESS}" -> {
                             respond(
-                                responseContent ?: MpesaExpress200JSON,
+                                responseContent ?: MPESA_EXPRESS_200_JSON,
                                 httpStatusCode,
                                 responseHeaders,
                             )
                         }
                         "/${DarajaEndpoints.QUERY_MPESA_TRANSACTION}" -> {
                             respond(
-                                responseContent ?: QueryTransaction200JSON,
+                                responseContent ?: QUERY_TRANSACTION_200_JSON,
                                 httpStatusCode,
                                 responseHeaders,
                             )
