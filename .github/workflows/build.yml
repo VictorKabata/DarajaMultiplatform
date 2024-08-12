@@ -12,16 +12,16 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Make gradle executable
-        run: chmod +x ./gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Build with gradle
         run: ./gradlew :daraja:build --stacktrace
@@ -32,16 +32,16 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Make gradle executable
-        run: chmod +x ./gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Execute unit tests
         run: ./gradlew :daraja:allTests --stacktrace
@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew :daraja:koverHtmlReport --stacktrace
 
       - name: Upload test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit_tests_report.html
           path: daraja/build/reports/kover/html/

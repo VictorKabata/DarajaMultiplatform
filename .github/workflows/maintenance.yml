@@ -13,22 +13,22 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Make gradle executable
-        run: chmod +x ./gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Check for release dependencies
         run: ./gradlew :daraja:dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependencies_report --stacktrace
 
       - name: Upload dependencies report artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Dependency Report
           path: build/reports/dependencies_report.html
