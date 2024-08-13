@@ -67,7 +67,7 @@ kotlin {
     // js()
 
     sourceSets {
-        sourceSets["commonMain"].dependencies {
+        commonMain.dependencies {
             implementation(libs.kotlinX.coroutines)
 
             implementation(libs.ktor.contentNegotiation)
@@ -81,22 +81,20 @@ kotlin {
 
             implementation(libs.cache4k)
         }
-        sourceSets["commonTest"].dependencies {
+        commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotlinX.coroutines.test)
             implementation(libs.mockative)
             implementation(libs.ktor.mock)
         }
 
-        sourceSets["androidMain"].dependencies {
+        androidMain.dependencies {
             implementation(libs.ktor.android)
         }
-        sourceSets["androidUnitTest"].dependencies {}
 
-        sourceSets["iosMain"].dependencies {
+        iosMain.dependencies {
             implementation(libs.ktor.darwin)
         }
-        sourceSets["iosTest"].dependencies {}
 
         /*sourceSets["jvmMain"].dependencies {
             implementation(libs.ktor.java)
