@@ -31,15 +31,18 @@ internal object DarajaEndpoints {
 }
 
 enum class DarajaTransactionType {
-    CustomerPayBillOnline, CustomerBuyGoodsOnline
+    CustomerPayBillOnline,
+    CustomerBuyGoodsOnline,
 }
 
 enum class DarajaEnvironment {
-    PRODUCTION_ENVIRONMENT, SANDBOX_ENVIRONMENT
+    PRODUCTION_ENVIRONMENT,
+    SANDBOX_ENVIRONMENT,
 }
 
 enum class C2BResponseType {
-    CANCELED, COMPLETED
+    CANCELED,
+    COMPLETED,
 }
 
 /**
@@ -53,9 +56,14 @@ enum class C2BResponseType {
  *
  * @param [SB]: Sent to Business. Business number CPI in MSISDN format.*/
 enum class DarajaTransactionCode {
-    BG, WA, PB, SM, SB
+    BG,
+    WA,
+    PB,
+    SM,
+    SB,
 }
 
 enum class DarajaIdentifierType {
-    TILL_NUMBER, SHORT_CODE
+    TILL_NUMBER,
+    SHORT_CODE,
 }

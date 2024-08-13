@@ -43,19 +43,14 @@ import kotlin.native.ObjCName
 internal data class DynamicQrRequest(
     @SerialName("MerchantName")
     val merchantName: String,
-
     @SerialName("RefNo")
     val referenceNumber: String,
-
     @SerialName("Amount")
     val amount: Int,
-
     @SerialName("TrxCode")
     val transactionCode: String,
-
     @SerialName("CPI")
     val cpi: String,
-
     @SerialName("Size")
-    val size: String
+    val size: String,
 )
