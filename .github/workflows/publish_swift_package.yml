@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: 🔨 Build
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -35,6 +36,7 @@ jobs:
           retention-days: 1
 
   push:
+    name: 📤 Push to Swift Repo
     needs: build
     runs-on: ubuntu-latest
     steps:
