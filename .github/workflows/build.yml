@@ -7,7 +7,7 @@ on:
 jobs:
 
   build:
-    name: 🔨 Build
+    name: 🔨 Build & Test
     runs-on: ubuntu-latest
     steps:
 
@@ -26,23 +26,6 @@ jobs:
       - name: Build with gradle
         run: ./gradlew :daraja:build --stacktrace
 
-  unit-tests:
-    name: 🧪 Run Tests
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
       - name: Execute unit tests
         run: ./gradlew :daraja:allTests --stacktrace
 
@@ -54,3 +37,4 @@ jobs:
         with:
           name: unit_tests_report.html
           path: daraja/build/reports/kover/html/
+
