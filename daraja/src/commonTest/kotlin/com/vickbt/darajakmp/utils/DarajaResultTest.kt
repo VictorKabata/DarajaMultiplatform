@@ -23,12 +23,12 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class DarajaResultTest {
-
-    private val darajaException = DarajaException(
-        requestId = "43301-58413611-1",
-        errorCode = "400.008.01",
-        errorMessage = "Invalid Authentication passed"
-    )
+    private val darajaException =
+        DarajaException(
+            requestId = "43301-58413611-1",
+            errorCode = "400.008.01",
+            errorMessage = "Invalid Authentication passed",
+        )
 
     @Test
     fun darajaResult_getOrNull_returns_data_on_success() {

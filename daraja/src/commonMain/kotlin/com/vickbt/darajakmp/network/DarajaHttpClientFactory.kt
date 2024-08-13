@@ -35,7 +35,6 @@ import kotlinx.serialization.json.Json
 
 /**Initialize Ktor Http Client responsible for handling network operations*/
 internal class DarajaHttpClientFactory(private val environment: DarajaEnvironment) {
-
     private val baseURL =
         if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
             DarajaEndpoints.SANDBOX_BASE_URL
@@ -44,40 +43,42 @@ internal class DarajaHttpClientFactory(private val environment: DarajaEnvironmen
         }
 
     /**Initialize Ktor Http Client responsible for handling network operations*/
-    internal fun createDarajaHttpClient() = HttpClient {
-        expectSuccess = true
-        addDefaultResponseValidation()
+    internal fun createDarajaHttpClient() =
+        HttpClient {
+            expectSuccess = true
+            addDefaultResponseValidation()
 
-        defaultRequest {
-            contentType(ContentType.Application.Json)
+            defaultRequest {
+                contentType(ContentType.Application.Json)
 
-            url {
-                host = baseURL
-                url { protocol = URLProtocol.HTTPS }
+                url {
+                    host = baseURL
+                    url { protocol = URLProtocol.HTTPS }
+                }
+            }
+
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        prettyPrint = true
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                    },
+                )
+            }
+
+            if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
+                install(Logging) {
+                    level = LogLevel.ALL
+                    logger =
+                        object : Logger {
+                            override fun log(message: String) {
+                                Napier.i(tag = "Http Client", message = message)
+                            }
+                        }
+                }.also {
+                    Napier.base(DebugAntilog())
+                }
             }
         }
-
-        install(ContentNegotiation) {
-            json(
-                Json {
-                    prettyPrint = true
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                }
-            )
-        }
-
-        if (environment == DarajaEnvironment.SANDBOX_ENVIRONMENT) {
-            install(Logging) {
-                level = LogLevel.ALL
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        Napier.i(tag = "Http Client", message = message)
-                    }
-                }
-            }.also {
-                Napier.base(DebugAntilog())
-            }
-        }
-    }
 }

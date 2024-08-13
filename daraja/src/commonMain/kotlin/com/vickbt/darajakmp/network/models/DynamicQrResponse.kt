@@ -32,13 +32,10 @@ import kotlin.native.ObjCName
 data class DynamicQrResponse(
     @SerialName("ResponseCode")
     val responseCode: String,
-
     @SerialName("RequestID")
     val requestId: String,
-
     @SerialName("ResponseDescription")
     val responseDescription: String,
-
     @SerialName("QRCode")
-    val qrCode: String
+    val qrCode: String,
 )

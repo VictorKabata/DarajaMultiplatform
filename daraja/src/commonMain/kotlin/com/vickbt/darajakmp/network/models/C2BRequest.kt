@@ -26,16 +26,12 @@ import kotlin.native.ObjCName
 internal data class C2BRequest(
     @SerialName("Amount")
     val amount: Int,
-
     @SerialName("BillRefNumber")
     val billReferenceNumber: String,
-
     @SerialName("CommandID")
     val commandID: String,
-
     @SerialName("Msisdn")
     val phoneNumber: Long,
-
     @SerialName("ShortCode")
-    val shortCode: String?
+    val shortCode: String?,
 )

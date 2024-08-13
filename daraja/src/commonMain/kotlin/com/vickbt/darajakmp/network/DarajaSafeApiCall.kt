@@ -32,24 +32,25 @@ import io.ktor.util.network.UnresolvedAddressException
  * @return [DarajaResult] Returns data of type [T] on success
  * @throws DarajaException Throws expception of type [DarajaException] on failure
  * */
-internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> = try {
-    DarajaResult.Success(apiCall.invoke())
-} catch (e: RedirectResponseException) {
-    val error = parseNetworkError(e.response.body())
-    DarajaResult.Failure(exception = error)
-} catch (e: ClientRequestException) {
-    val error = parseNetworkError(e.response.body())
-    DarajaResult.Failure(exception = error)
-} catch (e: ServerResponseException) {
-    val error = parseNetworkError(e.response.body())
-    DarajaResult.Failure(exception = error)
-} catch (e: UnresolvedAddressException) {
-    val error = parseNetworkError(exception = e)
-    DarajaResult.Failure(exception = error)
-} catch (e: Exception) {
-    val error = parseNetworkError(exception = e)
-    DarajaResult.Failure(exception = error)
-}
+internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> =
+    try {
+        DarajaResult.Success(apiCall.invoke())
+    } catch (e: RedirectResponseException) {
+        val error = parseNetworkError(e.response.body())
+        DarajaResult.Failure(exception = error)
+    } catch (e: ClientRequestException) {
+        val error = parseNetworkError(e.response.body())
+        DarajaResult.Failure(exception = error)
+    } catch (e: ServerResponseException) {
+        val error = parseNetworkError(e.response.body())
+        DarajaResult.Failure(exception = error)
+    } catch (e: UnresolvedAddressException) {
+        val error = parseNetworkError(exception = e)
+        DarajaResult.Failure(exception = error)
+    } catch (e: Exception) {
+        val error = parseNetworkError(exception = e)
+        DarajaResult.Failure(exception = error)
+    }
 
 /**Generate [DarajaException] from network or system error when making network calls
  *
@@ -57,7 +58,7 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
  * */
 internal suspend fun parseNetworkError(
     errorResponse: HttpResponse? = null,
-    exception: Exception? = null
+    exception: Exception? = null,
 ): DarajaException {
     return errorResponse?.body<DarajaException>()
         ?: DarajaException(errorMessage = exception?.message)

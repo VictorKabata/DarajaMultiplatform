@@ -55,33 +55,36 @@ internal class DarajaApiService(
     private val httpClient: HttpClient,
     private val consumerKey: String,
     private val consumerSecret: String,
-    private val inMemoryCache: Cache<Long, DarajaToken> = Cache.Builder<Long, DarajaToken>()
-        .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS)).build()
+    private val inMemoryCache: Cache<Long, DarajaToken> =
+        Cache.Builder<Long, DarajaToken>()
+            .expireAfterWrite(3600.toDuration(DurationUnit.SECONDS)).build(),
 ) {
-
     /** Initiate API call using the [httpClient] provided by Ktor to fetch Daraja API access token
      * of type [DarajaToken]*/
-    internal suspend fun fetchAccessToken(): DarajaResult<DarajaToken> = darajaSafeApiCall {
-        val key = "$consumerKey:$consumerSecret"
-        val base64EncodedKey = key.encodeBase64()
+    internal suspend fun fetchAccessToken(): DarajaResult<DarajaToken> =
+        darajaSafeApiCall {
+            val key = "$consumerKey:$consumerSecret"
+            val base64EncodedKey = key.encodeBase64()
 
-        val accessToken = httpClient.get(urlString = DarajaEndpoints.REQUEST_ACCESS_TOKEN) {
-            headers {
-                append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
-            }
-        }.body<DarajaToken>().also { darajaToken ->
-            inMemoryCache.put(key = 1, value = darajaToken)
+            val accessToken =
+                httpClient.get(urlString = DarajaEndpoints.REQUEST_ACCESS_TOKEN) {
+                    headers {
+                        append(HttpHeaders.Authorization, "Basic $base64EncodedKey")
+                    }
+                }.body<DarajaToken>().also { darajaToken ->
+                    inMemoryCache.put(key = 1, value = darajaToken)
+                }
+
+            return@darajaSafeApiCall accessToken
         }
-
-        return@darajaSafeApiCall accessToken
-    }
 
     /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
     internal suspend fun initiateMpesaExpress(mpesaExpressRequest: MpesaExpressRequest): DarajaResult<MpesaExpressResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
-                fetchAccessToken().getOrThrow()
-            }
+            val accessToken =
+                inMemoryCache.get(1) {
+                    fetchAccessToken().getOrThrow()
+                }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_MPESA_EXPRESS) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
@@ -91,9 +94,10 @@ internal class DarajaApiService(
 
     internal suspend fun queryMpesaExpress(queryMpesaExpressRequest: QueryMpesaExpressRequest): DarajaResult<QueryMpesaExpressResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
-                fetchAccessToken().getOrThrow()
-            }
+            val accessToken =
+                inMemoryCache.get(1) {
+                    fetchAccessToken().getOrThrow()
+                }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.QUERY_MPESA_EXPRESS) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
@@ -103,9 +107,10 @@ internal class DarajaApiService(
 
     internal suspend fun generateDynamicQr(dynamicQrRequest: DynamicQrRequest): DarajaResult<DynamicQrResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
-                fetchAccessToken().getOrThrow()
-            }
+            val accessToken =
+                inMemoryCache.get(1) {
+                    fetchAccessToken().getOrThrow()
+                }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.DYNAMIC_QR) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
@@ -127,9 +132,10 @@ internal class DarajaApiService(
 
     internal suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
-                fetchAccessToken().getOrThrow()
-            }
+            val accessToken =
+                inMemoryCache.get(1) {
+                    fetchAccessToken().getOrThrow()
+                }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.C2B_REGISTRATION_URL) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
@@ -139,9 +145,10 @@ internal class DarajaApiService(
 
     internal suspend fun c2b(c2bRequest: C2BRequest): DarajaResult<C2BResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
-                fetchAccessToken().getOrThrow()
-            }
+            val accessToken =
+                inMemoryCache.get(1) {
+                    fetchAccessToken().getOrThrow()
+                }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_C2B) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
@@ -151,9 +158,10 @@ internal class DarajaApiService(
 
     internal suspend fun accountBalance(accountBalanceRequest: AccountBalanceRequest): DarajaResult<AccountBalanceResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
-                fetchAccessToken().getOrThrow()
-            }
+            val accessToken =
+                inMemoryCache.get(1) {
+                    fetchAccessToken().getOrThrow()
+                }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
