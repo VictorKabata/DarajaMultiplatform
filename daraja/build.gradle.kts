@@ -34,7 +34,6 @@ plugins {
     alias(libs.plugins.gradleVersionUpdate)
 
     id("maven-publish")
-    // id("com.vanniktech.maven.publish") version "0.29.0"
     id("signing")
     alias(libs.plugins.multiplatformSwiftPackage)
 }
@@ -48,7 +47,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
 
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
 
     iosX64()
@@ -65,10 +64,6 @@ kotlin {
             isStatic = true
         }
     }
-
-    // jvm()
-
-    // js()
 
     sourceSets {
         commonMain.dependencies {
@@ -99,14 +94,6 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.darwin)
         }
-
-        /*sourceSets["jvmMain"].dependencies {
-            implementation(libs.ktor.java)
-        }
-        sourceSets["jvmTest"].dependencies {}*/
-
-        // sourceSets["jsMain"].dependencies {}
-        // sourceSets["jsTest"].dependencies {}
     }
 }
 
@@ -170,6 +157,7 @@ kover {
         filters {
             excludes {
                 classes("*BuildConfig")
+                annotatedBy("**Generated**")
             }
         }
     }
