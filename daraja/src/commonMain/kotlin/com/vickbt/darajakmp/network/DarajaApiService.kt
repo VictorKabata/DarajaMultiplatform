@@ -80,7 +80,8 @@ internal class DarajaApiService(
     /**Initiate API call using the [httpClient] provided by Ktor to trigger Mpesa Express payment on Daraja API */
     internal suspend fun initiateMpesaExpress(mpesaExpressRequest: MpesaExpressRequest): DarajaResult<MpesaExpressResponse> =
         darajaSafeApiCall {
-            val accessToken = inMemoryCache.get(1) {
+            val accessToken =
+                inMemoryCache.get(1) {
                     fetchAccessToken().getOrThrow()
                 }
 
