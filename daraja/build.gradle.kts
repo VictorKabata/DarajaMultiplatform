@@ -12,7 +12,7 @@ fun Project.get(
     key: String,
     defaultValue: String = "Invalid value $key",
 ) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-    ?: defaultValue
+?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword =
@@ -43,11 +43,11 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
+        publishLibraryVariants("release")
+
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
-
-        publishLibraryVariants("release")
     }
 
     iosX64()
@@ -108,16 +108,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
-    buildTypes {
-        getByName("debug") {}
-
-        getByName("release") {
-            isMinifyEnabled = true
-        }
-    }
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
@@ -139,12 +129,11 @@ val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory")
     delete(dokkaOutputDir)
 }
 
-val javadocJar =
-    tasks.register<Jar>("javadocJar") {
-        dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-        archiveClassifier.set("javadoc")
-        from(dokkaOutputDir)
-    }
+val javadocJar = tasks.register<Jar>("javadocJar") {
+    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaOutputDir)
+}
 
 kover {
     reports {
@@ -183,14 +172,13 @@ publishing {
     }
 
     publications.withType<MavenPublication> {
+        groupId = project.get("POM_GROUPID")
+        artifactId = project.get("POM_ARTIFACTID")
+        version = project.get("POM_VERSION")
 
         artifact(javadocJar)
-
+        
         pom {
-            groupId = project.get("POM_GROUPID")
-            artifactId = project.get("POM_ARTIFACTID")
-            version = project.get("POM_VERSION")
-
             name.set(project.get("POM_NAME"))
             description.set(project.get("POM_DESCRIPTION"))
             url.set(project.get("POM_URL"))
