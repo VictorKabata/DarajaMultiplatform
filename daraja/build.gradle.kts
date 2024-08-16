@@ -12,7 +12,7 @@ fun Project.get(
     key: String,
     defaultValue: String = "Invalid value $key",
 ) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword =
@@ -102,6 +102,7 @@ android {
         minSdk = 21
         compileSdk = 34
     }
+
     namespace = "com.vickbt.darajamultiplatform"
 
     compileOptions {
@@ -129,11 +130,12 @@ val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory")
     delete(dokkaOutputDir)
 }
 
-val javadocJar = tasks.register<Jar>("javadocJar") {
-    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-    archiveClassifier.set("javadoc")
-    from(dokkaOutputDir)
-}
+val javadocJar =
+    tasks.register<Jar>("javadocJar") {
+        dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+        archiveClassifier.set("javadoc")
+        from(dokkaOutputDir)
+    }
 
 kover {
     reports {
@@ -156,13 +158,8 @@ publishing {
 
     repositories {
         maven {
-            name = "Sonatype"
-            url =
-                if (version.toString().endsWith("SNAPSHOT")) {
-                    snapshotsRepoUrl
-                } else {
-                    releasesRepoUrl
-                }
+            name = "sonatype"
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
@@ -176,8 +173,8 @@ publishing {
         artifactId = project.get("POM_ARTIFACTID")
         version = project.get("POM_VERSION")
 
-        artifact(javadocJar)
-        
+        artifact(javadocJar.get())
+
         pom {
             name.set(project.get("POM_NAME"))
             description.set(project.get("POM_DESCRIPTION"))
@@ -211,7 +208,7 @@ publishing {
         }
     }
 
-    signing {
+    /*signing {
         val signingKeyId = project.get("SIGNING_ID")
         val signingKeyPassword = project.get("SIGNING_KEY")
         val signingKey = project.get("SIGNING_PASSWORD")
@@ -222,7 +219,7 @@ publishing {
             signingKey,
         )
         sign(publishing.publications)
-    }
+    }*/
 }
 
 multiplatformSwiftPackage {
