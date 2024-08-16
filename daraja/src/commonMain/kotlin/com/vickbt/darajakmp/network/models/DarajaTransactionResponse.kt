@@ -22,7 +22,7 @@ import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "DarajaTransactionResponse")
 @Serializable
-data class DarajaTransactionResponse(
+internal data class DarajaTransactionResponse(
     @SerialName("ResponseCode")
     val responseCode: String,
     @SerialName("ResponseDescription")

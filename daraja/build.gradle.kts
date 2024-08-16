@@ -43,11 +43,11 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
+        publishLibraryVariants("release")
+
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
-
-        publishLibraryVariants("release")
     }
 
     iosX64()
@@ -102,21 +102,12 @@ android {
         minSdk = 21
         compileSdk = 34
     }
+
     namespace = "com.vickbt.darajamultiplatform"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
-    buildTypes {
-        getByName("debug") {}
-
-        getByName("release") {
-            isMinifyEnabled = true
-        }
     }
 }
 
@@ -167,13 +158,8 @@ publishing {
 
     repositories {
         maven {
-            name = "Sonatype"
-            url =
-                if (version.toString().endsWith("SNAPSHOT")) {
-                    snapshotsRepoUrl
-                } else {
-                    releasesRepoUrl
-                }
+            name = "sonatype"
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
@@ -183,14 +169,13 @@ publishing {
     }
 
     publications.withType<MavenPublication> {
+        groupId = project.get("POM_GROUPID")
+        artifactId = project.get("POM_ARTIFACTID")
+        version = project.get("POM_VERSION")
 
-        artifact(javadocJar)
+        artifact(javadocJar.get())
 
         pom {
-            groupId = project.get("POM_GROUPID")
-            artifactId = project.get("POM_ARTIFACTID")
-            version = project.get("POM_VERSION")
-
             name.set(project.get("POM_NAME"))
             description.set(project.get("POM_DESCRIPTION"))
             url.set(project.get("POM_URL"))
