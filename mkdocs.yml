@@ -1,0 +1,74 @@
+site_name: Daraja Multiplatform
+site_description: Daraja Multiplatform is a Kotlin Multiplatform library that simplifies M-Pesa integration for cross-platform applications. By providing a unified API for both iOS(Swift) and Android(Kotlin), developers can efficiently build mobile apps with seamless M-Pesa functionalitities.
+site_author: Victor Kabata
+site_url: https://VictorKabata.github.io/DarajaMultiplatform/
+repo_name: DarajaMultiplatform
+repo_url: https://github.com/VictorKabata/DarajaMultiplatform
+edit_uri: tree/main/docs
+docs_dir: docs
+remote_branch: gh-pages
+
+nav:
+    - Overview: index.md
+    - Kotlin SDK: kotlin.md
+    - Swift SDK: swift.md
+    
+theme:
+    name: material
+    language: en
+    features:
+        - navigation.tabs
+        - navigation.sections
+        - navigation.top
+        - search.suggest
+        - search.highlight
+        - content.tabs.link
+        - content.code.annotation
+        - content.code.copy
+    palette:
+        - scheme: default
+          media: "(prefers-color-scheme: light)"
+          toggle:
+              icon: material/brightness-7
+              name: Switch to dark theme
+          primary: teal
+          accent: purple
+          
+        - scheme: slate
+          media: "(prefers-color-scheme: dark)"
+          toggle:
+              icon: material/brightness-4
+              name: Switch to light theme
+          primary: teal
+          accent: lime
+          
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra:
+    social:
+        - icon: fontawesome/brands/github-alt
+          link: https://github/com/VictorKabata
+        - icon: fontawesome/brands/twitter
+          link: https://twitter.com/_victorkabata
+        - icon: fontawesome/brands/linkedin
+          link: https://www.linkedin.com/in/VictorKabata/
+          
+copyright: |
+  &copy; 2022 <a href="https://github.com/VictorKabata"  target="_blank" rel="noopener">Victor Kabata</a>
+          
+    

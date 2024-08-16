@@ -34,7 +34,6 @@ plugins {
     alias(libs.plugins.gradleVersionUpdate)
 
     id("maven-publish")
-    // id("com.vanniktech.maven.publish") version "0.29.0"
     id("signing")
     alias(libs.plugins.multiplatformSwiftPackage)
 }
@@ -48,7 +47,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
 
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
 
     iosX64()
@@ -66,12 +65,8 @@ kotlin {
         }
     }
 
-    // jvm()
-
-    // js()
-
     sourceSets {
-        sourceSets["commonMain"].dependencies {
+        commonMain.dependencies {
             implementation(libs.kotlinX.coroutines)
 
             implementation(libs.ktor.contentNegotiation)
@@ -85,30 +80,20 @@ kotlin {
 
             implementation(libs.cache4k)
         }
-        sourceSets["commonTest"].dependencies {
+        commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotlinX.coroutines.test)
             implementation(libs.mockative)
             implementation(libs.ktor.mock)
         }
 
-        sourceSets["androidMain"].dependencies {
+        androidMain.dependencies {
             implementation(libs.ktor.android)
         }
-        sourceSets["androidUnitTest"].dependencies {}
 
-        sourceSets["iosMain"].dependencies {
+        iosMain.dependencies {
             implementation(libs.ktor.darwin)
         }
-        sourceSets["iosTest"].dependencies {}
-
-        /*sourceSets["jvmMain"].dependencies {
-            implementation(libs.ktor.java)
-        }
-        sourceSets["jvmTest"].dependencies {}*/
-
-        // sourceSets["jsMain"].dependencies {}
-        // sourceSets["jsTest"].dependencies {}
     }
 }
 
@@ -172,6 +157,7 @@ kover {
         filters {
             excludes {
                 classes("*BuildConfig")
+                annotatedBy("**Generated**")
             }
         }
     }

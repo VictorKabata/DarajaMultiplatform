@@ -198,6 +198,7 @@ class Daraja(
      * @param [timestamp] - This is the timestamp of the transaction, normally in the format of Year+Month+Date+Hour+Minute+Second(YYYYMMDDHHmmss)
      * @param [checkoutRequestID] - This is a global unique identifier of the processed checkout transaction request.
      * */
+    @ObjCName(swiftName = "mpesaExpressQuery")
     fun mpesaExpressQuery(
         businessShortCode: String,
         timestamp: String,
