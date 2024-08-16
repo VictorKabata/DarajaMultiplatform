@@ -17,18 +17,20 @@
 package com.vickbt.darajakmp.utils
 
 import com.vickbt.darajakmp.network.models.DarajaException
+import io.ktor.util.decodeBase64String
+import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class UtilsTest {
     @Test
-    fun getDarajaTimeStamp_returns_correct_timestamp_on_single_digit_values() {
+    fun `getDarajaTimeStamp returns correct timestamp on single digit values`()= runTest {
         val currentDateTime =
-            "2022-01-01T01:01:01.694394300".toLocalDateTime()
+            LocalDateTime.parse("2022-01-01T01:01:01.694394300")
                 .toInstant(TimeZone.currentSystemDefault())
         val expectedResult = "20220101010101"
 
@@ -38,11 +40,19 @@ class UtilsTest {
     @Test
     fun getDarajaTimeStamp_returns_correct_timestamp_on_double_digit_values() {
         val currentDateTime =
-            "2022-12-12T12:12:12.694394300".toLocalDateTime()
+            LocalDateTime.parse("2022-12-12T12:12:12.694394300")
                 .toInstant(TimeZone.currentSystemDefault())
         val expectedResult = "20221212121212"
 
         assertEquals(expected = expectedResult, actual = currentDateTime.getDarajaTimestamp())
+    }
+
+    @Test
+    fun `getDarajaPassword returns correct password`() = runTest {
+        val darajaPassword = getDarajaPassword("abc", "123", "xyz")
+        val result = "abc" + "123" + "xyz"
+
+        assertEquals(expected = result, darajaPassword.decodeBase64String())
     }
 
     @Test
