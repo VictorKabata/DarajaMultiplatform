@@ -23,7 +23,7 @@ import kotlin.native.ObjCName
 @ObjCName(swiftName = "C2BResponse")
 @Serializable
 /***/
-data class C2BResponse(
+internal data class C2BResponse(
     /**This is a global unique identifier for the transaction request returned by the API proxy upon successful request submission.*/
     @SerialName("OriginatorCoversationID")
     val originatorCoversationId: String,
