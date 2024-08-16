@@ -208,7 +208,7 @@ publishing {
         }
     }
 
-    /*signing {
+    signing {
         val signingKeyId = project.get("SIGNING_ID")
         val signingKeyPassword = project.get("SIGNING_KEY")
         val signingKey = project.get("SIGNING_PASSWORD")
@@ -219,7 +219,7 @@ publishing {
             signingKey,
         )
         sign(publishing.publications)
-    }*/
+    }
 }
 
 multiplatformSwiftPackage {
