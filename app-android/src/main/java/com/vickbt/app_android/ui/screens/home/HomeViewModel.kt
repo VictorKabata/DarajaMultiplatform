@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
-
     private val _mpesaResponse = MutableStateFlow<DarajaResult<MpesaExpressResponse>?>(null)
     val mpesaResponse get() = _mpesaResponse.asStateFlow()
 
@@ -36,16 +35,17 @@ class HomeViewModel constructor(private val daraja: Daraja) : ViewModel() {
         phoneNumber: String,
         transactionDesc: String,
         callbackUrl: String,
-        accountReference: String
+        accountReference: String,
     ) = viewModelScope.launch {
-        val response = daraja.mpesaExpress(
-            businessShortCode = businessShortCode.trim(),
-            amount = amount,
-            phoneNumber = phoneNumber.trim(),
-            transactionDesc = transactionDesc,
-            callbackUrl = callbackUrl.trim(),
-            accountReference = accountReference.trim()
-        )
+        val response =
+            daraja.mpesaExpress(
+                businessShortCode = businessShortCode.trim(),
+                amount = amount,
+                phoneNumber = phoneNumber.trim(),
+                transactionDesc = transactionDesc,
+                callbackUrl = callbackUrl.trim(),
+                accountReference = accountReference.trim(),
+            )
 
         _mpesaResponse.value = response
     }

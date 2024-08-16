@@ -16,9 +16,9 @@
 
 package com.vickbt.darajakmp.network.models
 
-import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "MpesaExpressResponse")
 @Serializable
@@ -29,20 +29,16 @@ data class MpesaExpressResponse(
     /**This is a global unique Identifier for any submitted payment request.*/
     @SerialName("MerchantRequestID")
     var merchantRequestID: String,
-
     /**This is a global unique identifier of the processed checkout transaction request*/
     @SerialName("CheckoutRequestID")
     var checkoutRequestID: String,
-
     /**This is a Numeric status code that indicates the status of the transaction submission. 0 means successful submission and any other code means an error occurred.*/
     @SerialName("ResponseCode")
     var responseCode: String,
-
     /**This is an acknowledgment message from the API that gives the status of the request submission.*/
     @SerialName("ResponseDescription")
     var responseDescription: String,
-
     /**This is a message that your system can display to the Customer as an acknowledgement of the payment request submission.*/
     @SerialName("CustomerMessage")
-    var customerMessage: String
+    var customerMessage: String,
 )

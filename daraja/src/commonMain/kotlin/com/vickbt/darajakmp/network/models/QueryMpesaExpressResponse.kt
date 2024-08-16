@@ -31,19 +31,14 @@ import kotlinx.serialization.Serializable
 data class QueryMpesaExpressResponse(
     @SerialName("ResponseCode")
     val responseCode: String,
-
     @SerialName("ResponseDescription")
     val responseDescription: String,
-
     @SerialName("MerchantRequestID")
     val merchantRequestID: String,
-
     @SerialName("CheckoutRequestID")
     val checkoutRequestID: String,
-
     @SerialName("ResultCode")
     val resultCode: String,
-
     @SerialName("ResultDesc")
-    val resultDescription: String
+    val resultDescription: String,
 )

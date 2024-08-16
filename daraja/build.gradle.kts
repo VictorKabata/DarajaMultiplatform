@@ -8,14 +8,17 @@ val dokkaOutputDir = buildDir.resolve("reports/dokka")
 val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
 val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
-fun Project.get(key: String, defaultValue: String = "Invalid value $key") =
-    gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-        ?: defaultValue
+fun Project.get(
+    key: String,
+    defaultValue: String = "Invalid value $key",
+) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
-        version.uppercase(Locale.getDefault()).contains(it)
-    }
+    val stableKeyword =
+        listOf("RELEASE", "FINAL", "GA").any {
+            version.uppercase(Locale.getDefault()).contains(it)
+        }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -40,11 +43,11 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
+        publishLibraryVariants("release")
+
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
-
-        publishLibraryVariants("release", "debug")
     }
 
     iosX64()
@@ -62,12 +65,8 @@ kotlin {
         }
     }
 
-    // jvm()
-
-    // js()
-
     sourceSets {
-        sourceSets["commonMain"].dependencies {
+        commonMain.dependencies {
             implementation(libs.kotlinX.coroutines)
 
             implementation(libs.ktor.contentNegotiation)
@@ -81,30 +80,20 @@ kotlin {
 
             implementation(libs.cache4k)
         }
-        sourceSets["commonTest"].dependencies {
+        commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotlinX.coroutines.test)
             implementation(libs.mockative)
             implementation(libs.ktor.mock)
         }
 
-        sourceSets["androidMain"].dependencies {
+        androidMain.dependencies {
             implementation(libs.ktor.android)
         }
-        sourceSets["androidUnitTest"].dependencies {}
 
-        sourceSets["iosMain"].dependencies {
+        iosMain.dependencies {
             implementation(libs.ktor.darwin)
         }
-        sourceSets["iosTest"].dependencies {}
-
-        /*sourceSets["jvmMain"].dependencies {
-            implementation(libs.ktor.java)
-        }
-        sourceSets["jvmTest"].dependencies {}*/
-
-        // sourceSets["jsMain"].dependencies {}
-        // sourceSets["jsTest"].dependencies {}
     }
 }
 
@@ -113,21 +102,12 @@ android {
         minSdk = 21
         compileSdk = 34
     }
+
     namespace = "com.vickbt.darajamultiplatform"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
-    buildTypes {
-        getByName("debug") {}
-
-        getByName("release") {
-            isMinifyEnabled = true
-        }
     }
 }
 
@@ -150,11 +130,12 @@ val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory")
     delete(dokkaOutputDir)
 }
 
-val javadocJar = tasks.register<Jar>("javadocJar") {
-    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-    archiveClassifier.set("javadoc")
-    from(dokkaOutputDir)
-}
+val javadocJar =
+    tasks.register<Jar>("javadocJar") {
+        dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+        archiveClassifier.set("javadoc")
+        from(dokkaOutputDir)
+    }
 
 kover {
     reports {
@@ -167,6 +148,7 @@ kover {
         filters {
             excludes {
                 classes("*BuildConfig")
+                annotatedBy("**Generated**")
             }
         }
     }
@@ -176,12 +158,8 @@ publishing {
 
     repositories {
         maven {
-            name = "Sonatype"
-            url = if (version.toString().endsWith("SNAPSHOT")) {
-                snapshotsRepoUrl
-            } else {
-                releasesRepoUrl
-            }
+            name = "sonatype"
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
@@ -191,14 +169,13 @@ publishing {
     }
 
     publications.withType<MavenPublication> {
+        groupId = project.get("POM_GROUPID")
+        artifactId = project.get("POM_ARTIFACTID")
+        version = project.get("POM_VERSION")
 
-        artifact(javadocJar)
+        artifact(javadocJar.get())
 
         pom {
-            groupId = project.get("POM_GROUPID")
-            artifactId = project.get("POM_ARTIFACTID")
-            version = project.get("POM_VERSION")
-
             name.set(project.get("POM_NAME"))
             description.set(project.get("POM_DESCRIPTION"))
             url.set(project.get("POM_URL"))
@@ -239,7 +216,7 @@ publishing {
         useInMemoryPgpKeys(
             signingKeyId,
             signingKeyPassword,
-            signingKey
+            signingKey,
         )
         sign(publishing.publications)
     }

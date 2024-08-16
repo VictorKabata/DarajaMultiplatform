@@ -16,28 +16,23 @@
 
 package com.vickbt.darajakmp.network.models
 
-import kotlin.native.ObjCName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "DarajaTransactionResponse")
 @Serializable
-data class DarajaTransactionResponse(
+internal data class DarajaTransactionResponse(
     @SerialName("ResponseCode")
     val responseCode: String,
-
     @SerialName("ResponseDescription")
     val responseDescription: String,
-
     @SerialName("MerchantRequestID")
     val merchantRequestID: String,
-
     @SerialName("CheckoutRequestID")
     val checkoutRequestID: String,
-
     @SerialName("ResultCode")
     val resultCode: String,
-
     @SerialName("ResultDesc")
-    val resultDescription: String
+    val resultDescription: String,
 )
