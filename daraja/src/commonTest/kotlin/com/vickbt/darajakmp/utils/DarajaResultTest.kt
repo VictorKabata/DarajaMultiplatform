@@ -39,100 +39,110 @@ class DarajaResultTest {
         )
 
     @Test
-    fun `darajaResult getOrNull returns data on success`() = runTest {
-        val result = Success(data = "Success").getOrNull()
+    fun `darajaResult getOrNull returns data on success`() =
+        runTest {
+            val result = Success(data = "Success").getOrNull()
 
-        assertThat(result).isEqualTo("Success")
-    }
-
-    @Test
-    fun `darajaResult getOrNull returns null on error`() = runTest {
-        val result = DarajaResult.Failure(exception = darajaException).getOrNull()
-
-        assertThat(result).isEqualTo(null)
-    }
-
-    @Test
-    fun `darajaResult throwOnFailure returns exception on error`() = runTest {
-        val result = DarajaResult.Failure(exception = darajaException).throwOnFailure()
-
-        assertThat(result).all {
-            hasMessage(darajaException.errorMessage)
-            isSameInstanceAs(darajaException)
+            assertThat(result).isEqualTo("Success")
         }
-    }
 
     @Test
-    fun `darajaResult getOrThrow returns data on success`() = runTest {
-        val result = Success("Success").getOrThrow()
+    fun `darajaResult getOrNull returns null on error`() =
+        runTest {
+            val result = DarajaResult.Failure(exception = darajaException).getOrNull()
 
-        assertThat(result).isEqualTo("Success")
-    }
+            assertThat(result).isEqualTo(null)
+        }
 
     @Test
-    fun `darajaResult onSuccess returns data on success`() = runTest {
-        val result = Success(data = "Success")
+    fun `darajaResult throwOnFailure returns exception on error`() =
+        runTest {
+            val result = DarajaResult.Failure(exception = darajaException).throwOnFailure()
 
-        result.onSuccess {
-            assertThat(it).isEqualTo("Success")
-        }.onFailure {
-            assertThat(it).all {
-                prop(DarajaException::errorMessage).isNotNull()
-                isSameInstanceAs(DarajaException::errorMessage)
+            assertThat(result).all {
+                hasMessage(darajaException.errorMessage)
+                isSameInstanceAs(darajaException)
             }
         }
-    }
 
     @Test
-    fun `darajaResult onSuccess returns null on error`() = runTest {
-        val result = DarajaResult.Failure(darajaException)
+    fun `darajaResult getOrThrow returns data on success`() =
+        runTest {
+            val result = Success("Success").getOrThrow()
 
-        result.onSuccess {
-            assertNull(it)
-        }.onFailure {
-            assertThat(it.errorMessage).isEqualTo("Invalid Authentication passed")
+            assertThat(result).isEqualTo("Success")
         }
-    }
 
     @Test
-    fun `darajaResult onFailure returns null on success`() = runTest {
-        val result = Success(data = "Success")
+    fun `darajaResult onSuccess returns data on success`() =
+        runTest {
+            val result = Success(data = "Success")
 
-        result.onFailure {
-            assertThat(it.errorMessage).isEqualTo("Invalid Authentication passed")
-        }
-    }
-
-    @Test
-    fun `darajaResult onFailure returns exception on error`() = runTest {
-        val result = DarajaResult.Failure(darajaException)
-
-        result.onFailure {
-            assertThat(it).all {
-                prop(DarajaException::errorMessage).isEqualTo("Invalid Authentication passed")
+            result.onSuccess {
+                assertThat(it).isEqualTo("Success")
+            }.onFailure {
+                assertThat(it).all {
+                    prop(DarajaException::errorMessage).isNotNull()
+                    isSameInstanceAs(DarajaException::errorMessage)
+                }
             }
         }
-    }
 
     @Test
-    fun `darajaResult onSuccess does not trigger onFailure on success`() = runTest {
-        val result = Success(data = "Success")
+    fun `darajaResult onSuccess returns null on error`() =
+        runTest {
+            val result = DarajaResult.Failure(darajaException)
 
-        result.onSuccess {
-            assertThat(it).isEqualTo("Success")
-        }.onFailure {
-            assertThat(it).isNull()
-        }
-    }
-
-    @Test
-    fun `darajaResult onSuccess returns onFailure on error`() = runTest {
-        val result = DarajaResult.Failure(darajaException)
-
-        result.onFailure {
-            assertThat(it).all {
-                prop(DarajaException::errorMessage).isEqualTo("Invalid Authentication passed")
+            result.onSuccess {
+                assertNull(it)
+            }.onFailure {
+                assertThat(it.errorMessage).isEqualTo("Invalid Authentication passed")
             }
         }
-    }
+
+    @Test
+    fun `darajaResult onFailure returns null on success`() =
+        runTest {
+            val result = Success(data = "Success")
+
+            result.onFailure {
+                assertThat(it.errorMessage).isEqualTo("Invalid Authentication passed")
+            }
+        }
+
+    @Test
+    fun `darajaResult onFailure returns exception on error`() =
+        runTest {
+            val result = DarajaResult.Failure(darajaException)
+
+            result.onFailure {
+                assertThat(it).all {
+                    prop(DarajaException::errorMessage).isEqualTo("Invalid Authentication passed")
+                }
+            }
+        }
+
+    @Test
+    fun `darajaResult onSuccess does not trigger onFailure on success`() =
+        runTest {
+            val result = Success(data = "Success")
+
+            result.onSuccess {
+                assertThat(it).isEqualTo("Success")
+            }.onFailure {
+                assertThat(it).isNull()
+            }
+        }
+
+    @Test
+    fun `darajaResult onSuccess returns onFailure on error`() =
+        runTest {
+            val result = DarajaResult.Failure(darajaException)
+
+            result.onFailure {
+                assertThat(it).all {
+                    prop(DarajaException::errorMessage).isEqualTo("Invalid Authentication passed")
+                }
+            }
+        }
 }
