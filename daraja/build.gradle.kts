@@ -85,6 +85,7 @@ kotlin {
             implementation(libs.kotlinX.coroutines.test)
             implementation(libs.mockative)
             implementation(libs.ktor.mock)
+            implementation(libs.assertK)
         }
 
         androidMain.dependencies {
