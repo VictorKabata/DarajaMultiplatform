@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: 🔨 Build and Test
+    name: 🔨 Build, Test & Publish KMP
     runs-on: ubuntu-latest
     steps:
 
