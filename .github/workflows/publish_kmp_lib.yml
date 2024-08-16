@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: 🔨 Build and Test
+    name: 🔨 Build, Test & Publish KMP
     runs-on: ubuntu-latest
     steps:
 
@@ -32,7 +32,7 @@ jobs:
         run: ./gradlew :daraja:allTests --stacktrace
 
       - name: Sign and Publish Android Library
-        run: ./gradlew :daraja:publishAndroidReleasePublicationToSonatypeRepository --max-workers 1 --stacktrace
+        run: ./gradlew :daraja:publishAllPublicationsToSonatypeRepository --max-workers 1 --stacktrace
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
