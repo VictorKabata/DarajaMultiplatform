@@ -29,7 +29,7 @@ import kotlin.native.ObjCName
  * @param [responseDescription] This is a response describing the status of the transaction.
  * @param [qrCode] QR Code Image/Data/String.
  * */
-data class DynamicQrResponse(
+internal data class DynamicQrResponse(
     @SerialName("ResponseCode")
     val responseCode: String,
     @SerialName("RequestID")

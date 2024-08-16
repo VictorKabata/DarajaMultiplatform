@@ -1,9 +1,9 @@
-name: Sign and Publish Android Library
+name: Sign and Publish KMP Library
 
 on:
   workflow_dispatch:
     inputs:
-      androidVersionName:
+      versionName:
         description: 'Android Version Name (eg. 0.9.0)'
         required: true
 
@@ -36,7 +36,7 @@ jobs:
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          POM_VERSION: ${{ github.event.inputs.androidVersionName }}
+          POM_VERSION: ${{ github.event.inputs.versionName }}
           POM_NAME: ${{ secrets.POM_NAME }}
           POM_DESCRIPTION: ${{ secrets.POM_DESCRIPTION }}
           POM_GROUPID: ${{ secrets.POM_GROUPID }}
