@@ -16,6 +16,8 @@
 
 package com.vickbt.darajakmp.network
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.vickbt.darajakmp.network.models.DarajaToken
 import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
 import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
@@ -29,8 +31,6 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class DarajaApiServiceTest {
@@ -99,10 +99,7 @@ class DarajaApiServiceTest {
             val actualResult = darajaApiService.fetchAccessToken()
 
             // then
-            assertEquals(
-                expected = DarajaResult.Success(darajaToken),
-                actual = actualResult,
-            )
+            assertThat(actualResult).isEqualTo(DarajaResult.Success(darajaToken))
         }
 
     @Test
@@ -116,8 +113,7 @@ class DarajaApiServiceTest {
             // then
             val cachedToken = mockInMemoryCache.get(1)
 
-            assertNotNull(cachedToken)
-            assertEquals(expected = darajaToken, actual = cachedToken)
+            assertThat(darajaToken).isEqualTo(cachedToken)
         }
 
     @Test
@@ -140,8 +136,8 @@ class DarajaApiServiceTest {
                 )
 
             // then
-            assertEquals(expected = expectedResult, actual = actualResult)
-            assertNotNull(mockInMemoryCache.get(1))
+            assertThat(expectedResult).isEqualTo(actualResult)
+            assertThat(mockInMemoryCache.get(1)).isEqualTo(darajaToken)
         }
 
     @Test
@@ -162,6 +158,6 @@ class DarajaApiServiceTest {
                     ),
                 )
 
-            assertEquals(expected = expectedResult, actual = actualResult)
+            assertThat(expectedResult).isEqualTo(actualResult)
         }
 }

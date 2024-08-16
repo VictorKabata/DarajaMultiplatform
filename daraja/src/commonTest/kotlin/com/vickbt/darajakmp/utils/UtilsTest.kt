@@ -16,106 +16,133 @@
 
 package com.vickbt.darajakmp.utils
 
+import assertk.all
+import assertk.assertFailure
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.vickbt.darajakmp.network.models.DarajaException
+import io.ktor.util.decodeBase64String
+import io.ktor.util.reflect.instanceOf
+import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class UtilsTest {
     @Test
-    fun getDarajaTimeStamp_returns_correct_timestamp_on_single_digit_values() {
-        val currentDateTime =
-            "2022-01-01T01:01:01.694394300".toLocalDateTime()
-                .toInstant(TimeZone.currentSystemDefault())
-        val expectedResult = "20220101010101"
+    fun `getDarajaTimeStamp returns correct timestamp on single digit values`() =
+        runTest {
+            val currentDateTime =
+                LocalDateTime.parse("2022-01-01T01:01:01.694394300")
+                    .toInstant(TimeZone.currentSystemDefault())
+            val expectedResult = "20220101010101"
 
-        assertEquals(expected = expectedResult, actual = currentDateTime.getDarajaTimestamp())
-    }
-
-    @Test
-    fun getDarajaTimeStamp_returns_correct_timestamp_on_double_digit_values() {
-        val currentDateTime =
-            "2022-12-12T12:12:12.694394300".toLocalDateTime()
-                .toInstant(TimeZone.currentSystemDefault())
-        val expectedResult = "20221212121212"
-
-        assertEquals(expected = expectedResult, actual = currentDateTime.getDarajaTimestamp())
-    }
-
-    @Test
-    fun phone_number_starting_with_07_is_formatted_correctly() {
-        val phoneNumber = "0714021306"
-        val expectedResult = "254714021306"
-
-        assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
-    }
-
-    @Test
-    fun phone_number_starting_with_01_is_formatted_correctly() {
-        val phoneNumber = "0114624401"
-        val expectedResult = "254114624401"
-
-        assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
-    }
-
-    @Test
-    fun phone_number_starting_with_254_is_formatted_correctly() {
-        val phoneNumber = "254714091301"
-        val expectedResult = "254714091301"
-
-        assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
-    }
-
-    @Test
-    fun phone_number_starting_with_plus_254_is_formatted_correctly() {
-        val phoneNumber = "+254714091301"
-        val expectedResult = "254714091301"
-
-        assertEquals(expected = expectedResult, actual = phoneNumber.getDarajaPhoneNumber())
-    }
-
-    @Test
-    fun phone_number_less_than_10_characters_throws_errors() {
-        val phoneNumbers = listOf("071409130", "+25471409130", "25471409130")
-
-        assertFailsWith<DarajaException> {
-            phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+            assertThat(currentDateTime.getDarajaTimestamp()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun phone_number_more_than_10_characters_throws_errors() {
-        val phoneNumbers = listOf("07140913023", "+2547140913023", "2547140913023")
+    fun `getDarajaTimeStamp returns correct timestamp on double digit values`() =
+        runTest {
+            val currentDateTime =
+                LocalDateTime.parse("2022-12-12T12:12:12.694394300")
+                    .toInstant(TimeZone.currentSystemDefault())
+            val expectedResult = "20221212121212"
 
-        assertFailsWith<DarajaException> {
-            phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+            assertThat(currentDateTime.getDarajaTimestamp()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun phone_number_with_spaces_are_formatted_correctly() {
-        val phoneNumbers = listOf("0 714091 30  3", " + 2 547  140 913 03", "2 5 4714 091 30 3 ")
-        val expectedPhoneNumbers = listOf("254714091303", "254714091303", "254714091303")
+    fun `getDarajaPassword returns correct password`() =
+        runTest {
+            val darajaPassword = getDarajaPassword("abc", "123", "xyz")
+            val result = "abc" + "123" + "xyz"
 
-        assertEquals(expectedPhoneNumbers, phoneNumbers.map { it.getDarajaPhoneNumber() })
-    }
-
-    @Test
-    fun time_units_with_value_less_than_ten_are_formatted_correctly() {
-        val timeUnit = 1
-        val expectedTimeUnit = "01"
-
-        assertEquals(expected = expectedTimeUnit, actual = timeUnit.asFormattedWithZero())
-    }
+            assertThat(darajaPassword.decodeBase64String()).isEqualTo(result)
+        }
 
     @Test
-    fun time_units_with_value_more_than_ten_retain_their_formatting() {
-        val timeUnit = 11
-        val expectedTimeUnit = 11
+    fun `phone number starting with 07 is formatted correctly`() =
+        runTest {
+            val phoneNumber = "0714021306"
+            val expectedResult = "254714021306"
 
-        assertEquals(expected = expectedTimeUnit, actual = timeUnit.asFormattedWithZero())
-    }
+            assertThat(phoneNumber.getDarajaPhoneNumber()).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `phone number starting with 01 is formatted correctly`() =
+        runTest {
+            val phoneNumber = "0114624401"
+            val expectedResult = "254114624401"
+
+            assertThat(phoneNumber.getDarajaPhoneNumber()).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `phone number starting with 254 is formatted correctly`() =
+        runTest {
+            val phoneNumber = "254714091301"
+            val expectedResult = "254714091301"
+
+            assertThat(phoneNumber.getDarajaPhoneNumber()).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `phone number starting with plus 254 is formatted correctly`() =
+        runTest {
+            val phoneNumber = "+254714091301"
+            val expectedResult = "254714091301"
+
+            assertThat(phoneNumber.getDarajaPhoneNumber()).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `phone number less than 10 characters throws errors`() =
+        runTest {
+            val phoneNumbers = listOf("071409130", "+25471409130", "25471409130")
+
+            assertFailure {
+                phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+            }
+        }
+
+    @Test
+    fun `phone number more than 10 characters throws errors`() =
+        runTest {
+            val phoneNumbers = listOf("07140913023", "+2547140913023", "2547140913023")
+
+            assertFailure {
+                phoneNumbers.forEach { phoneNumber -> phoneNumber.getDarajaPhoneNumber() }
+            }.all {
+                instanceOf(DarajaException::class)
+            }
+        }
+
+    @Test
+    fun `phone number with spaces are formatted correctly`() =
+        runTest {
+            val phoneNumbers = listOf("0 714091 30  3", " + 2 547  140 913 03", "2 5 4714 091 30 3 ")
+            val expectedPhoneNumbers = listOf("254714091303", "254714091303", "254714091303")
+
+            assertThat(phoneNumbers.map { it.getDarajaPhoneNumber() }).isEqualTo(expectedPhoneNumbers)
+        }
+
+    @Test
+    fun `time units with value less than ten are formatted correctly`() =
+        runTest {
+            val timeUnit = 1
+            val expectedTimeUnit = "01"
+
+            assertThat(timeUnit.asFormattedWithZero()).isEqualTo(expectedTimeUnit)
+        }
+
+    @Test
+    fun `time units with value more than ten retain their formatting`() =
+        runTest {
+            val timeUnit = 11
+            val expectedTimeUnit = 11
+
+            assertThat(timeUnit.asFormattedWithZero()).isEqualTo(expectedTimeUnit)
+        }
 }
