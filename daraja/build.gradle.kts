@@ -159,7 +159,7 @@ publishing {
 
     repositories {
         maven {
-            name = "sonatype"
+            name = "Sonatype"
             url =
                 if (version.toString().endsWith("SNAPSHOT")) {
                     snapshotsRepoUrl
