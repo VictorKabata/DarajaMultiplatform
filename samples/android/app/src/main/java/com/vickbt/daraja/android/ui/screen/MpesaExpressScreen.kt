@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,7 +43,7 @@ import com.vickbt.daraja.android.ui.theme.DarajaAndroidTheme
 fun MpesaExpressScreen(modifier: Modifier = Modifier) {
 
     val tillNumber by remember { mutableStateOf("174379") }
-    var amount by remember { mutableStateOf(1) }
+    var amount by remember { mutableIntStateOf(1) }
     var phoneNumber by remember { mutableStateOf("") }
 
     Column(
