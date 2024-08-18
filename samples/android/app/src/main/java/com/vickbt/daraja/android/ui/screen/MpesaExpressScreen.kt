@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Send
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -47,7 +48,7 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.wrapContentSize(),
         verticalArrangement = Arrangement.spacedBy(
-            space = 24.dp,
+            space = 16.dp,
             alignment = Alignment.CenterVertically,
         ),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -94,8 +95,8 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier) {
         ) {
             Icon(
                 modifier = Modifier.size(28.dp),
-                imageVector = Icons.Rounded.Send,
-                contentDescription = "Pay",
+                imageVector = Icons.AutoMirrored.Rounded.Send,
+                contentDescription = "Pay"
             )
         }
     }
@@ -103,9 +104,9 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 fun MpesaExpressScreenPreview() {
-    DarajaAndroidTheme {
+    DarajaAndroidTheme(darkTheme = true) {
         MpesaExpressScreen()
     }
 }
