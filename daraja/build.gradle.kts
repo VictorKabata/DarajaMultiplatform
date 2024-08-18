@@ -159,8 +159,13 @@ publishing {
 
     repositories {
         maven {
-            name = "sonatype"
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            name = "Sonatype"
+            url =
+                if (version.toString().endsWith("SNAPSHOT")) {
+                    snapshotsRepoUrl
+                } else {
+                    releasesRepoUrl
+                }
 
             credentials {
                 username = project.get("OSSRH_USERNAME")
@@ -234,4 +239,11 @@ multiplatformSwiftPackage {
 // Opt-In Experimental ObjCName in Kotlin > 1.8.0
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+}
+
+// Work around for tasks dependency issue: https://youtrack.jetbrains.com/issue/KT-46466
+val dependsOnTasks = mutableListOf<String>()
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOnTasks.add(this.name.replace("publish", "sign").replaceAfter("Publication", ""))
+    dependsOn(dependsOnTasks)
 }
