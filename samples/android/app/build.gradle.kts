@@ -62,7 +62,9 @@ dependencies {
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
-    
+
+    implementation("io.github.victorkabata:daraja-multiplatform:0.9.5")
+
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)
