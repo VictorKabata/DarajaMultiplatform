@@ -2,7 +2,10 @@
 
 package com.vickbt.daraja.android.ui.screen
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -11,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Send
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -27,22 +31,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickbt.darajakmp.Daraja
 import com.vickbt.darajakmp.utils.DarajaTransactionType
+import com.vickbt.darajakmp.utils.onFailure
+import com.vickbt.darajakmp.utils.onSuccess
 import org.koin.compose.koinInject
 
 @Composable
 fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja = koinInject()) {
 
+    val context = LocalContext.current
+
     val tillNumber by remember { mutableStateOf("174379") }
     var amount by remember { mutableIntStateOf(1) }
     var phoneNumber by remember { mutableStateOf("") }
+
+    var isLoading by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.wrapContentSize(),
@@ -86,29 +96,44 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja = koinInjec
             // keyboardActions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
         )
 
-        FloatingActionButton(
-            modifier = Modifier,
-            shape = CircleShape,
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            elevation = FloatingActionButtonDefaults.elevation(),
-            onClick = {
-                daraja.mpesaExpress(
-                    businessShortCode = tillNumber,
-                    amount = amount,
-                    phoneNumber = phoneNumber,
-                    transactionType = DarajaTransactionType.CustomerPayBillOnline,
-                    transactionDesc = "Empty transaction to test SDK",
-                    callbackUrl = "https://mydomain.com",
-                    accountReference = "CompanyX"
+        Log.e("VicKbt", "Is loading: $isLoading")
+
+        Box(modifier = Modifier){
+            FloatingActionButton(
+                modifier = Modifier.align(Alignment.Center),
+                shape = CircleShape,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                elevation = FloatingActionButtonDefaults.elevation(),
+                onClick = {
+                    isLoading = true
+
+                    daraja.mpesaExpress(
+                        businessShortCode = tillNumber,
+                        amount = amount,
+                        phoneNumber = phoneNumber,
+                        transactionType = DarajaTransactionType.CustomerPayBillOnline,
+                        transactionDesc = "Empty transaction to test SDK",
+                        callbackUrl = "https://mydomain.com",
+                        accountReference = "CompanyX"
+                    ).onSuccess {
+                        Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
+                    }.onFailure {
+                        Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
+                    }
+
+                },
+            ) {
+                Icon(
+                    modifier = Modifier.size(28.dp),
+                    imageVector = Icons.AutoMirrored.Rounded.Send,
+                    contentDescription = "Pay"
                 )
-            },
-        ) {
-            Icon(
-                modifier = Modifier.size(28.dp),
-                imageVector = Icons.AutoMirrored.Rounded.Send,
-                contentDescription = "Pay"
-            )
+            }
+
+            if (isLoading){
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center), trackColor = MaterialTheme.colorScheme.onPrimary)
+            }
         }
     }
 }

@@ -7,9 +7,9 @@ val appModule = module {
     // Provide a single instance of Daraja
     single {
         Daraja.Builder()
-            .setConsumerKey("")
-            .setConsumerSecret("")
-            .setPassKey("")
+            .setConsumerKey("consumer_key")
+            .setConsumerSecret("consumer_secret")
+            .setPassKey("pass_key")
             .isSandbox()
             .build()
     }
