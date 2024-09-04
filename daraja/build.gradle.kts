@@ -61,7 +61,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "DarajaMultiplatform"
-            isStatic = true
+            isStatic = false
         }
     }
 
