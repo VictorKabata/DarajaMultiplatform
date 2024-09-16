@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C6F421D2C9182A80080C34C /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1C6F421C2C9182A80080C34C /* DarajaMultiplatform */; };
 		1CC4C39E2C7204EC00D66DB1 /* Daraja_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC4C39D2C7204EC00D66DB1 /* Daraja_iOSApp.swift */; };
 		1CC4C3A02C7204EC00D66DB1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC4C39F2C7204EC00D66DB1 /* ContentView.swift */; };
 		1CC4C3A22C7204EE00D66DB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CC4C3A12C7204EE00D66DB1 /* Assets.xcassets */; };
 		1CC4C3A52C7204EE00D66DB1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CC4C3A42C7204EE00D66DB1 /* Preview Assets.xcassets */; };
-		1CC4C3AC2C720CE700D66DB1 /* MpesaExpressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC4C3AB2C720CE700D66DB1 /* MpesaExpressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +20,6 @@
 		1CC4C39F2C7204EC00D66DB1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1CC4C3A12C7204EE00D66DB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1CC4C3A42C7204EE00D66DB1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1CC4C3AB2C720CE700D66DB1 /* MpesaExpressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MpesaExpressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C6F421D2C9182A80080C34C /* DarajaMultiplatform in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,7 +57,6 @@
 				1CC4C39F2C7204EC00D66DB1 /* ContentView.swift */,
 				1CC4C3A12C7204EE00D66DB1 /* Assets.xcassets */,
 				1CC4C3A32C7204EE00D66DB1 /* Preview Content */,
-				1CC4C3AB2C720CE700D66DB1 /* MpesaExpressView.swift */,
 			);
 			path = "Daraja iOS";
 			sourceTree = "<group>";
@@ -86,6 +85,9 @@
 			dependencies = (
 			);
 			name = "Daraja iOS";
+			packageProductDependencies = (
+				1C6F421C2C9182A80080C34C /* DarajaMultiplatform */,
+			);
 			productName = "Daraja iOS";
 			productReference = 1CC4C39A2C7204EC00D66DB1 /* Daraja iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +116,9 @@
 				Base,
 			);
 			mainGroup = 1CC4C3912C7204EC00D66DB1;
+			packageReferences = (
+				1C6F421B2C9182A80080C34C /* XCRemoteSwiftPackageReference "DarajaSwiftPackage" */,
+			);
 			productRefGroup = 1CC4C39B2C7204EC00D66DB1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,7 +145,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CC4C3AC2C720CE700D66DB1 /* MpesaExpressView.swift in Sources */,
 				1CC4C3A02C7204EC00D66DB1 /* ContentView.swift in Sources */,
 				1CC4C39E2C7204EC00D66DB1 /* Daraja_iOSApp.swift in Sources */,
 			);
@@ -346,6 +350,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1C6F421B2C9182A80080C34C /* XCRemoteSwiftPackageReference "DarajaSwiftPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/VictorKabata/DarajaSwiftPackage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1C6F421C2C9182A80080C34C /* DarajaMultiplatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C6F421B2C9182A80080C34C /* XCRemoteSwiftPackageReference "DarajaSwiftPackage" */;
+			productName = DarajaMultiplatform;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1CC4C3922C7204EC00D66DB1 /* Project object */;
 }
