@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.multiplatform) apply false
     alias(libs.plugins.jvm) apply false
-    alias(libs.plugins.nativeCocoapod) apply false
     alias(libs.plugins.compose.compiler) apply false
 
     alias(libs.plugins.ktLint)
