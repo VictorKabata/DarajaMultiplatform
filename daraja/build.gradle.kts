@@ -12,7 +12,7 @@ fun Project.get(
     key: String,
     defaultValue: String = "Invalid value $key",
 ) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-    ?: defaultValue
+?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword =
@@ -50,9 +50,16 @@ kotlin {
         }
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "DarajaMultiplatform"
+            isStatic = true
+        }
+    }
 
     cocoapods {
         summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
@@ -61,7 +68,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "DarajaMultiplatform"
-            isStatic = false
+            isStatic = true
         }
     }
 
