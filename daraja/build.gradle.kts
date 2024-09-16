@@ -12,7 +12,7 @@ fun Project.get(
     key: String,
     defaultValue: String = "Invalid value $key",
 ) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-?: defaultValue
+    ?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword =
@@ -52,7 +52,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "DarajaMultiplatform"
