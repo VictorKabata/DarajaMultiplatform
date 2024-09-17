@@ -11,7 +11,7 @@ remote_branch: gh-pages
 nav:
     - Overview: index.md
     - Kotlin SDK: kotlin.md
-    - Swift SDK: swift.md
+#    - Swift SDK: swift.md
     
 theme:
     name: material
