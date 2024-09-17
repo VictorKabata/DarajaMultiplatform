@@ -16,6 +16,9 @@ nav:
 theme:
     name: material
     language: en
+    font:
+      text: Roboto
+      code: Roboto Mono
     features:
         - navigation.tabs
         - navigation.sections
@@ -29,18 +32,18 @@ theme:
         - scheme: default
           media: "(prefers-color-scheme: light)"
           toggle:
-              icon: material/brightness-7
+              icon: material/weather-night
               name: Switch to dark theme
-          primary: teal
-          accent: purple
+          primary: green
+          accent: green
           
         - scheme: slate
           media: "(prefers-color-scheme: dark)"
           toggle:
-              icon: material/brightness-4
+              icon: material/weather-sunny
               name: Switch to light theme
-          primary: teal
-          accent: lime
+          primary: green
+          accent: green
           
 markdown_extensions:
   - pymdownx.highlight:
