@@ -40,6 +40,7 @@ jobs:
           POM_NAME: ${{ secrets.POM_NAME }}
           POM_DESCRIPTION: ${{ secrets.POM_DESCRIPTION }}
           POM_GROUPID: ${{ secrets.POM_GROUPID }}
+          POM_ARTIFACTID: ${{secrets.POM_ARTIFACTID}}
           POM_URL: ${{ secrets.POM_URL }}
           POM_DEVELOPER_ID: ${{ secrets.POM_DEVELOPER_ID }}
           POM_DEVELOPER_NAME: ${{ secrets.POM_DEVELOPER_NAME }}

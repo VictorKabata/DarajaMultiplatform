@@ -1,0 +1,37 @@
+name: Deploy Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Set up cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+
+      - name: Install MkDocs-Material
+        run: pip install mkdocs-material
+
+      - name: Install Pillow CairoSVG
+        run: pip install pillow cairosvg
+
+      - name: Deploy GH-Page
+        run: mkdocs gh-deploy --force
