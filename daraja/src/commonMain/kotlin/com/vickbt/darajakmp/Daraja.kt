@@ -243,7 +243,7 @@ class Daraja(
      *
      * @return [DynamicQrResponse]
      * */
-    internal fun generateDynamicQr(
+    fun generateDynamicQr(
         merchantName: String,
         referenceNumber: String,
         amount: Int,

@@ -11,10 +11,11 @@
 dubbed [_Daraja API_](https://developer.safaricom.co.ke/) (Daraja means bridge in Swahili) that
 supports integration with your Android(Kotlin/Java), iOS(Swift) and JVM applications.
 
+> [!Note]
 > M-PESA is a mobile money transfer service in Kenya that allows users to store and transfer money
 > through their mobile phones.
 
-> > [!WARNING]
+> [!Caution]
 > Daraja Multiplatform is under heavy development and, despite being heavily tested, its API isn't yet stabilized; _breaking changes
 > might happen on minor releases._ However, we will always provide migration guides.
 >
@@ -38,23 +39,21 @@ the Daraja API portal to your project.
 
 The SDK offers the following functionalities from the Daraja API:
 
-- [x] Authorization - Gives you a time bound access token to call allowed APIs.
+- [x] Authorization - Gives you a time-bound access token to call allowed APIs.
 - [x] M-Pesa Express - Merchant initiated online payments.
 - [x] M-Pesa Express Query - Check the status of a Lipa Na M-Pesa Online Payment(M-Pesa Express).
 - [ ] Dynamic QR - Generates a dynamic M-PESA QR code.
 - [ ] Customer To Business (C2B)
-- [ ] Business To Customer (B2C) - Transact between an M-Pesa short code to a phone number
+- [ ] Business To Customer (B2C) - Transact between an M-Pesa shortcode to a phone number
   registered on M-Pesa.
 - [ ] Transaction Status - Check the status of a transaction.
 - [ ] Account Balance - Enquire the balance on an M-Pesa BuyGoods (Till Number)
 - [ ] Reversal - Reverses an M-Pesa transaction.
-- [ ] Tax Remittance - This API enables businesses to remit tax to Kenya Revenue Authority (KRA).
+- [ ] Tax Remittance - This API enables businesses to remit tax to the Kenya Revenue Authority (KRA).
 - [ ] Business Pay Bill - Pay bills directly from your business account to a pay bill number, or a
-  paybill store.
+  pay bill store.
 - [ ] Business Buy Goods - Pay for goods and services directly from your business account to a till
   number or merchant store number.
 
-> See the [project's website](https://victorkabata.github.io/darajamultiplatform/) for documentation.
-
-
-
+> [!Important]
+> See the [project's website](https://victorkabata.github.io/DarajaMultiplatform/) for documentation.
