@@ -33,11 +33,11 @@ data class C2BRegistrationRequest(
     val confirmationURL: String,
 
     @SerialName("ValidationURL")
-    val validationURL: String?,
+    val validationURL: String,
 
     @SerialName("ResponseType")
     val responseType: String,
 
     @SerialName("ShortCode")
-    val shortCode: Int,
+    val shortCode: String,
 )

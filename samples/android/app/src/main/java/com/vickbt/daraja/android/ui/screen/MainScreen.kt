@@ -20,6 +20,10 @@ fun MainScreen(modifier: Modifier = Modifier, daraja: Daraja = koinInject()) {
         CollapsableCard(cardTitle = "Dynamic QR") {
             QrCodeScreen(modifier = Modifier, daraja = daraja)
         }
+
+        CollapsableCard(cardTitle = "C2B Registration") {
+            C2BScreen(modifier = Modifier, daraja = daraja)
+        }
     }
 }
 

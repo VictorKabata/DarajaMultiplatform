@@ -19,6 +19,7 @@ package com.vickbt.darajakmp.network
 import com.vickbt.darajakmp.network.models.AccountBalanceRequest
 import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
+import com.vickbt.darajakmp.network.models.C2BRegistrationResponse
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaToken
@@ -129,12 +130,11 @@ internal class DarajaApiService(
             }.body()
         }
 
-    internal suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
+    suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BRegistrationResponse> =
         darajaSafeApiCall {
-            val accessToken =
-                inMemoryCache.get(1) {
-                    fetchAccessToken().getOrThrow()
-                }
+            val accessToken = inMemoryCache.get(1) {
+                fetchAccessToken().getOrThrow()
+            }
 
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.C2B_REGISTRATION_URL) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }

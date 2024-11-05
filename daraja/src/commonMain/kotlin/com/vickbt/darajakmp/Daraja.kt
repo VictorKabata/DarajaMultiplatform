@@ -21,6 +21,7 @@ import com.vickbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickbt.darajakmp.network.models.AccountBalanceRequest
 import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
+import com.vickbt.darajakmp.network.models.C2BRegistrationResponse
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaException
@@ -39,6 +40,7 @@ import com.vickbt.darajakmp.utils.DarajaIdentifierType
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
+import com.vickbt.darajakmp.utils.capitalize
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
@@ -94,7 +96,8 @@ class Daraja(
          * @param consumerSecret Daraja API consumer secret
          * */
         @ObjCName(swiftName = "withConsumerSecret")
-        fun setConsumerSecret(consumerSecret: String) = apply { this.consumerSecret = consumerSecret }
+        fun setConsumerSecret(consumerSecret: String) =
+            apply { this.consumerSecret = consumerSecret }
 
         /**Provides [passKey] provided by Daraja API
          *
@@ -125,11 +128,11 @@ class Daraja(
         DarajaApiService(
             httpClient = darajaHttpClientFactory,
             consumerKey =
-                consumerKey
-                    ?: throw DarajaException(errorMessage = "Consumer key is null"),
+            consumerKey
+                ?: throw DarajaException(errorMessage = "Consumer key is null"),
             consumerSecret =
-                consumerSecret
-                    ?: throw DarajaException(errorMessage = "Consumer secret is null"),
+            consumerSecret
+                ?: throw DarajaException(errorMessage = "Consumer secret is null"),
         )
 
     /**Request access token that is used to authenticate to Daraja APIs
@@ -304,20 +307,21 @@ class Daraja(
      * @param [validationURL] This is the URL that receives the validation request from the API upon payment submission. The validation URL is only called if the external validation on the registered shortcode is enabled. (By default External Validation is disabled).
      * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
      *
-     * @return [C2BResponse]
+     * @return [C2BRegistrationResponse]
      * */
-    internal fun c2bRegistration(
-        businessShortCode: Int,
+    fun c2bRegistration(
+        businessShortCode: String,
         confirmationURL: String,
-        validationURL: String? = null,
-        responseType: C2BResponseType? = C2BResponseType.COMPLETED,
-    ): DarajaResult<C2BResponse> =
+        validationURL: String,
+        responseType: C2BResponseType = C2BResponseType.COMPLETED,
+    ): DarajaResult<C2BRegistrationResponse> =
         runBlocking(Dispatchers.IO) {
             val c2BRegistrationRequest =
                 C2BRegistrationRequest(
                     confirmationURL = confirmationURL,
                     validationURL = validationURL,
-                    responseType = responseType?.name?.lowercase(),
+                    responseType = if (validationURL.isEmpty()) C2BResponseType.COMPLETED.name.capitalize()
+                    else responseType.name.capitalize(),
                     shortCode = businessShortCode,
                 )
 
@@ -339,11 +343,11 @@ class Daraja(
                     commandID = transactionType.name,
                     phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
                     shortCode =
-                        if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
-                            businessShortCode
-                        } else {
-                            billReferenceNumber
-                        },
+                    if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
+                        businessShortCode
+                    } else {
+                        billReferenceNumber
+                    },
                 )
 
             darajaApiService.c2b(c2bRequest = c2bRequest)
