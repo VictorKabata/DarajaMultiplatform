@@ -328,9 +328,9 @@ class Daraja(
             darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
         }
 
-    internal fun c2b(
+    fun c2b(
         amount: Int,
-        billReferenceNumber: String,
+        billReferenceNumber: String? = null,
         transactionType: DarajaTransactionType,
         phoneNumber: String,
         businessShortCode: String,
@@ -339,15 +339,14 @@ class Daraja(
             val c2bRequest =
                 C2BRequest(
                     amount = amount,
-                    billReferenceNumber = billReferenceNumber,
+                    billReferenceNumber = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
+                        billReferenceNumber
+                    } else {
+                        null
+                    },
                     commandID = transactionType.name,
                     phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
-                    shortCode =
-                    if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
-                        businessShortCode
-                    } else {
-                        billReferenceNumber
-                    },
+                    shortCode = businessShortCode,
                 )
 
             darajaApiService.c2b(c2bRequest = c2bRequest)

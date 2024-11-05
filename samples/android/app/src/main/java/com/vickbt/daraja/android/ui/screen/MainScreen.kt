@@ -24,6 +24,10 @@ fun MainScreen(modifier: Modifier = Modifier, daraja: Daraja = koinInject()) {
         CollapsableCard(cardTitle = "C2B Registration") {
             C2BScreen(modifier = Modifier, daraja = daraja)
         }
+
+        CollapsableCard(cardTitle = "Initiate C2B") {
+            C2BInitiateScreen(modifier = Modifier, daraja = daraja)
+        }
     }
 }
 
