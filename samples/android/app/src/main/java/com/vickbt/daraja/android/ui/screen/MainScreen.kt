@@ -7,12 +7,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vickbt.daraja.android.ui.components.CollapsableCard
+import com.vickbt.darajakmp.Daraja
+import org.koin.compose.koinInject
 
 @Composable
-fun MainScreen(modifier: Modifier=Modifier) {
-    Column(modifier=modifier.padding(horizontal = 12.dp)) {
+fun MainScreen(modifier: Modifier = Modifier, daraja: Daraja = koinInject()) {
+    Column(modifier = modifier.padding(horizontal = 12.dp)) {
         CollapsableCard(cardTitle = "M-Pesa Express") {
-            MpesaExpressScreen()
+            MpesaExpressScreen(modifier = Modifier, daraja = daraja)
+        }
+
+        CollapsableCard(cardTitle = "Dynamic QR") {
+            QrCodeScreen(modifier = Modifier, daraja = daraja)
         }
     }
 }
