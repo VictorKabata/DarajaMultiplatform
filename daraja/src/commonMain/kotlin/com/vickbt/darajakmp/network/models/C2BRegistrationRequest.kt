@@ -31,13 +31,10 @@ import kotlin.native.ObjCName
 data class C2BRegistrationRequest(
     @SerialName("ConfirmationURL")
     val confirmationURL: String,
-
     @SerialName("ValidationURL")
     val validationURL: String,
-
     @SerialName("ResponseType")
     val responseType: String,
-
     @SerialName("ShortCode")
     val shortCode: String,
 )

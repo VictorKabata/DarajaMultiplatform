@@ -96,8 +96,7 @@ class Daraja(
          * @param consumerSecret Daraja API consumer secret
          * */
         @ObjCName(swiftName = "withConsumerSecret")
-        fun setConsumerSecret(consumerSecret: String) =
-            apply { this.consumerSecret = consumerSecret }
+        fun setConsumerSecret(consumerSecret: String) = apply { this.consumerSecret = consumerSecret }
 
         /**Provides [passKey] provided by Daraja API
          *
@@ -128,11 +127,11 @@ class Daraja(
         DarajaApiService(
             httpClient = darajaHttpClientFactory,
             consumerKey =
-            consumerKey
-                ?: throw DarajaException(errorMessage = "Consumer key is null"),
+                consumerKey
+                    ?: throw DarajaException(errorMessage = "Consumer key is null"),
             consumerSecret =
-            consumerSecret
-                ?: throw DarajaException(errorMessage = "Consumer secret is null"),
+                consumerSecret
+                    ?: throw DarajaException(errorMessage = "Consumer secret is null"),
         )
 
     /**Request access token that is used to authenticate to Daraja APIs
@@ -320,8 +319,12 @@ class Daraja(
                 C2BRegistrationRequest(
                     confirmationURL = confirmationURL,
                     validationURL = validationURL,
-                    responseType = if (validationURL.isEmpty()) C2BResponseType.COMPLETED.name.capitalize()
-                    else responseType.name.capitalize(),
+                    responseType =
+                        if (validationURL.isEmpty()) {
+                            C2BResponseType.COMPLETED.name.capitalize()
+                        } else {
+                            responseType.name.capitalize()
+                        },
                     shortCode = businessShortCode,
                 )
 
@@ -339,11 +342,12 @@ class Daraja(
             val c2bRequest =
                 C2BRequest(
                     amount = amount,
-                    billReferenceNumber = if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
-                        billReferenceNumber
-                    } else {
-                        null
-                    },
+                    billReferenceNumber =
+                        if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
+                            billReferenceNumber
+                        } else {
+                            null
+                        },
                     commandID = transactionType.name,
                     phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
                     shortCode = businessShortCode,
