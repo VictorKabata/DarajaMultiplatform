@@ -1,8 +1,7 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -74,6 +73,8 @@ dependencies {
     implementation(libs.koin.android)
 
     implementation("io.github.victorkabata:daraja-multiplatform:0.9.8")
+
+    implementation(libs.kotlinx.serialization)
 
     testImplementation(libs.junit)
 

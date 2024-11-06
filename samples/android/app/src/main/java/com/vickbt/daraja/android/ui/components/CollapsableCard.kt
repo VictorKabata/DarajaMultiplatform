@@ -2,7 +2,6 @@
 
 package com.vickbt.daraja.android.ui.components
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -29,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,11 +50,14 @@ fun CollapsableCard(
     requestContent: @Composable () -> Unit = {},
     responseContent: @Composable () -> Unit = {}
 ) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val pagerState = rememberPagerState { tabItems.size }
 
     LaunchedEffect(selectedTabIndex) {
         pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        selectedTabIndex = pagerState.currentPage
     }
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -119,14 +122,11 @@ fun CollapsableCard(
                         tabItems.forEachIndexed { index, title ->
                             Tab(
                                 selected = index == selectedTabIndex,
-                                onClick = {
-                                    selectedTabIndex = index
-                                    Log.e("VicKbt", "Clicked: $index")
-                                },
+                                onClick = { selectedTabIndex = index },
                                 text = {
                                     Text(
                                         text = title,
-                                        fontWeight = FontWeight.Medium,
+                                        fontWeight = FontWeight.Normal,
                                         fontSize = 16.sp,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis
@@ -140,7 +140,6 @@ fun CollapsableCard(
                         modifier = Modifier.padding(16.dp),
                         state = pagerState
                     ) { page ->
-                        Log.e("VicKbt", "Page: $page")
                         when (page) {
                             0 -> requestContent()
                             1 -> responseContent()
