@@ -30,10 +30,8 @@ import kotlin.native.ObjCName
 data class C2BResponse(
     @SerialName("OriginatorCoversationID")
     val originatorConversationId: String,
-
     @SerialName("ResponseCode")
     val responseCode: String,
-
     @SerialName("ResponseDescription")
     val responseDescription: String,
 )
