@@ -2,6 +2,7 @@
 
 package com.vickbt.daraja.android.ui.components
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -26,8 +27,8 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,8 +50,12 @@ fun CollapsableCard(
     requestContent: @Composable () -> Unit = {},
     responseContent: @Composable () -> Unit = {}
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { tabItems.size }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
 
     var isExpanded by remember { mutableStateOf(false) }
     val rotationDegree by animateFloatAsState(
@@ -60,7 +65,7 @@ fun CollapsableCard(
 
     Card(
         modifier = modifier
-            .clickable(onClick = { isExpanded=!isExpanded },
+            .clickable(onClick = { isExpanded = !isExpanded },
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() })
             .fillMaxWidth()
@@ -114,7 +119,10 @@ fun CollapsableCard(
                         tabItems.forEachIndexed { index, title ->
                             Tab(
                                 selected = index == selectedTabIndex,
-                                onClick = { selectedTabIndex = index },
+                                onClick = {
+                                    selectedTabIndex = index
+                                    Log.e("VicKbt", "Clicked: $index")
+                                },
                                 text = {
                                     Text(
                                         text = title,
@@ -132,6 +140,7 @@ fun CollapsableCard(
                         modifier = Modifier.padding(16.dp),
                         state = pagerState
                     ) { page ->
+                        Log.e("VicKbt", "Page: $page")
                         when (page) {
                             0 -> requestContent()
                             1 -> responseContent()
