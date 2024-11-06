@@ -21,7 +21,6 @@ import com.vickbt.darajakmp.network.DarajaHttpClientFactory
 import com.vickbt.darajakmp.network.models.AccountBalanceRequest
 import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
-import com.vickbt.darajakmp.network.models.C2BRegistrationResponse
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
 import com.vickbt.darajakmp.network.models.DarajaException
@@ -313,7 +312,7 @@ class Daraja(
         confirmationURL: String,
         validationURL: String,
         responseType: C2BResponseType = C2BResponseType.COMPLETED,
-    ): DarajaResult<C2BRegistrationResponse> =
+    ): DarajaResult<C2BResponse> =
         runBlocking(Dispatchers.IO) {
             val c2BRegistrationRequest =
                 C2BRegistrationRequest(
