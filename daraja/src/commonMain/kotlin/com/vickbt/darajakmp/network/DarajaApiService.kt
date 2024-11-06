@@ -129,7 +129,7 @@ internal class DarajaApiService(
             }.body()
         }
 
-    suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
+    internal suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
         darajaSafeApiCall {
             val accessToken =
                 inMemoryCache.get(1) {
@@ -155,16 +155,4 @@ internal class DarajaApiService(
             }.body()
         }
 
-    internal suspend fun accountBalance(accountBalanceRequest: AccountBalanceRequest): DarajaResult<AccountBalanceResponse> =
-        darajaSafeApiCall {
-            val accessToken =
-                inMemoryCache.get(1) {
-                    fetchAccessToken().getOrThrow()
-                }
-
-            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
-                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
-                setBody(accountBalanceRequest)
-            }.body()
-        }
 }
