@@ -122,10 +122,13 @@ class UtilsTest {
     @Test
     fun `phone number with spaces are formatted correctly`() =
         runTest {
-            val phoneNumbers = listOf("0 714091 30  3", " + 2 547  140 913 03", "2 5 4714 091 30 3 ")
+            val phoneNumbers =
+                listOf("0 714091 30  3", " + 2 547  140 913 03", "2 5 4714 091 30 3 ")
             val expectedPhoneNumbers = listOf("254714091303", "254714091303", "254714091303")
 
-            assertThat(phoneNumbers.map { it.getDarajaPhoneNumber() }).isEqualTo(expectedPhoneNumbers)
+            assertThat(phoneNumbers.map { it.getDarajaPhoneNumber() }).isEqualTo(
+                expectedPhoneNumbers
+            )
         }
 
     @Test
@@ -145,4 +148,12 @@ class UtilsTest {
 
             assertThat(timeUnit.asFormattedWithZero()).isEqualTo(expectedTimeUnit)
         }
+
+    @Test
+    fun `capitalize returns strings in title case`() = runTest {
+        val wordList = listOf("heLlo", "WorlD", "DARAJA", "kmp", "DaRaJa", "2")
+        val expectedWordList = listOf("Hello", "World", "Daraja", "Kmp", "Daraja", "2")
+
+        assertThat(wordList.map { it.capitalize() }).isEqualTo(expectedWordList)
+    }
 }
