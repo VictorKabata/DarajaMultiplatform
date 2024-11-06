@@ -129,7 +129,7 @@ internal class DarajaApiService(
             }.body()
         }
 
-    internal suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
+    suspend fun c2bRegistration(c2bRegistrationRequest: C2BRegistrationRequest): DarajaResult<C2BResponse> =
         darajaSafeApiCall {
             val accessToken =
                 inMemoryCache.get(1) {
