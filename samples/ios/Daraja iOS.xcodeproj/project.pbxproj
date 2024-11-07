@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CC3931E2CDCE7FE0092A633 /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1CC3931D2CDCE7FE0092A633 /* DarajaMultiplatform */; };
+		1CC393212CDCF2DD0092A633 /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1CC393202CDCF2DD0092A633 /* DarajaMultiplatform */; };
+		1CC393242CDCF7C40092A633 /* DarajaMultiplatform in Frameworks */ = {isa = PBXBuildFile; productRef = 1CC393232CDCF7C40092A633 /* DarajaMultiplatform */; };
 		1CC4C39E2C7204EC00D66DB1 /* Daraja_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC4C39D2C7204EC00D66DB1 /* Daraja_iOSApp.swift */; };
 		1CC4C3A02C7204EC00D66DB1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC4C39F2C7204EC00D66DB1 /* ContentView.swift */; };
 		1CC4C3A22C7204EE00D66DB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CC4C3A12C7204EE00D66DB1 /* Assets.xcassets */; };
@@ -26,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CC393212CDCF2DD0092A633 /* DarajaMultiplatform in Frameworks */,
+				1CC3931E2CDCE7FE0092A633 /* DarajaMultiplatform in Frameworks */,
+				1CC393242CDCF7C40092A633 /* DarajaMultiplatform in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +90,9 @@
 			);
 			name = "Daraja iOS";
 			packageProductDependencies = (
+				1CC3931D2CDCE7FE0092A633 /* DarajaMultiplatform */,
+				1CC393202CDCF2DD0092A633 /* DarajaMultiplatform */,
+				1CC393232CDCF7C40092A633 /* DarajaMultiplatform */,
 			);
 			productName = "Daraja iOS";
 			productReference = 1CC4C39A2C7204EC00D66DB1 /* Daraja iOS.app */;
@@ -114,7 +123,7 @@
 			);
 			mainGroup = 1CC4C3912C7204EC00D66DB1;
 			packageReferences = (
-				1C825F922C98692C009B15DD /* XCLocalSwiftPackageReference "../../daraja/swiftpackage" */,
+				1CC393222CDCF7C40092A633 /* XCLocalSwiftPackageReference "../../daraja/swiftpackage" */,
 			);
 			productRefGroup = 1CC4C39B2C7204EC00D66DB1 /* Products */;
 			projectDirPath = "";
@@ -349,11 +358,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		1C825F922C98692C009B15DD /* XCLocalSwiftPackageReference "../../daraja/swiftpackage" */ = {
+		1CC393222CDCF7C40092A633 /* XCLocalSwiftPackageReference "../../daraja/swiftpackage" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../daraja/swiftpackage;
 		};
 /* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1CC3931D2CDCE7FE0092A633 /* DarajaMultiplatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DarajaMultiplatform;
+		};
+		1CC393202CDCF2DD0092A633 /* DarajaMultiplatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DarajaMultiplatform;
+		};
+		1CC393232CDCF7C40092A633 /* DarajaMultiplatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DarajaMultiplatform;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1CC4C3922C7204EC00D66DB1 /* Project object */;
 }

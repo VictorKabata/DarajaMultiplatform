@@ -1,14 +1,16 @@
-# Kotlin SDK 
+# __Kotlin SDK__
 
 ## Getting Started
 
-To get started with Daraja Multiplatform SDK, you will need to [create a Daraja API account](https://developer.safaricom.co.ke/) on the Daraja API portal and [set up a new test application](https://developer.safaricom.co.ke/MyApps).
+To get started with Daraja Multiplatform SDK, you will need
+to [create a Daraja API account](https://developer.safaricom.co.ke/) on the Daraja API portal
+and [set up a new test application](https://developer.safaricom.co.ke/MyApps).
 
 Once you have access to the created test app, retrieve the ___Consumer Key___, ___Consumer Secret___ and ___Passkey___.
 
 ## Installation
 
-- In Android projects, add the following dependency in the app/feature module gradle file:
+- In an Android projects, add the following dependency in the app/feature module gradle file:
 
 ```Kotlin hl_lines="2"
 dependencies {
@@ -31,9 +33,14 @@ kotlin {
 ## Setting Up
 
 - Add the Consumer Key, Consumer Secret and Passkey to your project's environment secrets or local.properties file.
-> To protect your sensitive API keys, it's recommended to store your Consumer Key, Consumer Secret, and Passkey in your project's environment secrets or a local properties file (outside of version control). This ensures they are not accidentally exposed in public repositories.
 
-- Instantiate a `Daraja` object, providing the necessary environment variables. This Daraja instance serves as the entry point for various M-Pesa operations. Core functionalities include obtaining an access token required for subsequent API calls and initiating M-Pesa Express STK push requests.
+> To protect your sensitive API keys, it's recommended to store your Consumer Key, Consumer Secret, and Passkey in your
+> project's environment secrets or a local properties file (outside of version control). This ensures they are not
+> accidentally exposed in public repositories.
+
+- Instantiate a `Daraja` object, providing the necessary environment variables. This Daraja instance serves as the entry
+  point for various M-Pesa operations. Core functionalities include obtaining an access token required for subsequent
+  API calls and initiating M-Pesa Express STK push requests.
 
 ```Kotlin
 val daraja: Daraja = Daraja.Builder()
@@ -43,7 +50,10 @@ val daraja: Daraja = Daraja.Builder()
     .isProduction() // Optional. Will default to sandbox_mode = true
     .build()
 ```
-> Daraja Multiplatform includes built-in network logging, which is active by default in sandbox mode but disabled in production mode. To inspect network requests and responses, view logs in Android Studio's Logcat under the __Daraja Multiplatform__ tag.
+
+> Daraja Multiplatform includes built-in network logging, which is active by default in sandbox mode but disabled in
+> production mode. To inspect network requests and responses, view logs in Android Studio's Logcat under the __Daraja
+Multiplatform__ tag.
 
 ## Usage
 
@@ -66,19 +76,19 @@ accessTokenResult.onSuccess { accessToken ->
 - To initiate M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `mpesaExpress` function:
 
 ```Kotlin
-val darajaPaymentResponse: DarajaResult<MpesaExpressResponse> = daraja.mpesaExpress(
-        businessShortCode = "174379",
-        amount = 1,
-        phoneNumber = "07xxxxxxxx", // or +2547xxxxxxxx or 2547xxxxxxxx
-        transactionDesc = "M-Pesa payment",
-        callbackUrl = "your_callback_url",
-        accountReference = "CompanyName"
-    )
+val paymentResponse: DarajaResult<MpesaExpressResponse> = daraja.mpesaExpress(
+    businessShortCode = "174379",
+    amount = 1,
+    phoneNumber = "07xxxxxxxx", // or +2547xxxxxxxx or 2547xxxxxxxx
+    transactionDesc = "M-Pesa payment",
+    callbackUrl = "your_callback_url",
+    accountReference = "CompanyName"
+)
 
-darajaPaymentResponse.onSuccess { paymentResponse ->
+paymentResponse.onSuccess { paymentResponse ->
     println(paymentResponse)
 }.onFailure { error ->
-   println(error)
+    println(error)
 }
 ```
 
@@ -87,16 +97,37 @@ darajaPaymentResponse.onSuccess { paymentResponse ->
 - To check the status of M-Pesa Express(Lipa na M-Pesa Online) STK request, invoke the `mpesaExpressQuery` function:
 
 ```Kotlin
-val darajaMpesaExpressQuery: DarajaResult<QueryMpesaExpressResponse> = daraja.mpesaExpressQuery(
-        businessShortCode = "174379",
-        timeStamp = "20160216165627",
-        checkOutRequestID = "ws_CO_260520211133524545"
-    )
+val mpesaExpressQuery: DarajaResult<QueryMpesaExpressResponse> = daraja.mpesaExpressQuery(
+    businessShortCode = "174379",
+    timeStamp = "20160216165627",
+    checkOutRequestID = "ws_CO_260520211133524545"
+)
 
-darajaMpesaExpressQuery.onSuccess { mpesaExpressQuery ->
+mpesaExpressQuery.onSuccess { mpesaExpressQuery ->
     println(mpesaExpressQuery)
 }.onFailure { error ->
-   println(error)
+    println(error)
+}
+```
+
+### Generate Dynamic QR Code
+
+- To generate a dynamic QR code that can be used to trigger payment, invoke the `generateQR` function:
+
+```kotlin
+val qrCode: DarajaResult<DynamicQrResponse> = daraja.generateDynamicQr(
+    merchantName = "Shop 1",
+    referenceNumber = UUID().uuidString,
+    amount = 10,
+    transactionCode = DarajaTransactionCode.sm,
+    cpi = "373132",
+    size = 300
+)
+
+qrCode.onSuccess { qr ->
+    println(qr)
+}.onFailure { error ->
+    println(error)
 }
 ```
 
