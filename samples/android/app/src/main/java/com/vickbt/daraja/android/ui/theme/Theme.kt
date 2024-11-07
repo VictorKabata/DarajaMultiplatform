@@ -35,7 +35,5 @@ fun DarajaAndroidTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme, typography = Typography, content = content
-    )
+    MaterialTheme(colorScheme = colorScheme, content = content)
 }

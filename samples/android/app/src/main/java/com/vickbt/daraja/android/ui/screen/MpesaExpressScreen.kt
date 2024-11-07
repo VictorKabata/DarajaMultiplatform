@@ -38,13 +38,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickbt.darajakmp.Daraja
+import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.utils.DarajaTransactionType
 import com.vickbt.darajakmp.utils.onFailure
 import com.vickbt.darajakmp.utils.onSuccess
 import org.koin.compose.koinInject
 
 @Composable
-fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja) {
+fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja, onResult: (MpesaExpressResponse) -> Unit = {}) {
 
     val context = LocalContext.current
 
@@ -115,7 +116,7 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja) {
                         callbackUrl = "https://mydomain.com",
                         accountReference = "CompanyX"
                     ).onSuccess {
-                        Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
+                        onResult(it)
                     }.onFailure {
                         Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
                     }

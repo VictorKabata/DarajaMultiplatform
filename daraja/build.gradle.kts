@@ -25,7 +25,6 @@ fun isNonStable(version: String): Boolean {
 }
 
 plugins {
-    alias(libs.plugins.nativeCocoapod)
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinX.serialization)
@@ -43,23 +42,19 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
-        publishLibraryVariants("release")
+        publishLibraryVariants("debug", "release")
 
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    cocoapods {
-        summary = "Daraja API Swift Wrapper built using Kotlin Multiplatform"
-        homepage = "https://github.com/VictorKabata/DarajaMultiplatform.git"
-        version = "1.0"
-        ios.deploymentTarget = "14.1"
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.binaries.framework {
             baseName = "DarajaMultiplatform"
             isStatic = true
         }
@@ -232,7 +227,7 @@ multiplatformSwiftPackage {
     packageName("DarajaMultiplatform")
     swiftToolsVersion("5.3")
     targetPlatforms {
-        iOS { v("14.1") }
+        iOS { v("13") }
     }
 }
 

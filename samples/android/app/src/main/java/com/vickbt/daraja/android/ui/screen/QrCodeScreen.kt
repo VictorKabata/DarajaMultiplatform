@@ -37,13 +37,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickbt.darajakmp.Daraja
+import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.onFailure
 import com.vickbt.darajakmp.utils.onSuccess
 import java.util.UUID
 
 @Composable
-fun QrCodeScreen(modifier: Modifier, daraja: Daraja) {
+fun QrCodeScreen(modifier: Modifier, daraja: Daraja, onResult: (DynamicQrResponse) -> Unit = {}) {
 
     val context = LocalContext.current
 
@@ -130,7 +131,7 @@ fun QrCodeScreen(modifier: Modifier, daraja: Daraja) {
                         transactionCode = DarajaTransactionCode.PB,
                         size = 300
                     ).onSuccess {
-                        Toast.makeText(context, "Success: $it", Toast.LENGTH_SHORT).show()
+                        onResult(it)
                         isLoading = false
                     }.onFailure {
                         Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT)

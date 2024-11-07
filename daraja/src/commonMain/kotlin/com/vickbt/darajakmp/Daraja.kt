@@ -18,8 +18,6 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.AccountBalanceRequest
-import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -35,7 +33,6 @@ import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
-import com.vickbt.darajakmp.utils.DarajaIdentifierType
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
@@ -44,7 +41,6 @@ import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import io.ktor.util.encodeBase64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
@@ -353,47 +349,5 @@ class Daraja(
                 )
 
             darajaApiService.c2b(c2bRequest = c2bRequest)
-        }
-
-    /**Request the account balance of a short code. This can be used for both B2C, buy goods and pay bill accounts.
-     *
-     * @param [initiator] This is the credential/username used to authenticate the transaction request
-     * @param [initiatorPassword] This is the credential/password used to authenticate the account balance request
-     * @param [commandId] A unique command is passed to the M-PESA system. Max length is 64.
-     * @param [partyA] The shortcode of the organization querying for the account balance.
-     * @param [identifierType] Type of organization querying for the account balance.
-     * @param [remarks] Comments that are sent along with the transaction
-     * @param [queueTimeOutURL] The end-point that receives a timeout message.
-     * @param [resultURL] It indicates the destination URL which Daraja should send the result message to.
-     *
-     * @return [AccountBalanceResponse]
-     * */
-    internal fun accountBalance(
-        initiator: String,
-        initiatorPassword: String,
-        commandId: String = "AccountBalance",
-        partyA: Int,
-        identifierType: DarajaIdentifierType,
-        remarks: String = "Account balance request",
-        queueTimeOutURL: String,
-        resultURL: String,
-    ): DarajaResult<AccountBalanceResponse> =
-        runBlocking(Dispatchers.IO) {
-            val key = initiator + initiatorPassword
-            val securityCredential = key.encodeBase64()
-
-            val accountBalanceRequest =
-                AccountBalanceRequest(
-                    initiator = initiator,
-                    securityCredential = securityCredential,
-                    commandId = commandId,
-                    partyA = partyA,
-                    identifierType = if (identifierType == DarajaIdentifierType.TILL_NUMBER) 2 else 4,
-                    remarks = remarks,
-                    queueTimeOutURL = queueTimeOutURL,
-                    resultURL = resultURL,
-                )
-
-            darajaApiService.accountBalance(accountBalanceRequest = accountBalanceRequest)
         }
 }

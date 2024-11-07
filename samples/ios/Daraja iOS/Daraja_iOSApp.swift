@@ -1,14 +1,14 @@
 //
-//  app_iOSApp.swift
-//  app-iOS
+//  Daraja_iOSApp.swift
+//  Daraja iOS
 //
-//  Created by Victor Kabata on 15/08/2023.
+//  Created by Victor Kabata on 18/08/2024.
 //
 
 import SwiftUI
 
 @main
-struct app_iOSApp: App {
+struct Daraja_iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
