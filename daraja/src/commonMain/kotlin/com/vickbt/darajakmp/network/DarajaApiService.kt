@@ -16,8 +16,6 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.AccountBalanceRequest
-import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -154,5 +152,4 @@ internal class DarajaApiService(
                 setBody(c2bRequest)
             }.body()
         }
-
 }

@@ -127,7 +127,7 @@ class UtilsTest {
             val expectedPhoneNumbers = listOf("254714091303", "254714091303", "254714091303")
 
             assertThat(phoneNumbers.map { it.getDarajaPhoneNumber() }).isEqualTo(
-                expectedPhoneNumbers
+                expectedPhoneNumbers,
             )
         }
 
@@ -150,10 +150,11 @@ class UtilsTest {
         }
 
     @Test
-    fun `capitalize returns strings in title case`() = runTest {
-        val wordList = listOf("heLlo", "WorlD", "DARAJA", "kmp", "DaRaJa", "2")
-        val expectedWordList = listOf("Hello", "World", "Daraja", "Kmp", "Daraja", "2")
+    fun `capitalize returns strings in title case`() =
+        runTest {
+            val wordList = listOf("heLlo", "WorlD", "DARAJA", "kmp", "DaRaJa", "2")
+            val expectedWordList = listOf("Hello", "World", "Daraja", "Kmp", "Daraja", "2")
 
-        assertThat(wordList.map { it.capitalize() }).isEqualTo(expectedWordList)
-    }
+            assertThat(wordList.map { it.capitalize() }).isEqualTo(expectedWordList)
+        }
 }

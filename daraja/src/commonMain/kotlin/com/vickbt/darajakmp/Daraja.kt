@@ -18,8 +18,6 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.AccountBalanceRequest
-import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -35,7 +33,6 @@ import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
 import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
-import com.vickbt.darajakmp.utils.DarajaIdentifierType
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
@@ -44,7 +41,6 @@ import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import io.ktor.util.encodeBase64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.runBlocking
