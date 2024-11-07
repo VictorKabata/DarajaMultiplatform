@@ -1,5 +1,9 @@
 # **Daraja Multiplatform**
 
+<p align="center">
+<img  src="assets/icon.png">
+</p>
+
 <p align="left">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=kotlin&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-IOS-3AA335?logo=swift&logoColor=white&style=for-the-badge">
