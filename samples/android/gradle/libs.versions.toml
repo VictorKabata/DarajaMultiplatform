@@ -2,6 +2,8 @@
 agp = "8.5.2"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
+serialization="1.9.0"
+serializationJson ="1.7.3"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -25,6 +27,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+kotlinx-serialization={module="org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref= "serializationJson" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
 koin-android = { module = "io.insert-koin:koin-androidx-compose" }
@@ -32,4 +35,5 @@ koin-android = { module = "io.insert-koin:koin-androidx-compose" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinx-serialization={id="org.jetbrains.kotlin.plugin.serialization", version.ref="serialization"}
 

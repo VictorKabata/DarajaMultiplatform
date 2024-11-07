@@ -60,6 +60,7 @@ internal suspend fun parseNetworkError(
     errorResponse: HttpResponse? = null,
     exception: Exception? = null,
 ): DarajaException {
+    println("VicKbt: errorResponse: $errorResponse")
     return errorResponse?.body<DarajaException>()
         ?: DarajaException(errorMessage = exception?.message)
 }

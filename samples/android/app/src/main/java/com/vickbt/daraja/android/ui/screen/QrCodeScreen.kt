@@ -34,24 +34,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vickbt.darajakmp.Daraja
-import com.vickbt.darajakmp.network.models.MpesaExpressResponse
-import com.vickbt.darajakmp.utils.DarajaTransactionType
+import com.vickbt.darajakmp.network.models.DynamicQrResponse
+import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.onFailure
 import com.vickbt.darajakmp.utils.onSuccess
-import org.koin.compose.koinInject
+import java.util.UUID
 
 @Composable
-fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja, onResult: (MpesaExpressResponse) -> Unit = {}) {
+fun QrCodeScreen(modifier: Modifier, daraja: Daraja, onResult: (DynamicQrResponse) -> Unit = {}) {
 
     val context = LocalContext.current
 
-    val tillNumber by remember { mutableStateOf("174379") }
+    var merchantName by remember { mutableStateOf("Test Supermarket") }
     var amount by remember { mutableIntStateOf(1) }
-    var phoneNumber by remember { mutableStateOf("") }
+    var cpi by remember { mutableStateOf("373132") }
 
     var isLoading by remember { mutableStateOf(false) }
 
@@ -66,15 +65,15 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja, onResult: 
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = amount.toString(),
-            onValueChange = { amount = it.toInt() },
+            value = merchantName,
+            onValueChange = { merchantName = it },
             singleLine = true,
             maxLines = 1,
             textStyle = TextStyle(
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground,
             ),
-            label = { Text(text = "Amount") },
+            label = { Text(text = "Merchant Name") },
             colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             //keyboardActions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next)
@@ -82,8 +81,8 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja, onResult: 
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = phoneNumber,
-            onValueChange = { it.let { phoneNumber = it } },
+            value = cpi,
+            onValueChange = { cpi = it },
             singleLine = true,
             maxLines = 1,
             textStyle =
@@ -91,13 +90,30 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja, onResult: 
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground,
             ),
-            label = { Text(text = "Phone Number") },
+            label = { Text(text = "CPI") },
             colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
             // keyboardActions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
         )
 
-        Box(modifier = Modifier){
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = amount.toString(),
+            onValueChange = { amount = it.toInt() },
+            singleLine = true,
+            maxLines = 1,
+            textStyle =
+            TextStyle(
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onBackground,
+            ),
+            label = { Text(text = "CPI") },
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colorScheme.primary),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+            // keyboardActions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
+        )
+
+        Box(modifier = Modifier) {
             FloatingActionButton(
                 modifier = Modifier.align(Alignment.Center),
                 shape = CircleShape,
@@ -107,38 +123,38 @@ fun MpesaExpressScreen(modifier: Modifier = Modifier, daraja: Daraja, onResult: 
                 onClick = {
                     isLoading = true
 
-                    daraja.mpesaExpress(
-                        businessShortCode = tillNumber,
+                    daraja.generateDynamicQr(
+                        merchantName = merchantName,
+                        cpi = cpi,
                         amount = amount,
-                        phoneNumber = phoneNumber,
-                        transactionType = DarajaTransactionType.CustomerPayBillOnline,
-                        transactionDesc = "Empty transaction to test SDK",
-                        callbackUrl = "https://mydomain.com",
-                        accountReference = "CompanyX"
+                        referenceNumber = UUID.randomUUID().toString(),
+                        transactionCode = DarajaTransactionCode.PB,
+                        size = 300
                     ).onSuccess {
                         onResult(it)
+                        isLoading = false
                     }.onFailure {
-                        Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Error: ${it.errorMessage}", Toast.LENGTH_SHORT)
+                            .show()
+                        isLoading = false
                     }
 
                 },
             ) {
-                Icon(
-                    modifier = Modifier.size(28.dp),
-                    imageVector = Icons.AutoMirrored.Rounded.Send,
-                    contentDescription = "Pay"
-                )
-            }
-
-            if (isLoading){
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center), trackColor = MaterialTheme.colorScheme.onPrimary)
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        trackColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                } else {
+                    Icon(
+                        modifier = Modifier.size(28.dp),
+                        imageVector = Icons.AutoMirrored.Rounded.Send,
+                        contentDescription = "Pay"
+                    )
+                }
             }
         }
     }
-}
 
-@Composable
-@Preview(showBackground = true)
-fun MpesaExpressScreenPreview() {
-    MpesaExpressScreen(daraja = koinInject())
 }

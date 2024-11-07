@@ -16,8 +16,6 @@
 
 package com.vickbt.darajakmp.network
 
-import com.vickbt.darajakmp.network.models.AccountBalanceRequest
-import com.vickbt.darajakmp.network.models.AccountBalanceResponse
 import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
 import com.vickbt.darajakmp.network.models.C2BRequest
 import com.vickbt.darajakmp.network.models.C2BResponse
@@ -152,19 +150,6 @@ internal class DarajaApiService(
             return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.INITIATE_C2B) {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
                 setBody(c2bRequest)
-            }.body()
-        }
-
-    internal suspend fun accountBalance(accountBalanceRequest: AccountBalanceRequest): DarajaResult<AccountBalanceResponse> =
-        darajaSafeApiCall {
-            val accessToken =
-                inMemoryCache.get(1) {
-                    fetchAccessToken().getOrThrow()
-                }
-
-            return@darajaSafeApiCall httpClient.post(urlString = DarajaEndpoints.ACCOUNT_BALANCE) {
-                headers { append(HttpHeaders.Authorization, "Bearer ${accessToken.accessToken}") }
-                setBody(accountBalanceRequest)
             }.body()
         }
 }

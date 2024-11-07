@@ -22,15 +22,16 @@ import kotlin.native.ObjCName
 
 @ObjCName(swiftName = "C2BResponse")
 @Serializable
-/***/
-internal data class C2BResponse(
-    /**This is a global unique identifier for the transaction request returned by the API proxy upon successful request submission.*/
+/**
+ * @param [originatorConversationId] This is a global unique identifier for the transaction request returned by the API proxy upon successful request submission.
+ * @param [responseCode] It indicates whether Mobile Money accepts the request or not.
+ * @param [responseDescription] This is the status of the request.
+ * */
+data class C2BResponse(
     @SerialName("OriginatorCoversationID")
-    val originatorCoversationId: String,
-    /**It indicates whether Mobile Money accepts the request or not.*/
+    val originatorConversationId: String,
     @SerialName("ResponseCode")
     val responseCode: String,
-    /**This is the status of the request.*/
     @SerialName("ResponseDescription")
     val responseDescription: String,
 )
