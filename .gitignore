@@ -17,3 +17,4 @@ app-iOS/app-iOS.xcworkspace/*
 .kotlin/
 
 venv/
+daraja/swiftpackage
