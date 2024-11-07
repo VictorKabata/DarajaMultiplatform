@@ -1,6 +1,7 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import java.util.Locale
 
 val dokkaOutputDir = buildDir.resolve("reports/dokka")
@@ -12,7 +13,7 @@ fun Project.get(
     key: String,
     defaultValue: String = "Invalid value $key",
 ) = gradleLocalProperties(rootDir).getProperty(key)?.toString() ?: System.getenv(key)?.toString()
-    ?: defaultValue
+?: defaultValue
 
 fun isNonStable(version: String): Boolean {
     val stableKeyword =
@@ -42,7 +43,7 @@ kotlin {
     kotlin.applyDefaultHierarchyTemplate()
 
     androidTarget {
-        publishLibraryVariants("release")
+        publishLibraryVariants("debug", "release")
 
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
@@ -227,7 +228,7 @@ multiplatformSwiftPackage {
     packageName("DarajaMultiplatform")
     swiftToolsVersion("5.3")
     targetPlatforms {
-        iOS { v("14.1") }
+        iOS { v("13") }
     }
 }
 

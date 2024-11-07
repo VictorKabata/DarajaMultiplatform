@@ -6,7 +6,7 @@ detekt = "1.23.6"
 spotless = "6.2.2"
 dokka = "1.9.20"
 kover = "0.8.3"
-mulitplatformSwiftPackage = "2.0.3"
+mulitplatformSwiftPackage = "2.2.2"
 gradleVersionUpdate = "0.51.0"
 
 # Kotlin Multiplatform Version
@@ -33,7 +33,7 @@ jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinX-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-multiplatformSwiftPackage = { id = "com.chromaticnoise.multiplatform-swiftpackage", version.ref = "mulitplatformSwiftPackage" }
+multiplatformSwiftPackage = { id = "io.github.luca992.multiplatform-swiftpackage", version.ref = "mulitplatformSwiftPackage" }
 gradleVersionUpdate = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdate" }
 
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
