@@ -18,25 +18,17 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
-import com.vickbt.darajakmp.network.models.C2BRequest
-import com.vickbt.darajakmp.network.models.C2BResponse
-import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaToken
-import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
-import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
 import com.vickbt.darajakmp.network.models.DynamicQrRequest
 import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
-import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
-import com.vickbt.darajakmp.utils.capitalize
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
@@ -56,9 +48,9 @@ import kotlin.native.ObjCName
  * */
 @ObjCName(swiftName = "Daraja")
 class Daraja(
-    private val consumerKey: String?,
-    private val consumerSecret: String?,
-    private val passKey: String?,
+    private val consumerKey: String,
+    private val consumerSecret: String,
+    private val passKey: String,
     private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT,
 ) {
     private val darajaHttpClientFactory: HttpClient =
@@ -74,10 +66,10 @@ class Daraja(
      * @param [environment]
      * */
     data class Builder(
-        @ObjCName(swiftName = "consumerKey") private var consumerKey: String? = null,
-        @ObjCName(swiftName = "consumerSecret") private var consumerSecret: String? = null,
-        @ObjCName(swiftName = "passKey") private var passKey: String? = null,
-        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment? = null,
+        @ObjCName(swiftName = "consumerKey") private var consumerKey: String,
+        @ObjCName(swiftName = "consumerSecret") private var consumerSecret: String,
+        @ObjCName(swiftName = "passKey") private var passKey: String,
+        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment = DarajaEnvironment.SANDBOX_ENVIRONMENT,
     ) {
         /**Provides [consumerKey] provided by Daraja API
          *
@@ -91,7 +83,8 @@ class Daraja(
          * @param consumerSecret Daraja API consumer secret
          * */
         @ObjCName(swiftName = "withConsumerSecret")
-        fun setConsumerSecret(consumerSecret: String) = apply { this.consumerSecret = consumerSecret }
+        fun setConsumerSecret(consumerSecret: String) =
+            apply { this.consumerSecret = consumerSecret }
 
         /**Provides [passKey] provided by Daraja API
          *
@@ -122,11 +115,9 @@ class Daraja(
         DarajaApiService(
             httpClient = darajaHttpClientFactory,
             consumerKey =
-                consumerKey
-                    ?: throw DarajaException(errorMessage = "Consumer key is null"),
+            consumerKey,
             consumerSecret =
-                consumerSecret
-                    ?: throw DarajaException(errorMessage = "Consumer secret is null"),
+            consumerSecret,
         )
 
     /**Request access token that is used to authenticate to Daraja APIs
@@ -168,7 +159,7 @@ class Daraja(
             val darajaPassword =
                 getDarajaPassword(
                     shortCode = businessShortCode,
-                    passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
+                    passkey = passKey,
                     timestamp = timestamp,
                 )
 
@@ -205,7 +196,7 @@ class Daraja(
             val darajaPassword =
                 getDarajaPassword(
                     shortCode = businessShortCode,
-                    passkey = passKey ?: "",
+                    passkey = passKey,
                     timestamp = timestamp,
                 )
 
