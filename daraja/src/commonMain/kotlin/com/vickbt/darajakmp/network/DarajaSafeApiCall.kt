@@ -30,7 +30,7 @@ import io.ktor.util.network.UnresolvedAddressException
  * an instance of [DarajaResult] with exception of type [DarajaException] on failure
  *
  * @return [DarajaResult] Returns data of type [T] on success
- * @throws DarajaException Throws expception of type [DarajaException] on failure
+ * @throws DarajaException Throws exception of type [DarajaException] on failure
  * */
 internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): DarajaResult<T> =
     try {
@@ -51,6 +51,12 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
         val error = parseNetworkError(exception = e)
         DarajaResult.Failure(exception = error)
     }
+
+fun some()= runCatching {
+
+}.map {
+
+}
 
 /**Generate [DarajaException] from network or system error when making network calls
  *

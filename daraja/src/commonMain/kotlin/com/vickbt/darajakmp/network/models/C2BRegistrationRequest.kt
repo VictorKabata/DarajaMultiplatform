@@ -28,7 +28,7 @@ import kotlin.native.ObjCName
  * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: `Completed` or `Cancelled`. `Completed` means M-PESA will automatically complete your transaction, whereas `Cancelled` means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
  * @param [shortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
  * */
-data class C2BRegistrationRequest(
+internal data class C2BRegistrationRequest(
     @SerialName("ConfirmationURL")
     val confirmationURL: String,
     @SerialName("ValidationURL")

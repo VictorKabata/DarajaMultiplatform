@@ -40,7 +40,7 @@ enum class DarajaEnvironment {
     SANDBOX_ENVIRONMENT,
 }
 
-enum class C2BResponseType {
+internal enum class C2BResponseType {
     CANCELED,
     COMPLETED,
 }
@@ -55,7 +55,7 @@ enum class C2BResponseType {
  * @param [SM] Send Money(Mobile number)
  *
  * @param [SB] Sent to Business. Business number CPI in MSISDN format.*/
-enum class DarajaTransactionCode {
+internal enum class DarajaTransactionCode {
     BG,
     WA,
     PB,
@@ -63,7 +63,7 @@ enum class DarajaTransactionCode {
     SB,
 }
 
-enum class DarajaIdentifierType {
+internal enum class DarajaIdentifierType {
     TILL_NUMBER,
     SHORT_CODE,
 }

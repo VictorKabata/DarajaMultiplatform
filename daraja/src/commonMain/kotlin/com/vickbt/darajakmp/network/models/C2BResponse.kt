@@ -27,7 +27,7 @@ import kotlin.native.ObjCName
  * @param [responseCode] It indicates whether Mobile Money accepts the request or not.
  * @param [responseDescription] This is the status of the request.
  * */
-data class C2BResponse(
+internal data class C2BResponse(
     @SerialName("OriginatorCoversationID")
     val originatorConversationId: String,
     @SerialName("ResponseCode")
