@@ -94,10 +94,10 @@ class Daraja(
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
         /**Set Daraja API environment to Sandbox/Testing mode*/
-        fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
+        fun setSandboxEnvironment() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
         /**Set Daraja API environment to Production/Live mode*/
-        fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
+        fun setProductionEnvironment() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         @ObjCName(swiftName = "init")
