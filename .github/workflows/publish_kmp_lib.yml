@@ -55,3 +55,13 @@ jobs:
           SIGNING_ID: ${{ secrets.SIGNING_ID }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          prerelease: true
+          tag_name: ${{ github.event.inputs.versionName }}
+          name: Release ${{ github.event.inputs.versionName }}
