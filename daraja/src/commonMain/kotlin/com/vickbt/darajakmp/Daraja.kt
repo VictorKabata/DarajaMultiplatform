@@ -18,25 +18,17 @@ package com.vickbt.darajakmp
 
 import com.vickbt.darajakmp.network.DarajaApiService
 import com.vickbt.darajakmp.network.DarajaHttpClientFactory
-import com.vickbt.darajakmp.network.models.C2BRegistrationRequest
-import com.vickbt.darajakmp.network.models.C2BRequest
-import com.vickbt.darajakmp.network.models.C2BResponse
-import com.vickbt.darajakmp.network.models.DarajaException
 import com.vickbt.darajakmp.network.models.DarajaToken
-import com.vickbt.darajakmp.network.models.DarajaTransactionRequest
-import com.vickbt.darajakmp.network.models.DarajaTransactionResponse
 import com.vickbt.darajakmp.network.models.DynamicQrRequest
 import com.vickbt.darajakmp.network.models.DynamicQrResponse
 import com.vickbt.darajakmp.network.models.MpesaExpressRequest
 import com.vickbt.darajakmp.network.models.MpesaExpressResponse
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressRequest
 import com.vickbt.darajakmp.network.models.QueryMpesaExpressResponse
-import com.vickbt.darajakmp.utils.C2BResponseType
 import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
-import com.vickbt.darajakmp.utils.capitalize
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
@@ -56,9 +48,9 @@ import kotlin.native.ObjCName
  * */
 @ObjCName(swiftName = "Daraja")
 class Daraja(
-    private val consumerKey: String?,
-    private val consumerSecret: String?,
-    private val passKey: String?,
+    private val consumerKey: String,
+    private val consumerSecret: String,
+    private val passKey: String,
     private val environment: DarajaEnvironment? = DarajaEnvironment.SANDBOX_ENVIRONMENT,
 ) {
     private val darajaHttpClientFactory: HttpClient =
@@ -74,10 +66,10 @@ class Daraja(
      * @param [environment]
      * */
     data class Builder(
-        @ObjCName(swiftName = "consumerKey") private var consumerKey: String? = null,
-        @ObjCName(swiftName = "consumerSecret") private var consumerSecret: String? = null,
-        @ObjCName(swiftName = "passKey") private var passKey: String? = null,
-        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment? = null,
+        @ObjCName(swiftName = "consumerKey") private var consumerKey: String,
+        @ObjCName(swiftName = "consumerSecret") private var consumerSecret: String,
+        @ObjCName(swiftName = "passKey") private var passKey: String,
+        @ObjCName(swiftName = "darajaEnvironment") private var environment: DarajaEnvironment = DarajaEnvironment.SANDBOX_ENVIRONMENT,
     ) {
         /**Provides [consumerKey] provided by Daraja API
          *
@@ -101,10 +93,10 @@ class Daraja(
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
         /**Set Daraja API environment to Sandbox/Testing mode*/
-        fun isSandbox() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
+        fun setSandboxEnvironment() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
         /**Set Daraja API environment to Production/Live mode*/
-        fun isProduction() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
+        fun setProductionEnvironment() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         @ObjCName(swiftName = "init")
@@ -122,11 +114,9 @@ class Daraja(
         DarajaApiService(
             httpClient = darajaHttpClientFactory,
             consumerKey =
-                consumerKey
-                    ?: throw DarajaException(errorMessage = "Consumer key is null"),
+            consumerKey,
             consumerSecret =
-                consumerSecret
-                    ?: throw DarajaException(errorMessage = "Consumer secret is null"),
+            consumerSecret,
         )
 
     /**Request access token that is used to authenticate to Daraja APIs
@@ -168,7 +158,7 @@ class Daraja(
             val darajaPassword =
                 getDarajaPassword(
                     shortCode = businessShortCode,
-                    passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
+                    passkey = passKey,
                     timestamp = timestamp,
                 )
 
@@ -205,7 +195,7 @@ class Daraja(
             val darajaPassword =
                 getDarajaPassword(
                     shortCode = businessShortCode,
-                    passkey = passKey ?: "",
+                    passkey = passKey,
                     timestamp = timestamp,
                 )
 
@@ -260,94 +250,5 @@ class Daraja(
                 )
 
             darajaApiService.generateDynamicQr(dynamicQrRequest = dynamicQrRequest)
-        }
-
-    /**Request the status of an Mpesa payment transaction
-     *
-     * @param [businessShortCode] This is organizations shortcode (Paybill or Buy Goods - A 5 to 7 digit account number) used to identify an organization and receive the transaction.
-     * @param [checkoutRequestID] This is a global unique identifier of the processed checkout transaction request.
-     *
-     * @return [DarajaTransactionResponse]
-     * */
-    @ObjCName(swiftName = "transactionStatus")
-    internal fun transactionStatus(
-        businessShortCode: String,
-        checkoutRequestID: String,
-    ): DarajaResult<DarajaTransactionResponse> =
-        runBlocking(Dispatchers.IO) {
-            val timestamp = Clock.System.now().getDarajaTimestamp()
-            val darajaPassword =
-                getDarajaPassword(
-                    shortCode = businessShortCode,
-                    passkey = passKey ?: throw DarajaException(errorMessage = "Pass key is null"),
-                    timestamp = timestamp,
-                )
-
-            val darajaTransactionRequest =
-                DarajaTransactionRequest(
-                    businessShortCode = businessShortCode,
-                    password = darajaPassword,
-                    timestamp = timestamp,
-                    checkoutRequestID = checkoutRequestID,
-                )
-
-            darajaApiService.queryTransaction(darajaTransactionRequest)
-        }
-
-    /**Transact between a phone number registered on M-Pesa to an M-Pesa shortcode
-     *
-     * @param [businessShortCode] A unique number is tagged to an M-PESA pay bill/till number of the organization.
-     * @param [confirmationURL] This is the URL that receives the confirmation request from API upon payment completion.
-     * @param [validationURL] This is the URL that receives the validation request from the API upon payment submission. The validation URL is only called if the external validation on the registered shortcode is enabled. (By default External Validation is disabled).
-     * @param [responseType] This parameter specifies what is to happen if for any reason the validation URL is not reachable. Note that, this is the default action value that determines what M-PESA will do in the scenario that your endpoint is unreachable or is unable to respond on time. Only two values are allowed: Completed or Cancelled. Completed means M-PESA will automatically complete your transaction, whereas Cancelled means M-PESA will automatically cancel the transaction, in the event M-PESA is unable to reach your Validation URL.
-     *
-     * @return [C2BRegistrationResponse]
-     * */
-    fun c2bRegistration(
-        businessShortCode: String,
-        confirmationURL: String,
-        validationURL: String,
-        responseType: C2BResponseType = C2BResponseType.COMPLETED,
-    ): DarajaResult<C2BResponse> =
-        runBlocking(Dispatchers.IO) {
-            val c2BRegistrationRequest =
-                C2BRegistrationRequest(
-                    confirmationURL = confirmationURL,
-                    validationURL = validationURL,
-                    responseType =
-                        if (validationURL.isEmpty()) {
-                            C2BResponseType.COMPLETED.name.capitalize()
-                        } else {
-                            responseType.name.capitalize()
-                        },
-                    shortCode = businessShortCode,
-                )
-
-            darajaApiService.c2bRegistration(c2bRegistrationRequest = c2BRegistrationRequest)
-        }
-
-    fun c2b(
-        amount: Int,
-        billReferenceNumber: String? = null,
-        transactionType: DarajaTransactionType,
-        phoneNumber: String,
-        businessShortCode: String,
-    ): DarajaResult<C2BResponse> =
-        runBlocking(Dispatchers.IO) {
-            val c2bRequest =
-                C2BRequest(
-                    amount = amount,
-                    billReferenceNumber =
-                        if (transactionType.name == DarajaTransactionType.CustomerPayBillOnline.name) {
-                            billReferenceNumber
-                        } else {
-                            null
-                        },
-                    commandID = transactionType.name,
-                    phoneNumber = phoneNumber.getDarajaPhoneNumber().toLong(),
-                    shortCode = businessShortCode,
-                )
-
-            darajaApiService.c2b(c2bRequest = c2bRequest)
         }
 }

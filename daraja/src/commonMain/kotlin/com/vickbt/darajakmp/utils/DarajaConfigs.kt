@@ -40,7 +40,7 @@ enum class DarajaEnvironment {
     SANDBOX_ENVIRONMENT,
 }
 
-enum class C2BResponseType {
+internal enum class C2BResponseType {
     CANCELED,
     COMPLETED,
 }
