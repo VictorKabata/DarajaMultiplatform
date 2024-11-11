@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: 🔨 Build
+    name: 🔨 Build & Publish
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -22,7 +22,7 @@ jobs:
 
       - name: Build iOS framework
         id: buildPackage
-        run: ./gradlew :daraja:createSwiftPackage --stacktrace
+        run: ./gradlew createSwiftPackage --stacktrace
 
       - name: Upload Swift Package directory
         uses: actions/upload-artifact@v3
@@ -30,20 +30,6 @@ jobs:
           name: swiftpackage
           path: daraja/swiftpackage
           retention-days: 1
-
-  push:
-    name: 📤 Push to Swift Repo
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download directory with swift package
-        uses: actions/download-artifact@v4
-        with:
-          name: swiftpackage
-          path: daraja/swiftpackage
 
       - name: Display structure of downloaded files
         run: ls -R
