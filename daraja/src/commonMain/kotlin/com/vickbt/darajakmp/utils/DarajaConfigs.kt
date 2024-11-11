@@ -55,7 +55,7 @@ internal enum class C2BResponseType {
  * @param [SM] Send Money(Mobile number)
  *
  * @param [SB] Sent to Business. Business number CPI in MSISDN format.*/
-internal enum class DarajaTransactionCode {
+enum class DarajaTransactionCode {
     BG,
     WA,
     PB,
@@ -63,7 +63,7 @@ internal enum class DarajaTransactionCode {
     SB,
 }
 
-internal enum class DarajaIdentifierType {
+enum class DarajaIdentifierType {
     TILL_NUMBER,
     SHORT_CODE,
 }
