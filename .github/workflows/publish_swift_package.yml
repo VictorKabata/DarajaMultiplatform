@@ -22,7 +22,7 @@ jobs:
 
       - name: Build iOS framework
         id: buildPackage
-        run: ./gradlew createSwiftPackage --stacktrace
+        run: ./gradlew :daraja:createSwiftPackage --stacktrace
 
       - name: Upload Swift Package directory
         uses: actions/upload-artifact@v3
