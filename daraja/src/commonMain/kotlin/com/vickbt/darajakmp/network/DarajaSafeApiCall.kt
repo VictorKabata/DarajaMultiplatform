@@ -52,11 +52,10 @@ internal suspend fun <T : Any> darajaSafeApiCall(apiCall: suspend () -> T): Dara
         DarajaResult.Failure(exception = error)
     }
 
-fun some()= runCatching {
-
-}.map {
-
-}
+fun some() =
+    runCatching {
+    }.map {
+    }
 
 /**Generate [DarajaException] from network or system error when making network calls
  *

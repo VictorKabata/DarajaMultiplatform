@@ -83,8 +83,7 @@ class Daraja(
          * @param consumerSecret Daraja API consumer secret
          * */
         @ObjCName(swiftName = "withConsumerSecret")
-        fun setConsumerSecret(consumerSecret: String) =
-            apply { this.consumerSecret = consumerSecret }
+        fun setConsumerSecret(consumerSecret: String) = apply { this.consumerSecret = consumerSecret }
 
         /**Provides [passKey] provided by Daraja API
          *
