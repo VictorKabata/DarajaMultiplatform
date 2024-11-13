@@ -60,6 +60,14 @@ kotlin {
         }
     }
 
+    js(IR) {
+        moduleName = "DarajaMultiplatform"
+
+        binaries.library()
+        nodejs {}
+        browser()
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinX.coroutines)
