@@ -31,6 +31,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
     alias(libs.plugins.gradleVersionUpdate)
+    alias(libs.plugins.npmPublish)
 
     id("maven-publish")
     id("signing")
@@ -253,4 +254,37 @@ val dependsOnTasks = mutableListOf<String>()
 tasks.withType<AbstractPublishToMaven>().configureEach {
     dependsOnTasks.add(this.name.replace("publish", "sign").replaceAfter("Publication", ""))
     dependsOn(dependsOnTasks)
+}
+
+npmPublish {
+    organization.set("NPM_USERNAME")
+    readme.set(File("$rootDir/README.md"))
+    packages {
+        named("js") {
+            packageJson {
+                name.set(project.get("POM_ARTIFACTID"))
+                version.set(project.get("POM_VERSION"))
+                homepage.set(project.get("POM_URL"))
+                description.set(project.get("POM_DESCRIPTION"))
+                keywords.set(listOf("daraja", "m-pesa", "mpesa", "daraja api", "m-pesa api"))
+                license.set(project.get("POM_LICENSE_NAME"))
+
+                author {
+                    name.set(project.get("POM_DEVELOPER_NAME"))
+                    email.set(project.get("POM_DEVELOPER_EMAIL"))
+                }
+                repository {
+                    type.set("git")
+                    url.set(project.get("POM_URL"))
+                }
+            }
+        }
+    }
+    registries {
+        register("npmjs") {
+            uri.set("https://registry.npmjs.org")
+            authToken.set("NPM_TOKEN")
+        }
+        // github {}
+    }
 }
