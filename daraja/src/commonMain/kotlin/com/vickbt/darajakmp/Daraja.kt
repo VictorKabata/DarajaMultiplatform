@@ -29,13 +29,11 @@ import com.vickbt.darajakmp.utils.DarajaEnvironment
 import com.vickbt.darajakmp.utils.DarajaResult
 import com.vickbt.darajakmp.utils.DarajaTransactionCode
 import com.vickbt.darajakmp.utils.DarajaTransactionType
+import com.vickbt.darajakmp.utils.darajaRunBlocking
 import com.vickbt.darajakmp.utils.getDarajaPassword
 import com.vickbt.darajakmp.utils.getDarajaPhoneNumber
 import com.vickbt.darajakmp.utils.getDarajaTimestamp
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlin.native.ObjCName
 
@@ -83,7 +81,8 @@ class Daraja(
          * @param consumerSecret Daraja API consumer secret
          * */
         @ObjCName(swiftName = "withConsumerSecret")
-        fun setConsumerSecret(consumerSecret: String) = apply { this.consumerSecret = consumerSecret }
+        fun setConsumerSecret(consumerSecret: String) =
+            apply { this.consumerSecret = consumerSecret }
 
         /**Provides [passKey] provided by Daraja API
          *
@@ -93,10 +92,12 @@ class Daraja(
         fun setPassKey(passKey: String) = apply { this.passKey = passKey }
 
         /**Set Daraja API environment to Sandbox/Testing mode*/
-        fun setSandboxEnvironment() = apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
+        fun setSandboxEnvironment() =
+            apply { this.environment = DarajaEnvironment.SANDBOX_ENVIRONMENT }
 
         /**Set Daraja API environment to Production/Live mode*/
-        fun setProductionEnvironment() = apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
+        fun setProductionEnvironment() =
+            apply { this.environment = DarajaEnvironment.PRODUCTION_ENVIRONMENT }
 
         /**Create an instance of [Daraja] object with [consumerKey], [consumerSecret] and [passKey] provided*/
         @ObjCName(swiftName = "init")
@@ -125,7 +126,7 @@ class Daraja(
      * */
     @ObjCName(swiftName = "authorization")
     fun authorization(): DarajaResult<DarajaToken> =
-        runBlocking(Dispatchers.IO) {
+        darajaRunBlocking {
             darajaApiService.fetchAccessToken()
         }
 
@@ -152,7 +153,7 @@ class Daraja(
         callbackUrl: String,
         accountReference: String? = null,
     ): DarajaResult<MpesaExpressResponse> =
-        runBlocking(Dispatchers.IO) {
+        darajaRunBlocking {
             val timestamp = Clock.System.now().getDarajaTimestamp()
 
             val darajaPassword =
@@ -191,7 +192,7 @@ class Daraja(
         timestamp: String,
         checkoutRequestID: String,
     ): DarajaResult<QueryMpesaExpressResponse> =
-        runBlocking(Dispatchers.IO) {
+        darajaRunBlocking {
             val darajaPassword =
                 getDarajaPassword(
                     shortCode = businessShortCode,
@@ -238,7 +239,7 @@ class Daraja(
         cpi: String,
         size: Int,
     ): DarajaResult<DynamicQrResponse> =
-        runBlocking(Dispatchers.IO) {
+        darajaRunBlocking {
             val dynamicQrRequest =
                 DynamicQrRequest(
                     merchantName = merchantName,
