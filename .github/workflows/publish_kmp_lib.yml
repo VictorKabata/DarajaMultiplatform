@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: 🔨 Build, Test & Publish KMP
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: Checkout code
