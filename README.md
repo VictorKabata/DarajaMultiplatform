@@ -7,7 +7,7 @@
 <p align="left">
 <img  src="https://img.shields.io/badge/-ANDROID-3AA335?logo=kotlin&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-IOS-3AA335?logo=swift&logoColor=white&style=for-the-badge">
-<img  src="https://img.shields.io/badge/-DESKTOP-3AA335?logo=openjdk&logoColor=white&style=for-the-badge">
+<img  src="https://img.shields.io/badge/-DESKTOP-CCCCCC?logo=openjdk&logoColor=white&style=for-the-badge">
 <img  src="https://img.shields.io/badge/-WEB-CCCCCC?logo=javascript&logoColor=606060&style=for-the-badge">
 </p>
 
@@ -39,6 +39,9 @@ After successfully creating an account on the Daraja API portal and creating a n
 you’ll need to add your **_consumer key_**, **_consumer secret_** and **_pass key_** obtained from
 the Daraja API portal to your project.
 
+> [!Important]
+> See the [project's website](https://victorkabata.github.io/DarajaMultiplatform/) for documentation.
+
 ## Features
 
 The SDK offers the following functionalities from the Daraja API:
@@ -46,7 +49,7 @@ The SDK offers the following functionalities from the Daraja API:
 - [x] Authorization - Gives you a time-bound access token to call allowed APIs.
 - [x] M-Pesa Express - Merchant initiated online payments.
 - [x] M-Pesa Express Query - Check the status of a Lipa Na M-Pesa Online Payment(M-Pesa Express).
-- [ ] Dynamic QR - Generates a dynamic M-PESA QR code.
+- [x] Dynamic QR - Generates a dynamic M-PESA QR code.
 - [ ] Customer To Business (C2B)
 - [ ] Business To Customer (B2C) - Transact between an M-Pesa shortcode to a phone number
   registered on M-Pesa.
@@ -59,5 +62,5 @@ The SDK offers the following functionalities from the Daraja API:
 - [ ] Business Buy Goods - Pay for goods and services directly from your business account to a till
   number or merchant store number.
 
-> [!Important]
-> See the [project's website](https://victorkabata.github.io/DarajaMultiplatform/) for documentation.
+## Licence
+Daraja Multiplatform is an open-sourced software licensed under the Apache license. This is an unofficial library, it is not affiliated with nor endorsed by Safaricom. [Contributions](https://github.com/VictorKabata/DarajaMultiplatform/blob/develop/.github/contributing.md) are welcome.
