@@ -98,6 +98,10 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.darwin)
         }
+
+        jsMain.dependencies {
+            implementation(libs.ktor.js)
+        }
     }
 }
 
