@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       versionName:
-        description: 'Android Version Name (eg. 0.9.0)'
+        description: 'Version Name (eg. 0.9.0)'
         required: true
 
 jobs:
   build:
     name: 🔨 Build, Test & Publish KMP
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: Checkout code
