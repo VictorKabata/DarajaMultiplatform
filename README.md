@@ -62,5 +62,8 @@ The SDK offers the following functionalities from the Daraja API:
 - [ ] Business Buy Goods - Pay for goods and services directly from your business account to a till
   number or merchant store number.
 
+## Contributing
+[Contributions](https://github.com/VictorKabata/DarajaMultiplatform/blob/develop/.github/contributing.md) are welcome! Please feel free to submit a Pull Request.
+
 ## Licence
-Daraja Multiplatform is an open-sourced software licensed under the Apache license. This is an unofficial library, it is not affiliated with nor endorsed by Safaricom. [Contributions](https://github.com/VictorKabata/DarajaMultiplatform/blob/develop/.github/contributing.md) are welcome.
+Daraja Multiplatform is an open-sourced software licensed under the [Apache license](https://github.com/VictorKabata/DarajaMultiplatform/blob/develop/LICENSE). This is an unofficial library, it is not affiliated with nor endorsed by Safaricom. [Contributions](https://github.com/VictorKabata/DarajaMultiplatform/blob/develop/.github/contributing.md) are welcome.
