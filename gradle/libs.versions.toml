@@ -60,3 +60,6 @@ cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "
 kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 assertK = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertK" }
+
+[bundles]
+ktor = ["ktor-core", "ktor-serialization", "ktor-contentNegotiation", "ktor-json", "ktor-logging"]
