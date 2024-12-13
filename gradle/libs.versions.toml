@@ -10,9 +10,9 @@ mulitplatformSwiftPackage = "2.2.2"
 gradleVersionUpdate = "0.51.0"
 
 # Kotlin Multiplatform Version
-kotlinxCoroutines = "1.9.0-RC"
-kotlinxSerializationJson = "1.7.1"
-kotlinxDateTime = "0.6.0"
+kotlinxCoroutines = "1.9.0"
+kotlinxSerializationJson = "1.7.2"
+kotlinxDateTime = "0.6.1"
 napier = "2.7.1"
 ktor = "2.3.12"
 composeMultiplatform = "1.6.11"
@@ -60,3 +60,6 @@ cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "
 kotlinX-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 assertK = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertK" }
+
+[bundles]
+ktor = ["ktor-core", "ktor-serialization", "ktor-contentNegotiation", "ktor-json", "ktor-logging"]
